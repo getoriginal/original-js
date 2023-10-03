@@ -1,2 +1,2 @@
-# original_node_sdk
+# original_js
 Node.js SDK
