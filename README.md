@@ -1,2 +1,2 @@
-# original_node
+# original-node
 Node.js SDK
