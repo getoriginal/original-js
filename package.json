@@ -1,0 +1,26 @@
+{
+  "name": "original-node",
+  "version": "1.0.0",
+  "description": "Original SDK for node",
+  "main": "dist/index.js",
+  "module": "dist/index.m.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
+  "repository": "https://github.com/getoriginal/original-node.git",
+  "author": "avmturo <30347978+avmturo@users.noreply.github.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
+    "dev": "microbundle --watch --tsconfig tsconfig.json --no-sourcemap"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "microbundle": "^0.15.1"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
