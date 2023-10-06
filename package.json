@@ -31,6 +31,7 @@
     "test-types": "node test/typescript/index.js && tsc --esModuleInterop true --noEmit true --strictNullChecks true --noImplicitAny true --strict true test/typescript/*.ts",
     "eslint": "eslint '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",
     "eslint-fix": "npx eslint --fix '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",
+    "run-test-server": "NODE_ENV=test cd test && json-server db.json --routes routes.json --port 3004",
     "test-unit": "NODE_ENV=test mocha --exit --bail --timeout 20000 --require ./babel-register test/unit/*.js",
     "test-coverage": "nyc yarn test-unit",
     "test": "yarn test-unit",

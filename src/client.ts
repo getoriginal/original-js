@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {APIErrorResponse, Endpoint, ErrorFromResponse, NewUser, OriginalOptions, QueryUser, User} from "./types";
 import {isErrorResponse} from "./error";
 
@@ -140,8 +140,7 @@ export class Original{
      * @return {Promise<{ user: User }>} User get response
      */
     async getUserByUid(uid: string){
-        const data = await this.get<{ user: User }>('user', { uid: uid})
-        return data
+        return await this.get<{ user: User }>('user', {uid: uid})
     }
 
     /**
@@ -151,8 +150,7 @@ export class Original{
      * @return {Promise<{ user: User }>} User get response
      */
     async queryUser({email, clientId }: QueryUser){
-        const data = await this.get('user', {email: email, client_id: clientId})
-        return data
+        return await this.get('user', {email: email, client_id: clientId})
     }
 
 }
