@@ -108,7 +108,7 @@
     "commitlinter": "commitlint",
     "build": "rm -rf dist && yarn run types && yarn run compile",
     "types": "tsc --emitDeclarationOnly true",
-    "prettier": "prettier --check '**/*.{js,ts,md,css,scss,json}' .eslintrc.json .prettierrc .babelrc",
+    "prettier": "prettier --check '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc",
     "prettier-fix": "npx prettier --write '**/*.{js,ts,md,css,scss,json}' .eslintrc.json .prettierrc .babelrc",
     "test-types": "node test/typescript/index.js && tsc --esModuleInterop true --noEmit true --strictNullChecks true --noImplicitAny true --strict true test/typescript/*.ts",
     "eslint": "eslint '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",

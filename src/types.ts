@@ -1,8 +1,10 @@
 import {Axios, AxiosRequestConfig, AxiosResponse} from "axios";
 
-export type RequireAtLeastOne<T> = {
-    [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
-}[keyof T];
+export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
+    Pick<T, Exclude<keyof T, Keys>>
+    & {
+    [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
+}[Keys]
 
 
 export type OriginalOptions = AxiosRequestConfig & {
@@ -30,3 +32,10 @@ export class ErrorFromResponse<T> extends Error {
 }
 
 export type Endpoint = 'user' | 'collection' | 'asset' | 'transfer' | 'burn'
+
+
+export type NewUser = { email: string, clientId: string}
+
+export type User = {uid: string, client_id: string, created_at: Date, email: string, wallet_address: string}
+
+export type QueryUser = RequireAtLeastOne<{ email?: string, clientId?: string }, 'email' | 'clientId'>

@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import {APIErrorResponse, Endpoint, ErrorFromResponse, OriginalOptions} from "./types";
+import {APIErrorResponse, Endpoint, ErrorFromResponse, NewUser, OriginalOptions, QueryUser, User} from "./types";
 import {isErrorResponse} from "./error";
 
 export class Original{
@@ -117,4 +117,42 @@ export class Original{
         }
         return data;
     }
+
+    /**
+     * Here we start the methods which will expose our api
+     */
+
+    /**
+     * createUser
+     *
+     * @param {NewUser} user The details of the user to be created*
+     * @return {Promise<{ user: User }>} User post response
+     */
+    async createUser(user: NewUser){
+        const data = await this.post<{user: User}>('user', {email: user.email, client_id: user.clientId})
+        return data
+    }
+
+    /**
+     * getUserByUid
+     *
+     * @param {String} uid Uid of the user to be queried
+     * @return {Promise<{ user: User }>} User get response
+     */
+    async getUserByUid(uid: string){
+        const data = await this.get<{ user: User }>('user', { uid: uid})
+        return data
+    }
+
+    /**
+     * searchUser
+     *
+     * @param {QueryUser} query either email or clientId to query user
+     * @return {Promise<{ user: User }>} User get response
+     */
+    async queryUser({email, clientId }: QueryUser){
+        const data = await this.get('user', {email: email, client_id: clientId})
+        return data
+    }
+
 }
