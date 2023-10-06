@@ -1,0 +1,15 @@
+{
+  "user": [{
+    "uid": "001",
+    "client_id": "mock",
+    "created_at": "2012-01-26T13:51:50.417-07:00",
+    "email": "mock@test.com",
+    "wallet_address": "0x0000000000000000000000000000000000000000"
+  }, {
+    "uid": "002",
+    "client_id": "mock_2",
+    "created_at": "2012-01-26T13:51:50.417-07:00",
+    "email": "mock_2@test.com",
+    "wallet_address": "0x0000000000000000000000000000000000000000"
+  }]
+}

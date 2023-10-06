@@ -20,8 +20,27 @@
   },
   "jsdelivr": "./dist/browser.full-bundle.min.js",
   "scripts": {
-    "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
-    "dev": "microbundle --watch --tsconfig tsconfig.json --no-sourcemap"
+    "start": "yarn run compile -w",
+    "compile": "rollup -c",
+    "changelog": "standard-version --release-as $VERSION --skip.tag --skip.commit --tag-prefix=v",
+    "commitlinter": "commitlint",
+    "build": "yarn run types && yarn run compile",
+    "types": "tsc --emitDeclarationOnly true",
+    "prettier": "prettier --check '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc",
+    "prettier-fix": "npx prettier --write '**/*.{js,ts,md,css,scss,json}' .eslintrc.json .prettierrc .babelrc",
+    "test-types": "node test/typescript/index.js && tsc --esModuleInterop true --noEmit true --strictNullChecks true --noImplicitAny true --strict true test/typescript/*.ts",
+    "eslint": "eslint '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",
+    "eslint-fix": "npx eslint --fix '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",
+    "test-unit": "NODE_ENV=test mocha --exit --bail --timeout 20000 --require ./babel-register test/unit/*.js",
+    "test-coverage": "nyc yarn test-unit",
+    "test": "yarn test-unit",
+    "testwatch": "NODE_ENV=test nodemon ./node_modules/.bin/mocha --timeout 20000 --require test-entry.js test/test.js",
+    "lint": "yarn run prettier && yarn run eslint",
+    "lint-fix": "yarn run prettier-fix && yarn run eslint-fix",
+    "prepare": "yarn run build",
+    "preversion": "yarn && yarn lint && yarn test-unit",
+    "version": "git add yarn.lock",
+    "postversion": "git push && git push --tags && npm publish"
   },
   "files": [
     "/dist",
@@ -35,9 +54,12 @@
     "@types/ws": "^7.4.0",
     "axios": "^0.22.0",
     "base64-js": "^1.5.1",
+    "casual": "^1.6.2",
     "form-data": "^4.0.0",
     "isomorphic-ws": "^4.0.1",
+    "json-server": "^0.17.4",
     "jsonwebtoken": "~9.0.0",
+    "save-dev": "^0.0.1-security",
     "ws": "^7.4.4"
   },
   "devDependencies": {
@@ -100,29 +122,6 @@
     "standard-version": "^9.3.2",
     "typescript": "^4.2.3",
     "uuid": "^8.3.2"
-  },
-  "scripts": {
-    "start": "yarn run compile -w",
-    "compile": "rollup -c",
-    "changelog": "standard-version --release-as $VERSION --skip.tag --skip.commit --tag-prefix=v",
-    "commitlinter": "commitlint",
-    "build": "rm -rf dist && yarn run types && yarn run compile",
-    "types": "tsc --emitDeclarationOnly true",
-    "prettier": "prettier --check '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc",
-    "prettier-fix": "npx prettier --write '**/*.{js,ts,md,css,scss,json}' .eslintrc.json .prettierrc .babelrc",
-    "test-types": "node test/typescript/index.js && tsc --esModuleInterop true --noEmit true --strictNullChecks true --noImplicitAny true --strict true test/typescript/*.ts",
-    "eslint": "eslint '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",
-    "eslint-fix": "npx eslint --fix '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",
-    "test-unit": "NODE_ENV=test mocha --exit --bail --timeout 20000 --require ./babel-register test/unit/*.js",
-    "test-coverage": "nyc yarn test-unit",
-    "test": "yarn test-unit",
-    "testwatch": "NODE_ENV=test nodemon ./node_modules/.bin/mocha --timeout 20000 --require test-entry.js test/test.js",
-    "lint": "yarn run prettier && yarn run eslint",
-    "lint-fix": "yarn run prettier-fix && yarn run eslint-fix",
-    "prepare": "yarn run build",
-    "preversion": "yarn && yarn lint && yarn test-unit",
-    "version": "git add yarn.lock",
-    "postversion": "git push && git push --tags && npm publish"
   },
   "engines": {
     "node": ">=16"
