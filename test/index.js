@@ -20,6 +20,7 @@ const users = [{
     wallet_address: '0x0000000000000000000000000000000000000000'
 }]
 
+server.get('./user/echo')
 server.listen(port, () => {
     console.log('JSON Server is running')
 })
