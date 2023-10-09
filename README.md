@@ -18,12 +18,6 @@ npm install original-api
 yarn add original-api
 ```
 
-### JS deliver
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/original-api"></script>
-```
-
 ## ✨ Getting started
 
 The Original SDK is set up to expose and type the all values returned from our API.
