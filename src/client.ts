@@ -44,7 +44,7 @@ export class Original{
 
         this.axiosInstance = axios.create(this.options);
 
-        this.setBaseURL(this.options.baseURL || 'https://api-acceptance.getoriginal.com/api/vi')
+        this.setBaseURL(this.options.baseURL || this.options.env ? `https://api-${this.options.env}.getoriginal.com/api/vi` : 'https://api.getoriginal.com/api/v1')
 
     }
 

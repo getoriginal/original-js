@@ -6,9 +6,15 @@ export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> =
     [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>
 }[Keys]
 
+export enum Environment {
+    Acceptance = 'acceptance',
+    Production = 'production',
+    Sandbox = 'sandbox'
+}
 
 export type OriginalOptions = AxiosRequestConfig & {
     browser?: boolean;
+    env?: Environment;
 }
 
 type ErrorResponseDetails = {
