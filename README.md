@@ -21,6 +21,7 @@ yarn add original-api
 ## ✨ Getting started
 
 The Original SDK is set up to expose and type the all values returned from our API.
+
 ```typescript
 const Original = require('original-js');
 
