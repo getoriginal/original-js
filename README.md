@@ -28,7 +28,7 @@ yarn add original-api
 
 The Original SDK is set up to expose and type the all values returned from our API.
 ```typescript
-const Original = require('original-api');
+const Original = require('original-js');
 
 const client = new Original('YOUR_API_KEY', 'API_KEY_SECRET');
 
