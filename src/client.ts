@@ -125,8 +125,7 @@ export class Original{
      * @return {Promise<{ user: User }>} User post response
      */
     async createUser(user: NewUser){
-        const data = await this.post<{user: User}>('user', {email: user.email, client_id: user.clientId})
-        return data
+        return await this.post<{ user: User }>('user', {email: user.email, client_id: user.clientId})
     }
 
     /**
