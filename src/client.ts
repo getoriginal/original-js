@@ -14,17 +14,13 @@ export class Original{
     /**
      * Initialize a client
      *
-     * **Only use constructor for advanced usages. It is strongly advised to use `Original.getInstance()` instead of
-     * `new Original()` to reduce integration issues**
-     * ^ this above code is from getStream. I think it is not an issue for us as we don't use websockets, so we have no
-     * concern over creating multiple websockets.
      * @param {string} key - the api key
      * @param {string} [secret] - the api secret
      * @param {StreamChatOptions} [options] - additional options, here you can pass custom options to axios instance
      * @param {boolean} [options.browser] - enforce the client to be in browser mode
      * @param {httpsAgent} [options.httpsAgent] - custom httpsAgent, in node it's default to https.agent()
      * @example <caption>initialize the client</caption>
-     * new StreamChat('api_key', 'secret')
+     * new Original('api_key', 'secret')
      */
 
     constructor(apiKey: string, secret: string, options?: OriginalOptions) {
