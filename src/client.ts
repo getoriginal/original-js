@@ -16,24 +16,22 @@ import {
   User,
 } from './types';
 import { isErrorResponse } from './error';
+import { TokenManager } from './token_manager';
 
 export class Original {
-  browser: boolean;
-  node: boolean;
   apiKey: string;
   secret: string;
   axiosInstance: AxiosInstance;
   options: OriginalOptions;
   baseURL: string;
+  tokenManager: TokenManager;
 
   /**
    * Initialize a client
    *
-   * @param {string} key - the api key
+   * @param apiKey
    * @param {string} [secret] - the api secret
-   * @param {StreamChatOptions} [options] - additional options, here you can pass custom options to axios instance
-   * @param {boolean} [options.browser] - enforce the client to be in browser mode
-   * @param {httpsAgent} [options.httpsAgent] - custom httpsAgent, in node it's default to https.agent()
+   * @param {OriginalOptions} [options] - additional options, here you can pass custom options to axios instance
    * @example <caption>initialize the client</caption>
    * new Original('api_key', 'secret')
    */
@@ -42,10 +40,8 @@ export class Original {
     this.secret = secret;
     this.apiKey = apiKey;
 
+    this.tokenManager = new TokenManager(this.secret);
     const configOptions = options ? options : {};
-
-    this.browser = typeof configOptions.browser !== 'undefined' ? configOptions.browser : typeof window !== undefined;
-    this.node = !this.browser;
 
     this.options = {
       timeout: 3000,
@@ -55,11 +51,12 @@ export class Original {
 
     this.axiosInstance = axios.create(this.options);
 
-    this.setBaseURL(
-      this.options.baseURL || this.options.env
-        ? `https://api-${this.options.env}.getoriginal.com/api/vi`
-        : 'https://api.getoriginal.com/api/v1',
-    );
+    const envURL =
+      this.options.env !== undefined
+        ? `https://api-${this.options.env}.getoriginal.com/api/v1`
+        : 'https://api.getoriginal.com/api/v1';
+
+    this.setBaseURL(this.options.baseURL || envURL);
   }
 
   setBaseURL(baseURL: string) {
@@ -75,10 +72,12 @@ export class Original {
     } = {},
   ): Promise<T> => {
     const url = `${this.baseURL}/${endpoint}`;
+    const token = this.tokenManager.getToken();
+    console.log('token', token);
     const headers = {
       'Content-Type': 'application/json',
-      'X-API-Key': this.apiKey,
-      Authorization: `Bearer ${this.secret}`,
+      'X-API-KEY': this.apiKey,
+      Authorization: `Bearer ${token}`,
     };
 
     const requestConfig = {
