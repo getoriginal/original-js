@@ -4,7 +4,6 @@ import {
   Asset,
   Burn,
   Collection,
-  Endpoint,
   ErrorFromResponse,
   NewAsset,
   NewBurn,
@@ -40,7 +39,7 @@ export class Original {
     this.secret = secret;
     this.apiKey = apiKey;
 
-    this.tokenManager = new TokenManager(this.secret);
+    this.tokenManager = new TokenManager(this.apiKey, this.secret);
     const configOptions = options ? options : {};
 
     this.options = {
@@ -65,7 +64,7 @@ export class Original {
 
   doAxiosRequest = async <T>(
     type: string,
-    endpoint: Endpoint,
+    endpoint: string,
     data?: unknown,
     options: AxiosRequestConfig & {
       config?: AxiosRequestConfig & { maxBodyLength?: number };
@@ -73,9 +72,7 @@ export class Original {
   ): Promise<T> => {
     const url = `${this.baseURL}/${endpoint}`;
     const token = this.tokenManager.getToken();
-    console.log('token', token);
     const headers = {
-      'Content-Type': 'application/json',
       'X-API-KEY': this.apiKey,
       Authorization: `Bearer ${token}`,
     };
@@ -103,11 +100,11 @@ export class Original {
     }
   };
 
-  _get<T>(url: Endpoint, params?: AxiosRequestConfig['params']) {
+  _get<T>(url: string, params?: AxiosRequestConfig['params']) {
     return this.doAxiosRequest<T>('get', url, null, { params });
   }
 
-  _post<T>(url: Endpoint, data?: unknown) {
+  _post<T>(url: string, data?: unknown) {
     return this.doAxiosRequest<T>('post', url, data);
   }
 
@@ -152,7 +149,7 @@ export class Original {
    * @return {Promise<{ user: User }>} User get response
    */
   async getUser(uid: string) {
-    return await this._get<{ user: User }>('user', { uid: uid });
+    return await this._get<{ user: User }>(`user/${uid}`);
   }
 
   /**

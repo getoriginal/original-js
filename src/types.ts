@@ -30,8 +30,6 @@ export class ErrorFromResponse<T> extends Error {
   status?: number;
 }
 
-export type Endpoint = 'user' | 'collection' | 'asset' | 'transfer' | 'burn';
-
 export type NewUser = { client_id: string; email: string };
 
 export type User = { client_id: string; created_at: Date; email: string; uid: string; wallet_address: string };
