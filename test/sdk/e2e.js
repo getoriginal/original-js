@@ -38,4 +38,11 @@ describe('Original sdk e2e-method tests', async () => {
 		});
 		expect(response.data.uid).to.exist;
 	});
+
+	// if('creates asset by uid', async () => {
+	// 	const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
+	// 	const response = await original.createAsset({
+	//
+	// 	}
+	// }
 });

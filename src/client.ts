@@ -17,7 +17,9 @@ import {
 import { isErrorResponse } from './error';
 import { TokenManager } from './token_manager';
 
-export class Original<Original> {
+export class Original {
+  private static _instance?: unknown | Original; // type is undefined|StreamChat, unknown is due to TS limitations with statics
+
   apiKey: string;
   secret: string;
   axiosInstance: AxiosInstance;
@@ -47,9 +49,10 @@ export class Original<Original> {
       withCredentials: false, // making sure cookies are not sent
       ...configOptions,
     };
-
+    // TODO have some thoughts on moving to fetch instead of axios
     this.axiosInstance = axios.create(this.options);
 
+    // TODO look up exact urls for various environments
     const envURL =
       this.options.env !== undefined
         ? `https://api-${this.options.env}.getoriginal.com/api/v1`
@@ -81,6 +84,7 @@ export class Original<Original> {
       ...options,
       headers,
     };
+    // TODO add _put and 'put' as we will have put API
     try {
       let response: AxiosResponse<T>;
       switch (type) {
@@ -110,9 +114,9 @@ export class Original<Original> {
 
   errorFromResponse(response: AxiosResponse<APIErrorResponse>): ErrorFromResponse<APIErrorResponse> {
     let err: ErrorFromResponse<APIErrorResponse>;
-    err = new ErrorFromResponse(`StreamChat error HTTP code: ${response.status}`);
+    err = new ErrorFromResponse(`GetOriginal error HTTP code: ${response.status}`);
     if (response.data && response.data.code) {
-      err = new Error(`StreamChat error code ${response.data.code}: ${response.data.message}`);
+      err = new Error(`GetOriginal error code ${response.data.code}: ${response.data.message}`);
       err.code = response.data.code;
     }
     err.response = response;
@@ -131,6 +135,9 @@ export class Original<Original> {
   /**
    * sdk-api methods
    */
+
+  // TODO: look at method names, and cross reference with docs
+  // TODO: link to the docs for each method
 
   /**
    * createUser
