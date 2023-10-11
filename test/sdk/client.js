@@ -4,7 +4,7 @@ const { Original } = require('../../dist');
 
 const expect = chai.expect;
 chai.use(chaiAsPromised);
-require('dotenv').config({ path: `${process.cwd()}/test/typescript/.env` });
+require('dotenv').config({ path: `${process.cwd()}/test/sdk/.env` });
 
 describe('Original sdk tests', async () => {
 	const apiKey = process.env.API_KEY;

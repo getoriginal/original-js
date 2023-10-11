@@ -94,7 +94,7 @@ export class Original {
           throw new Error('Invalid request type');
       }
       return this.handleResponse(response);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @sdk-eslint/no-explicit-any
     } catch (e: any /**TODO: generalize error types  */) {
       throw e as AxiosError<APIErrorResponse>;
     }
