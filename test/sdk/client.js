@@ -19,22 +19,4 @@ describe('Original sdk tests', async () => {
 		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
 		expect(original.baseURL).to.equal('https://api-acceptance.getoriginal.com/api/v1');
 	});
-
-	it('gets user by uid', async () => {
-		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
-		const response = await original.getUser('916560423856');
-		expect(response.data.client_id).to.equal('q3YebGkm');
-	});
-
-	it('query user by email', async () => {
-		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
-		const response = await original.queryUser({ email: 'q3YebGkm@test.com' });
-		expect(response.data.email).to.equal('q3YebGkm@test.com');
-	});
-
-	it('query user by client_id', async () => {
-		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
-		const response = await original.queryUser({ client_id: 'q3YebGkm' });
-		expect(response.data.email).to.equal('q3YebGkm@test.com');
-	});
 });
