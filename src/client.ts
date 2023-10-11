@@ -123,6 +123,7 @@ export class Original {
   handleResponse<T>(response: AxiosResponse<T>) {
     const data = response.data;
     if (isErrorResponse(response)) {
+      // TODO: DO we want to throw here? Or just return the error in the response?
       throw this.errorFromResponse(response);
     }
     return data;

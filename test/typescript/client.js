@@ -31,6 +31,7 @@ describe('Original sdk tests', async () => {
 		const response = await original.queryUser({ email: 'q3YebGkm@test.com' });
 		expect(response.data.email).to.equal('q3YebGkm@test.com');
 	});
+
 	it('query user by client_id', async () => {
 		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
 		const response = await original.queryUser({ client_id: 'q3YebGkm' });
