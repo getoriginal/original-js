@@ -17,7 +17,7 @@ import {
 import { isErrorResponse } from './error';
 import { TokenManager } from './token_manager';
 
-export class Original {
+export class Original<Original> {
   apiKey: string;
   secret: string;
   axiosInstance: AxiosInstance;
@@ -28,7 +28,7 @@ export class Original {
   /**
    * Initialize a client
    *
-   * @param apiKey
+   * @param {string } [apiKey] - the api key
    * @param {string} [secret] - the api secret
    * @param {OriginalOptions} [options] - additional options, here you can pass custom options to axios instance
    * @example <caption>initialize the client</caption>
@@ -123,14 +123,13 @@ export class Original {
   handleResponse<T>(response: AxiosResponse<T>) {
     const data = response.data;
     if (isErrorResponse(response)) {
-      // TODO: DO we want to throw here? Or just return the error in the response?
       throw this.errorFromResponse(response);
     }
     return data;
   }
 
   /**
-   * user methods
+   * sdk-api methods
    */
 
   /**
@@ -184,6 +183,7 @@ export class Original {
   /**
    * createAsset
    * @param {NewAsset} asset The details of the asset to be created
+   * @return {Promise<{ uid: string }>} Asset post response
    */
   async createAsset(asset: NewAsset) {
     return await this._post<{ asset: Asset }>('asset', asset);
@@ -191,7 +191,7 @@ export class Original {
 
   /**
    * getAsset
-   * @param {String} uid either email or clientId to query user
+   * @param {string} uid either email or clientId to query user
    * @return {Promise<{ asset: Asset }>} Asset get response
    */
   async getAsset(uid: string) {
@@ -201,7 +201,7 @@ export class Original {
   /**
    * searchAsset
    * @param {string} user_uid either email or clientId to query user
-   * @return {Promise<{ asset: Asset }>} User post response
+   * @return {Promise<{ uid: string }>} User post response
    */
   async queryAsset({ user_uid }: { user_uid: string }) {
     return await this._get('asset', { user_uid });
@@ -218,7 +218,7 @@ export class Original {
 
   /**
    * getTransfer
-   * @param {String} uid uid of the transfer to get
+   * @param {string} uid uid of the transfer to get
    * @return {Promise<{ transfer: Transfer }>} Transfer get response
    */
   async getTransfer(uid: string) {
@@ -245,7 +245,7 @@ export class Original {
 
   /**
    * getBurn
-   * @param {String} uid burn uid to get
+   * @param {string} uid burn uid to get
    * @return {Promise<{ burn: Burn }>} Burn get response
    */
   async getBurn(uid: string) {
