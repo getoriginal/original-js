@@ -75,6 +75,23 @@ describe('Original sdk e2e-method tests', async () => {
 		const assetUid = usersAssets.data[0].uid;
 		const response = await original.getAsset(assetUid);
 
-		expect(response.data.uid).to.exist;
+		expect(response.data.uid).to.equal(assetUid);
+	});
+
+	it('queries and gets transfer', async () => {
+		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
+		const usersTransfers = await original.queryTransfer({ user_uid: '180861586559' });
+		const transferUid = usersTransfers.data[0].uid;
+		const response = await original.getTransfer(transferUid);
+
+		expect(response.data.uid).to.equal(transferUid);
+	});
+
+	it('queries and gets burn', async () => {
+		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
+		const userBurns = await original.queryBurn({ user_uid: '815003329309' });
+		const burnUid = userBurns.data[0].uid;
+		const response = await original.getBurn(burnUid);
+		expect(response.data.uid).to.equal(burnUid);
 	});
 });
