@@ -52,13 +52,17 @@ export class Original {
     // TODO have some thoughts on moving to fetch instead of axios
     this.axiosInstance = axios.create(this.options);
 
-    // TODO look up exact urls for various environments
-    const envURL =
-      this.options.env !== undefined
-        ? `https://api-${this.options.env}.getoriginal.com/api/v1`
-        : 'https://api.getoriginal.com/api/v1';
+    this.setBaseURL(this.options.baseURL || this.getEnvURL(this.options.env || 'production'));
+  }
 
-    this.setBaseURL(this.options.baseURL || envURL);
+  getEnvURL(env: string) {
+    if (env === 'acceptance' || env === 'sandbox') {
+      return `https://api-${env}.getoriginal.com/api/v1`;
+    } else if (env === 'production') {
+      return 'https://api.getoriginal.com/api/v1';
+    } else {
+      throw new Error('Invalid environment');
+    }
   }
 
   setBaseURL(baseURL: string) {
