@@ -63,9 +63,18 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.exist;
 	});
 
-	// it('full create flow with waiting on blockchain', async () => {
-	// 	const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
-	// 	const response = await original.getAsset('460354772250');
-	// 	expect(response.data.owner_user_uid).to.equal('76KF7s6J');
-	// });
+	it('gets asset by uid', async () => {
+		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
+		const response = await original.getAsset('460354772250');
+		expect(response.data.uid).to.equal('460354772250');
+	});
+
+	it('queries and gets asset', async () => {
+		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
+		const usersAssets = await original.queryAsset({ user_uid: '180861586559' });
+		const assetUid = usersAssets.data[0].uid;
+		const response = await original.getAsset(assetUid);
+
+		expect(response.data.uid).to.exist;
+	});
 });
