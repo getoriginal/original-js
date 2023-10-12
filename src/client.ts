@@ -76,6 +76,7 @@ export class Original {
     const url = `${this.baseURL}/${endpoint}`;
     const token = this.tokenManager.getToken();
     const headers = {
+      'Content-Type': 'application/json',
       'X-API-KEY': this.apiKey,
       Authorization: `Bearer ${token}`,
     };
@@ -84,7 +85,6 @@ export class Original {
       ...options,
       headers,
     };
-    // TODO add _put and 'put' as we will have put API
     try {
       let response: AxiosResponse<T>;
       switch (type) {
@@ -93,6 +93,9 @@ export class Original {
           break;
         case 'post':
           response = await this.axiosInstance.post(url, data, requestConfig);
+          break;
+        case 'put':
+          response = await this.axiosInstance.put(url, data, requestConfig);
           break;
         default:
           throw new Error('Invalid request type');
@@ -112,6 +115,9 @@ export class Original {
     return this.doAxiosRequest<T>('post', url, data);
   }
 
+  _put<T>(url: string, data?: unknown) {
+    return this.doAxiosRequest<T>('put', url, data);
+  }
   errorFromResponse(response: AxiosResponse<APIErrorResponse>): ErrorFromResponse<APIErrorResponse> {
     let err: ErrorFromResponse<APIErrorResponse>;
     err = new ErrorFromResponse(`GetOriginal error HTTP code: ${response.status}`);
