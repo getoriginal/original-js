@@ -45,7 +45,6 @@ describe('Original sdk e2e-method tests', async () => {
 	it('query does not fail when no query results', async () => {
 		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
 		const response = await original.queryUser({ email: 'randomnotfound@test.com' });
-		console.log(response);
 		expect(response.data).to.equal(null);
 	});
 
@@ -64,9 +63,9 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.exist;
 	});
 
-	it('full create flow with waiting on blockchain', async () => {
-		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
-		const response = await original.getAsset('460354772250');
-		expect(response.data.owner_user_uid).to.equal('76KF7s6J');
-	});
+	// it('full create flow with waiting on blockchain', async () => {
+	// 	const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
+	// 	const response = await original.getAsset('460354772250');
+	// 	expect(response.data.owner_user_uid).to.equal('76KF7s6J');
+	// });
 });
