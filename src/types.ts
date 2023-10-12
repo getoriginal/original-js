@@ -34,6 +34,8 @@ export type NewUser = { client_id: string; email: string };
 
 export type User = { client_id: string; created_at: Date; email: string; uid: string; wallet_address: string };
 
+export type UserResponse = { data: User };
+
 export type QueryUser = RequireAtLeastOne<{ client_id?: string; email?: string }, 'email' | 'client_id'>;
 
 export type Collection = {
@@ -90,6 +92,8 @@ export type Asset = {
   token_uri: string | null;
   uid: string;
 };
+
+export type AssetResponse = { data: Asset };
 
 export type NewTransfer = {
   asset_uid: string;

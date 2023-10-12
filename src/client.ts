@@ -149,7 +149,7 @@ export class Original {
    * createUser
    *
    * @param {NewUser} user The details of the user to be created
-   * @return {Promise<{ uid: string }>} User post response
+   * @return {Promise<{ data: { uid: string } }>} User post response
    */
   async createUser(user: NewUser) {
     return await this._post<{ uid: string }>('user', user);
@@ -159,7 +159,7 @@ export class Original {
    * getUser
    *
    * @param {String} uid Uid of the user to be queried
-   * @return {Promise<{ user: User }>} User get response
+   * @return {Promise<UserResponse>} User get response
    */
   async getUser(uid: string) {
     return await this._get<{ user: User }>(`user/${uid}`);
@@ -205,10 +205,10 @@ export class Original {
   /**
    * getAsset
    * @param {string} uid either email or clientId to query user
-   * @return {Promise<{ asset: Asset }>} Asset get response
+   * @return {Promise<AssetResponse>} Asset get response
    */
   async getAsset(uid: string) {
-    return await this._get<{ asset: Asset }>('asset', { uid });
+    return await this._get<{ asset: Asset }>(`asset/${uid}`);
   }
 
   /**
@@ -235,7 +235,7 @@ export class Original {
    * @return {Promise<{ transfer: Transfer }>} Transfer get response
    */
   async getTransfer(uid: string) {
-    return await this._get<{ transfer: Transfer }>('transfer', { uid });
+    return await this._get<{ transfer: Transfer }>(`transfer/${uid}`);
   }
 
   /**
@@ -262,7 +262,7 @@ export class Original {
    * @return {Promise<{ burn: Burn }>} Burn get response
    */
   async getBurn(uid: string) {
-    return await this._get<{ burn: Burn }>('burn', { uid });
+    return await this._get<{ burn: Burn }>(`burn/${uid}`);
   }
 
   /**
