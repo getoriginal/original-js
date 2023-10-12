@@ -186,7 +186,7 @@ export class Original {
    * @return {Promise<{ collection: Collection }>} Collection get response
    */
   async getCollection(uid: string) {
-    return await this._get<{ collection: Collection }>('collection', { uid });
+    return await this._get<{ collection: Collection }>(`collection/${uid}`);
   }
 
   /**

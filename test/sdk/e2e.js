@@ -94,4 +94,10 @@ describe('Original sdk e2e-method tests', async () => {
 		const response = await original.getBurn(burnUid);
 		expect(response.data.uid).to.equal(burnUid);
 	});
+
+	it('get collection', async () => {
+		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
+		const response = await original.getCollection('281855194716');
+		expect(response.data.uid).to.equal('281855194716');
+	});
 });
