@@ -74,7 +74,6 @@ describe('Original sdk e2e-method tests', async () => {
 		const usersAssets = await original.queryAsset({ user_uid: '180861586559' });
 		const assetUid = usersAssets.data[0].uid;
 		const response = await original.getAsset(assetUid);
-
 		expect(response.data.uid).to.equal(assetUid);
 	});
 
@@ -83,7 +82,6 @@ describe('Original sdk e2e-method tests', async () => {
 		const usersTransfers = await original.queryTransfer({ user_uid: '180861586559' });
 		const transferUid = usersTransfers.data[0].uid;
 		const response = await original.getTransfer(transferUid);
-
 		expect(response.data.uid).to.equal(transferUid);
 	});
 
