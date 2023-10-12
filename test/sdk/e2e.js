@@ -64,7 +64,7 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.exist;
 	});
 
-	it('gets asset by uid', async () => {
+	it('full create flow with waiting on blockchain', async () => {
 		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
 		const response = await original.getAsset('460354772250');
 		expect(response.data.owner_user_uid).to.equal('76KF7s6J');
