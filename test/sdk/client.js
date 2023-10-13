@@ -1,7 +1,7 @@
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const { Original } = require('../../dist');
-const { verify } = require('jsonwebtoken');
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import { Original } from '../../dist';
+import { verify } from 'jsonwebtoken';
 
 const expect = chai.expect;
 chai.use(chaiAsPromised);

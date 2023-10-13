@@ -3,32 +3,28 @@
   "version": "1.0.0",
   "description": "Original SDK for node",
   "repository": "https://github.com/getoriginal/original-node.git",
-  "author": "avmturo <30347978+avmturo@users.noreply.github.com>",
+  "author": "Original",
   "license": "MIT",
   "private": true,
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
   "jsnext:main": "./dist/index.es.js",
   "types": "./dist/types/index.d.ts",
-  "browser": {
-    "./dist/index.es.js": "./dist/browser.es.js",
-    "./dist/index.js": "./dist/browser.js"
-  },
   "react-native": {
     "./dist/index.es.js": "./dist/browser.es.js",
     "./dist/index.js": "./dist/browser.js"
   },
   "jsdelivr": "./dist/browser.full-bundle.min.js",
-  "scripts": {
+    "scripts": {
     "start": "yarn run compile -w",
     "compile": "rollup -c",
     "changelog": "standard-version --release-as $VERSION --skip.tag --skip.commit --tag-prefix=v",
     "commitlinter": "commitlint",
     "build": "rm -rf dist && yarn run types && yarn run compile",
     "types": "tsc --emitDeclarationOnly true",
-    "prettier": "prettier --check '**/*.{js,ts,md,json}' .eslintrc.json .prettierrc .babelrc",
+    "prettier": "prettier --check '**/*.{js,ts,md,css,scss,json}' .eslintrc.json .prettierrc .babelrc",
     "prettier-fix": "npx prettier --write '**/*.{js,ts,md,css,scss,json}' .eslintrc.json .prettierrc .babelrc",
-    "test-types": "node test/sdk/index.js && tsc --esModuleInterop true --noEmit true --strictNullChecks true --noImplicitAny true --strict true test/sdk/*.ts",
+    "test-types": "node test/typescript/index.js && tsc --esModuleInterop true --noEmit true --strictNullChecks true --noImplicitAny true --strict true test/typescript/*.ts",
     "eslint": "eslint '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",
     "eslint-fix": "npx eslint --fix '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",
     "test-unit": "NODE_ENV=test mocha --exit --bail --timeout 20000 --require ./babel-register test/sdk/*.js",

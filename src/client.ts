@@ -52,7 +52,7 @@ export class Original {
     // TODO have some thoughts on moving to fetch instead of axios
     this.axiosInstance = axios.create(this.options);
 
-    this.setBaseURL(this.options.baseURL || this.getEnvURL(this.options.env || 'production'));
+    this.baseURL = this.options.baseURL || this.getEnvURL(this.options.env || 'production');
   }
 
   getEnvURL(env: string) {

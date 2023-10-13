@@ -2,7 +2,7 @@
 
 ## 📝 About Original
 
-You can requst access for an Original account at our [Request Access](https://getoriginal.com/contact-us/) page.
+You can request access for an Original account at our [Request Access](https://getoriginal.com/contact-us/) page.
 
 ## ⚙️ Installation
 
@@ -20,7 +20,7 @@ yarn add original-api
 
 ## ✨ Getting started
 
-The Original SDK is set up to expose and type the all values returned from our API.
+The Original SDK is set up to expose and type the all values returned from the Original API.
 
 ```typescript
 const Original = require('original-js');
