@@ -143,11 +143,9 @@ export class Original {
   }
 
   /**
-   * sdk-api methods
+   * Methods to access the API
+   * [Read the Docs](https://docs.getoriginal.com/docs)
    */
-
-  // TODO: look at method names, and cross reference with docs
-  // TODO: link to the docs for each method
 
   /**
    * createUser
