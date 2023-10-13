@@ -16,9 +16,24 @@ describe('Original sdk tests', async () => {
 		expect(original.baseURL).to.equal('http://localhost:3004');
 	});
 
-	it('sets baseURL dependent on environment in config', () => {
+	it('sets baseURL dependent on environment in config, acceptance', () => {
 		const original = new Original(apiKey, apiSecret, { env: 'acceptance' });
 		expect(original.baseURL).to.equal('https://api-acceptance.getoriginal.com/api/v1');
+	});
+
+	it('sets baseURL dependent on environment in config, sandbox', () => {
+		const original = new Original(apiKey, apiSecret, { env: 'sandbox' });
+		expect(original.baseURL).to.equal('https://api-sandbox.getoriginal.com/api/v1');
+	});
+
+	it('sets baseURL dependent on environment in config, production', () => {
+		const original = new Original(apiKey, apiSecret, { env: 'production' });
+		expect(original.baseURL).to.equal('https://api.getoriginal.com/api/v1');
+	});
+
+	it('sets baseURL when no env or baseURL arguments are passed', () => {
+		const original = new Original(apiKey, apiSecret);
+		expect(original.baseURL).to.equal('https://api.getoriginal.com/api/v1');
 	});
 
 	it('jwt token is valid', () => {
