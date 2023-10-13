@@ -18,8 +18,6 @@ import { isErrorResponse } from './error';
 import { TokenManager } from './token_manager';
 
 export class Original {
-  private static _instance?: unknown | Original; // type is undefined|StreamChat, unknown is due to TS limitations with statics
-
   apiKey: string;
   secret: string;
   axiosInstance: AxiosInstance;
