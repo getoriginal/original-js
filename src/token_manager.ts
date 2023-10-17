@@ -26,8 +26,6 @@ export class TokenManager {
       return JWTServerToken(this.apiKey, this.secret);
     }
 
-    throw new Error(
-      `Both secret and user tokens are not set. Either client.connectUser wasn't called or client.disconnect was called`,
-    );
+    throw new Error(`Either token or secret is not set. Please set the secret in the constructor`);
   };
 }
