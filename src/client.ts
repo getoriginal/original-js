@@ -243,7 +243,7 @@ export class Original {
   }
 
   /**
-   * searchAsset
+   * listAssets
    * @param {string} userId userId of the owner of the assets to get
    * @return {Promise<APISearchResponse<Asset[]>>} Returns a list of assets owned by the user, or null data if not found.
    */
@@ -276,7 +276,7 @@ export class Original {
   }
 
   /**
-   * searchTransfer
+   * listTransfers
    * @param {string} userUid userUid of asset to transfer
    * @return {Promise<APISearchResponse<Transfer[]>>} Returns a list of transfers made by the user, or null data if not found.
    */
@@ -307,7 +307,7 @@ export class Original {
   }
 
   /**
-   * searchBurn
+   * listBurns
    * @param {string} userUid user_uid of asset to burn
    * @return {Promise<APISearchResponse<Burn[]>>} Returns a list of burns made by the user.
    */
