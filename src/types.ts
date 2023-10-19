@@ -26,11 +26,11 @@ export class ErrorFromResponse<T> extends Error {
 
 export type UserParams = { client_id: string; email: string };
 
-export type User = { client_id: string; created_at: Date; email: string; uid: string; wallet_address: string };
+export type User = { client_id: string; created_at: string; email: string; uid: string; wallet_address: string };
 
 export type Collection = {
   contract_address: string;
-  created_at: Date;
+  created_at: string;
   description: string;
   explorer_url: string;
   name: string;
@@ -61,7 +61,7 @@ export type Asset = {
   client_id: string;
   collection_name: string;
   collection_uid: string;
-  created_at: Date;
+  created_at: string;
   is_burned: boolean;
   is_minted: boolean;
   is_transferable: boolean;
@@ -85,7 +85,7 @@ export type TransferParams = {
 
 export type Transfer = {
   asset_uid: string;
-  created_at: Date;
+  created_at: string;
   from_user_uid: string;
   status: string;
   to_address: string;
@@ -99,7 +99,7 @@ export type NewBurn = {
 
 export type Burn = {
   asset_uid: string;
-  created_at: Date;
+  created_at: string;
   from_user_uid: string;
   status: string;
   uid: string;
