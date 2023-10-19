@@ -80,7 +80,7 @@ export type Asset = {
 export type TransferParams = {
   asset_uid: string;
   from_user_uid: string;
-  to_user_uid: string;
+  to_address: string;
 };
 
 export type Transfer = {
