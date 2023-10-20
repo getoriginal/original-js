@@ -66,7 +66,6 @@ describe('Original sdk e2e-method tests', async () => {
 	it('gets asset by uid', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: 'https://api-acceptance.getoriginal.com/api/v1' });
 		const response = await original.getAsset('460354772250');
-		console.log(response.data);
 		expect(response.data.uid).to.equal('460354772250');
 	});
 
