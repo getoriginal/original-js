@@ -53,7 +53,6 @@ export class Original {
     const configOptions = options ? options : {};
 
     this.options = {
-      timeout: 10000,
       withCredentials: false, // making sure cookies are not sent
       ...configOptions,
     };
