@@ -3,7 +3,6 @@ import {
   APIErrorResponse,
   APIResponse,
   Asset,
-  AssetData,
   Burn,
   Collection,
   ErrorFromResponse,
