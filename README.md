@@ -24,7 +24,10 @@ The Original SDK is set up to expose and type the all values returned from the O
 
 ```typescript
 const Original = require('original-js');
+//or
+import Original from 'original-js';
 
+// create a new instance of the Original client
 const client = new Original('YOUR_API_KEY', 'API_KEY_SECRET');
 
 // create a new user
@@ -34,7 +37,7 @@ const newUserUid = await client.createUser({email: 'YOUR_EMAIL', client_id: 'YOU
 const user = await client.getUser(newUserUid);
 
 // search users
-const queriedUser = await client.queryUser({email: 'YOUR_EMAIL'});
+const searchedUser = await client.getUserByEmail({email: 'YOUR_EMAIL'});
 
 ```
 ## 🔗 (Optional) Development Setup in Combination with our SDK

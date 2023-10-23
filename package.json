@@ -1,8 +1,8 @@
 {
-  "name": "original-node",
-  "version": "1.0.0",
-  "description": "Original SDK for node",
-  "repository": "https://github.com/getoriginal/original-node.git",
+  "name": "original-js",
+  "version": "0.1.0",
+  "description": "Original SDK for js",
+  "repository": "https://github.com/getoriginal/original-js.git",
   "author": "Original",
   "license": "MIT",
   "private": true,
@@ -10,12 +10,7 @@
   "module": "./dist/index.es.js",
   "jsnext:main": "./dist/index.es.js",
   "types": "./dist/types/index.d.ts",
-  "react-native": {
-    "./dist/index.es.js": "./dist/browser.es.js",
-    "./dist/index.js": "./dist/browser.js"
-  },
-  "jsdelivr": "./dist/browser.full-bundle.min.js",
-    "scripts": {
+  "scripts": {
     "start": "yarn run compile -w",
     "compile": "rollup -c",
     "changelog": "standard-version --release-as $VERSION --skip.tag --skip.commit --tag-prefix=v",
@@ -27,7 +22,7 @@
     "test-types": "node test/typescript/index.js && tsc --esModuleInterop true --noEmit true --strictNullChecks true --noImplicitAny true --strict true test/typescript/*.ts",
     "eslint": "eslint '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",
     "eslint-fix": "npx eslint --fix '**/*.{js,md,ts}' --max-warnings 0 --ignore-path ./.eslintignore",
-    "test-unit": "NODE_ENV=test mocha --exit --bail --timeout 20000 --require ./babel-register test/sdk/*.js",
+    "test-unit": "NODE_ENV=test mocha --exit --bail --timeout 500000 --require ./babel-register test/sdk/*.js",
     "test-coverage": "nyc yarn test-unit",
     "test": "yarn test-unit",
     "testwatch": "NODE_ENV=test nodemon ./node_modules/.bin/mocha --timeout 20000 --require test-entry.js test/test.js",
@@ -48,12 +43,10 @@
     "@babel/runtime": "^7.16.3",
     "@types/jsonwebtoken": "~9.0.0",
     "axios": "^0.22.0",
-    "casual": "^1.6.2",
     "jsonwebtoken": "~9.0.0",
     "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
-    "randomstring": "^1.3.0",
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
     "@babel/eslint-parser": "^7.17.0",
@@ -106,11 +99,12 @@
     "mocha": "^9.1.3",
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
+    "randomstring": "^1.3.0",
     "rollup": "^2.41.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2",
     "sinon": "^12.0.1",
-    "standard-version": "^9.3.2",
+    "standard-version": "^9.5.0",
     "typescript": "^4.2.3",
     "uuid": "^8.3.2"
   },

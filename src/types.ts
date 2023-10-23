@@ -1,13 +1,7 @@
 import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export type RequireAtLeastOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyof T, Keys>> &
-  {
-    [K in Keys]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<Keys, K>>>;
-  }[Keys];
-
 export type OriginalOptions = AxiosRequestConfig & {
-  baseUrl?: boolean;
-  env?: 'acceptance' | 'production' | 'sandbox';
+  env?: Environment;
 };
 
 type ErrorResponseDetails = {
@@ -20,7 +14,7 @@ export type APIErrorResponse = {
   duration: string;
   message: string;
   more_info: string;
-  StatusCode: number;
+  statusCode: number;
   details?: ErrorResponseDetails;
 };
 
@@ -30,81 +24,68 @@ export class ErrorFromResponse<T> extends Error {
   status?: number;
 }
 
-export type NewUser = { client_id: string; email: string };
+export type UserParams = { client_id: string; email: string };
 
-export type User = { client_id: string; created_at: Date; email: string; uid: string; wallet_address: string };
-
-export type UserResponse = { data: User };
-
-export type QueryUser = RequireAtLeastOne<{ client_id?: string; email?: string }, 'email' | 'client_id'>;
+export type User = { client_id: string; created_at: string; email: string; uid: string; wallet_address: string };
 
 export type Collection = {
   contract_address: string;
-  created_at: Date;
+  created_at: string;
   description: string;
   explorer_url: string;
-  // eslint-disable-next-line typescript-sort-keys/interface
   name: string;
   status: string;
-  // eslint-disable-next-line typescript-sort-keys/interface
   symbol: string;
   type: string;
   uid: string;
 };
 
-export type NewAssetData = {
-  attributes: string;
-  description: string;
-  external_url: string;
+export type AssetData = {
   image_url: string;
   name: string;
-  // eslint-disable-next-line typescript-sort-keys/interface
   store_image_on_ipfs: boolean;
-  unique_name: string;
+  unique_name: boolean;
+  attributes?: { display_type: string; trait_type: string; value: string }[];
+  description?: string;
+  external_url?: string;
 };
 
-export type NewAsset = {
+export type AssetParams = {
   client_id: string;
   collection_uid: string;
-  data: NewAssetData;
+  data: AssetData;
   user_uid: string;
 };
 
 export type Asset = {
   client_id: string;
   collection_name: string;
-  // eslint-disable-next-line typescript-sort-keys/interface
   collection_uid: string;
-  created_at: Date;
-  explorer_url: string | null;
-  // eslint-disable-next-line typescript-sort-keys/interface
+  created_at: string;
   is_burned: boolean;
-  // eslint-disable-next-line typescript-sort-keys/interface
   is_minted: boolean;
   is_transferable: boolean;
   is_transferring: boolean;
-  metadata: string | null;
   mint_for_user_uid: string;
   name: string;
-  owner_address: string | null;
-  owner_user_uid: string | null;
   token_id: string;
-  token_uri: string | null;
   uid: string;
+  explorer_url?: string;
+  metadata?: string;
+  owner_address?: string;
+  owner_user_uid?: string;
+  token_uri?: string;
 };
 
-export type AssetResponse = { data: Asset };
-
-export type NewTransfer = {
+export type TransferParams = {
   asset_uid: string;
   from_user_uid: string;
-  to_user_uid: string;
+  to_address: string;
 };
 
 export type Transfer = {
   asset_uid: string;
-  // eslint-disable-next-line typescript-sort-keys/interface
-  created_at: Date;
+  created_at: string;
   from_user_uid: string;
   status: string;
   to_address: string;
@@ -118,8 +99,17 @@ export type NewBurn = {
 
 export type Burn = {
   asset_uid: string;
-  created_at: Date;
+  created_at: string;
   from_user_uid: string;
   status: string;
   uid: string;
 };
+
+export type APIResponse<T> = { data: T; success: boolean };
+export type APISearchResponse<T> = { data: T | null; success: boolean };
+export type Uid = string;
+
+export enum Environment {
+  Production = 'production',
+  Sandbox = 'sandbox',
+}
