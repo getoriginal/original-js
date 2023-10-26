@@ -10,6 +10,14 @@ require('dotenv').config({ path: `${process.cwd()}/test/sdk/.env` });
 describe('Original sdk e2e-method tests', async () => {
 	const apiKey = process.env.API_KEY;
 	const apiSecret = process.env.API_SECRET;
+	const mintToUserUid = process.env.MINT_TO_USER_UID;
+	const burnUserUid = process.env.BURN_USER_UID;
+	const mintToUserClientId = process.env.MINT_TO_USER_CLIENT_ID;
+	const transferToUserWallet = process.env.TRANSFER_TO_USER_WALLER;
+	const transferToUserUid = process.env.TRANSFER_TO_USER_UID;
+	const getAssetUid = process.env.ASSET_UID;
+	const nonEditableCollectionUid = process.env.NON_EDITABLE_COLLECTION_UID;
+	const editablecollectionuid = process.env.EDITABLE_COLLECTION_UID;
 
 	const expectThrowsAsync = async (method, errorMessage) => {
 		let error = null;
@@ -26,20 +34,20 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('gets user by uid', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: 'https://api-acceptance.getoriginal.com/api/v1' });
-		const response = await original.getUser('180861586559');
-		expect(response.data.client_id).to.equal('76KF7s6J');
+		const response = await original.getUser(mintToUserUid);
+		expect(response.data.client_id).to.equal(mintToUserClientId);
 	});
 
 	it('gets user by email', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: 'https://api-acceptance.getoriginal.com/api/v1' });
-		const response = await original.getUserByEmail('76KF7s6J@test.com');
-		expect(response.data.email).to.equal('76KF7s6J@test.com');
+		const response = await original.getUserByEmail(`${mintToUserClientId}@test.com`);
+		expect(response.data.email).to.equal(`${mintToUserClientId}@test.com`);
 	});
 
 	it('gets user by client_id', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: 'https://api-acceptance.getoriginal.com/api/v1' });
-		const response = await original.getUserByClientId('76KF7s6J');
-		expect(response.data.email).to.equal('76KF7s6J@test.com');
+		const response = await original.getUserByClientId(mintToUserClientId);
+		expect(response.data.email).to.equal(`${mintToUserClientId}@test.com`);
 	});
 
 	it('get user by email does not fail when no query results', async () => {
@@ -65,13 +73,13 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('gets asset by uid', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: 'https://api-acceptance.getoriginal.com/api/v1' });
-		const response = await original.getAsset('460354772250');
-		expect(response.data.uid).to.equal('460354772250');
+		const response = await original.getAsset(getAssetUid);
+		expect(response.data.uid).to.equal(getAssetUid);
 	});
 
 	it('gets assets by user uid', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: 'https://api-acceptance.getoriginal.com/api/v1' });
-		const usersAssets = await original.getAssetsByUserId('180861586559');
+		const usersAssets = await original.getAssetsByUserId(mintToUserUid);
 		const assetUid = usersAssets.data[0].uid;
 		const response = await original.getAsset(assetUid);
 		expect(response.data.uid).to.equal(assetUid);
@@ -79,7 +87,7 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('gets transfer by user uid', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: 'https://api-acceptance.getoriginal.com/api/v1' });
-		const usersTransfers = await original.getTransfersByUserUid('180861586559');
+		const usersTransfers = await original.getTransfersByUserUid(mintToUserUid);
 		const transferUid = usersTransfers.data[0].uid;
 		const response = await original.getTransfer(transferUid);
 		expect(response.data.uid).to.equal(transferUid);
@@ -87,7 +95,7 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('queries and gets burn', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: 'https://api-acceptance.getoriginal.com/api/v1' });
-		const userBurns = await original.getBurnsByUserUid('815003329309');
+		const userBurns = await original.getBurnsByUserUid(burnUserUid);
 		const burnUid = userBurns.data[0].uid;
 		const response = await original.getBurn(burnUid);
 		expect(response.data.uid).to.equal(burnUid);
@@ -95,8 +103,8 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('get collection', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: 'https://api-acceptance.getoriginal.com/api/v1' });
-		const response = await original.getCollection('281855194716');
-		expect(response.data.uid).to.equal('281855194716');
+		const response = await original.getCollection(nonEditableCollectionUid);
+		expect(response.data.uid).to.equal(nonEditableCollectionUid);
 	});
 
 	it('edits asset in an editable collection', async () => {
@@ -115,9 +123,9 @@ describe('Original sdk e2e-method tests', async () => {
 		};
 		const request_data = {
 			data: asset_data,
-			user_uid: '180861586559',
+			user_uid: mintToUserUid,
 			client_id: assetName,
-			collection_uid: '298402603396',
+			collection_uid: noneEditablecollectionuid,
 		};
 		const assetResponse = await original.createAsset(request_data);
 		const assetUid = assetResponse.data.uid;
@@ -151,9 +159,9 @@ describe('Original sdk e2e-method tests', async () => {
 		};
 		const request_data = {
 			data: asset_data,
-			user_uid: '180861586559',
+			user_uid: mintToUserUid,
 			client_id: assetName,
-			collection_uid: '281855194716',
+			collection_uid: editablecollectionuid,
 		};
 		const assetResponse = await original.createAsset(request_data);
 		const assetUid = assetResponse.data.uid;
@@ -169,8 +177,8 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(assetIsTransferable).to.equal(true);
 		const transferResponse = await original.createTransfer({
 			asset_uid: assetUid,
-			from_user_uid: '180861586559',
-			to_address: '0x9da9fdff40e4421acfad2525f661854d8a037956',
+			from_user_uid: mintToUserUid,
+			to_address: transferToUserWallet,
 		});
 		const transferUid = transferResponse.data.uid;
 		let isTransferring = true;
@@ -186,7 +194,7 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(transfer.data.status).to.equal('done');
 		const burnResponse = await original.createBurn({
 			asset_uid: assetUid,
-			from_user_uid: '833240820809',
+			from_user_uid: transferToUserUid,
 		});
 		const burnUid = burnResponse.data.uid;
 		let isBurning = true;
