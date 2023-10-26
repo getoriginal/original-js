@@ -13,11 +13,11 @@ describe('Original sdk e2e-method tests', async () => {
 	const mintToUserUid = process.env.MINT_TO_USER_UID;
 	const burnUserUid = process.env.BURN_USER_UID;
 	const mintToUserClientId = process.env.MINT_TO_USER_CLIENT_ID;
-	const transferToUserWallet = process.env.TRANSFER_TO_USER_WALLER;
+	const transferToUserWallet = process.env.TRANSFER_TO_USER_WALLET;
 	const transferToUserUid = process.env.TRANSFER_TO_USER_UID;
 	const getAssetUid = process.env.ASSET_UID;
 	const nonEditableCollectionUid = process.env.NON_EDITABLE_COLLECTION_UID;
-	const editablecollectionuid = process.env.EDITABLE_COLLECTION_UID;
+	const editableCollectionUid = process.env.EDITABLE_COLLECTION_UID;
 
 	const expectThrowsAsync = async (method, errorMessage) => {
 		let error = null;
@@ -125,7 +125,7 @@ describe('Original sdk e2e-method tests', async () => {
 			data: asset_data,
 			user_uid: mintToUserUid,
 			client_id: assetName,
-			collection_uid: noneEditablecollectionuid,
+			collection_uid: editableCollectionUid,
 		};
 		const assetResponse = await original.createAsset(request_data);
 		const assetUid = assetResponse.data.uid;
@@ -161,7 +161,7 @@ describe('Original sdk e2e-method tests', async () => {
 			data: asset_data,
 			user_uid: mintToUserUid,
 			client_id: assetName,
-			collection_uid: editablecollectionuid,
+			collection_uid: editableCollectionUid,
 		};
 		const assetResponse = await original.createAsset(request_data);
 		const assetUid = assetResponse.data.uid;
