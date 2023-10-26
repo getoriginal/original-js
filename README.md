@@ -31,25 +31,27 @@ import Original from 'original-js';
 const client = new Original('YOUR_API_KEY', 'API_KEY_SECRET');
 
 // create a new user
-const newUserUid = await client.createUser({email: 'YOUR_EMAIL', client_id: 'YOUR_CLIENT_ID',})
+const newUserUid = await client.createUser({ email: 'YOUR_EMAIL', client_id: 'YOUR_CLIENT_ID' });
 
 // get user
 const user = await client.getUser(newUserUid);
 
 // search users
-const searchedUser = await client.getUserByEmail({email: 'YOUR_EMAIL'});
-
+const searchedUser = await client.getUserByEmail({ email: 'YOUR_EMAIL' });
 ```
+
 ## 🔗 (Optional) Development Setup in Combination with our SDK
 
 ### Connect to [Original SDK](https://github.com/GetOriginal/original-js)
- 
+
 Run this in project root
+
 ```shell
 yarn link
 ```
 
 Run this in your local project
+
 ```shell
 yarn link original
 yarn dev

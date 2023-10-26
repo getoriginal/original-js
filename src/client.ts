@@ -16,6 +16,7 @@ import {
   APISearchResponse,
   Environment,
   AssetParams,
+  EditAssetParams,
 } from './types';
 import { isErrorResponse } from './error';
 import { TokenManager } from './token_manager';
@@ -247,6 +248,16 @@ export class Original {
    */
   async getAssetsByUserId(userId: string) {
     return await this._get<APISearchResponse<Asset[]>>('asset', { user_uid: userId });
+  }
+
+  /**
+   * editAsset
+   * @param {string} uid uid of the asset to edit
+   * @param {EditAssetParams} asset The details of the asset to be edited
+   * @return {Promise<APIResponse<Uid>>} Returns the uid of the edited asset
+   */
+  async editAsset(uid: string, asset: EditAssetParams) {
+    return await this._put<APIResponse<Uid>>(`asset/${uid}`, asset);
   }
 
   /**
