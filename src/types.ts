@@ -61,7 +61,7 @@ export type EditAssetData = {
   image_url: string;
   name: string;
   unique_name: boolean;
-  attributes?: { display_type: string; trait_type: string; value: string }[];
+  attributes?: { trait_type: string; value: string; display_type?: string }[];
   description?: string;
   external_url?: string;
 };
