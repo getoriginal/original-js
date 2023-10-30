@@ -1,6 +1,6 @@
 {
   "name": "original-sdk",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Original SDK for js",
   "repository": "https://github.com/getoriginal/original-js.git",
   "author": "Original",
@@ -13,7 +13,7 @@
   "scripts": {
     "start": "yarn run compile -w",
     "compile": "rollup -c",
-    "changelog": "standard-version --release-as $VERSION --skip.tag --skip.commit --tag-prefix=v",
+    "changelog": "standard-version --release-as 1.0.0 --skip.tag --skip.commit --tag-prefix=v",
     "commitlinter": "commitlint",
     "build": "rm -rf dist && yarn run types && yarn run compile",
     "types": "tsc --emitDeclarationOnly true",
