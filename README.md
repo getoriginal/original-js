@@ -2,9 +2,9 @@
 
 ## Table of Contents
 
-- [About Original](#about-original)
-- [Getting Started](#getting-started)
-- [Documentation](#documentation)
+- [About Original](#-about-original)
+- [Getting Started](#-getting-started)
+- [Documentation](#-documentation)
   - [Initialization](#initialization)
   - [User](#user)
   - [Asset](#asset)
@@ -36,9 +36,9 @@ The Original SDK is set up to expose and type the all values returned from the O
 
 Import the sdk with using commonjs or es6 imports.
 ```typescript
-const Original = require('original-js');
+const Original = require('original-sdk');
 //or
-import Original from 'original-js';
+import Original from 'original-sdk';
 ````
 
 Create a new instance of the Original client by passing in your api key and api key secret.
