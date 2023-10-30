@@ -2,9 +2,9 @@
 
 ## Table of Contents
 
-- [About Original](#about-original)
-- [Getting Started](#getting-started)
-- [Documentation](#documentation)
+- [About Original](#-about-original)
+- [Getting Started](#-getting-started)
+- [Documentation](#-documentation)
   - [Initialization](#initialization)
   - [User](#user)
   - [Asset](#asset)
