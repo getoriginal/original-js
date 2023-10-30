@@ -9,13 +9,13 @@ You can request access for an Original account at our [Request Access](https://g
 ### NPM
 
 ```bash
-npm install original-api
+npm install original-sdk
 ```
 
 ### Yarn
 
 ```bash
-yarn add original-api
+yarn add original-sdk
 ```
 
 ## ✨ Getting started
@@ -30,13 +30,15 @@ import Original from 'original-js';
 // create a new instance of the Original client
 const client = new Original('YOUR_API_KEY', 'API_KEY_SECRET');
 
-// create a new user
+// create a new user, by passing in the <UserParams> type
+// returns the uid of the newly created user
 const newUserUid = await client.createUser({ email: 'YOUR_EMAIL', client_id: 'YOUR_CLIENT_ID' });
 
-// get user
+// gets a user by uid, will throw a 404 Not Found error if the user does not exist
+// returns a <User> type
 const user = await client.getUser(newUserUid);
 
-// search users
+// gets a user by email
 const searchedUser = await client.getUserByEmail({ email: 'YOUR_EMAIL' });
 ```
 
@@ -53,6 +55,6 @@ yarn link
 Run this in your local project
 
 ```shell
-yarn link original
+yarn link original-sdk
 yarn dev
 ```
