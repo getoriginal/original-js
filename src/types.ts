@@ -57,6 +57,19 @@ export type AssetParams = {
   user_uid: string;
 };
 
+export type EditAssetData = {
+  image_url: string;
+  name: string;
+  unique_name: boolean;
+  attributes?: { trait_type: string; value: string; display_type?: string }[];
+  description?: string;
+  external_url?: string;
+};
+
+export type EditAssetParams = {
+  data: EditAssetData;
+};
+
 export type Asset = {
   client_id: string;
   collection_name: string;
