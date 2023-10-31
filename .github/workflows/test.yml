@@ -1,0 +1,33 @@
+name: Test
+on: [pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [16, 17, 18]
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/setup-node
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: tests
+        run: yarn test
+        env:
+          API_KEY: ${{secrets.API_KEY}}
+          API_SECRET: ${{secrets.API_SECRET}}
+          MINT_TO_USER_UID: ${{secrets.MINT_TO_USER_UID}}
+          BURN_USER_UID: ${{secrets.BURN_USER_UID}}
+          MINT_TO_USER_CLIENT_ID: ${{secrets.MINT_TO_USER_CLIENT_ID}}
+          TRANSFER_TO_USER_WALLET: ${{secrets.TRANSFER_TO_USER_WALLET}}
+          TRANSFER_TO_USER_UID: ${{secrets.TRANSFER_TO_USER_UID}}
+          ASSET_UID: ${{secrets.ASSET_UID}}
+          NON_EDITABLE_COLLECTION_UID: ${{secrets.NON_EDITABLE_COLLECTION_UID}}
+          EDITABLE_COLLECTION_UID: ${{secrets.EDITABLE_COLLECTION_UID}}

@@ -168,7 +168,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let assetIsTransferable = false;
 		let retries = 0;
 		// wait for asset to be transferable
-		while (!assetIsTransferable && retries < 5) {
+		while (!assetIsTransferable && retries < 10) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const asset = await original.getAsset(assetUid);
 			assetIsTransferable = asset.data.is_transferable;
