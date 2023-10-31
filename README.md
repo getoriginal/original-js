@@ -68,7 +68,7 @@ const user = await client.getUser(newUserUid);
 // will return a <User> type if the user exists, otherwise will return null
 const userByEmail = await client.getUserByEmail({ email: 'YOUR_EMAIL' });
 
-const userByClientId = await client.getUserByEmail({ email: 'YOUR_CLIENT_ID' });
+const userByClientId = await client.getUserByClientId({ email: 'YOUR_CLIENT_ID' });
 ```
 
 ### Asset
