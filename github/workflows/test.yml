@@ -18,5 +18,16 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Unit tests
+      - name: tests
         run: yarn test
+        env:
+          API_KEY: ${{ env.API_KEY }}
+          API_SECRET: ${{ env.API_SECRET }}
+          MINT_TO_USER_UID: ${{ env.MINT_TO_USER_UID }}
+          BURN_USER_UID: ${{ env.BURN_USER_UID }}
+          MINT_TO_USER_CLIENT_ID: ${{ env.MINT_TO_USER_CLIENT_ID }}
+          TRANSFER_TO_USER_WALLET: ${{ env.TRANSFER_TO_USER_WALLET }}
+          TRANSFER_TO_USER_UID: ${{ env.TRANSFER_TO_USER_UID }}
+          ASSET_UID: ${{ env.ASSET_UID }}
+          NON_EDITABLE_COLLECTION_UID: ${{ env.NON_EDITABLE_COLLECTION_UID }}
+          EDITABLE_COLLECTION_UID: ${{ env.EDITABLE_COLLECTION_UID }}
