@@ -9,14 +9,14 @@ on:
 jobs:
   Release:
     name: 🚀 Release
-    if: github.event.pull_request.merged && startsWith(github.head_ref, 'release-')
+    if: .github.event.pull_request.merged && startsWith(.github.head_ref, 'release-')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
   
-      - uses: actions/github-script@v6
+      - uses: actions/.github-script@v6
         with:
           script: |
             const get_change_log_diff = require('./scripts/get_changelog_diff.js')
@@ -27,7 +27,7 @@ jobs:
             const version = context.payload.pull_request.head.ref.split('-')[1]
             core.exportVariable('VERSION', version)
 
-      - uses: ./.github/actions/setup-node
+      - uses: ./..github/actions/setup-node
 
       - name: Publish package
         run: npm publish
