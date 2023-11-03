@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/getoriginal/original-js/compare/v1.1.0...v1.1.1) (2023-11-03)
+
+
+### Bug Fixes
+
+* remove .idea files ([b6b13a6](https://github.com/getoriginal/original-js/commit/b6b13a61d676d41e4804c5835c16356732df0aca))
+
 ## 1.1.0 (2023-11-01)
 
 
