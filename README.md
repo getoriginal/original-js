@@ -35,14 +35,14 @@ yarn add original-sdk
 
 ### Initialization
 
-The Original SDK is set up to expose and type the all values returned from the Original API.
+The Original SDK is set up to expose and type all values returned from the Original API.
 
 Import the sdk with using commonjs or es6 imports.
 
 ```typescript
-const Original = require('original-sdk');
+const { Original } = require('original-sdk');
 //or
-import Original from 'original-sdk';
+import { Original } from 'original-sdk';
 ```
 
 Create a new instance of the Original client by passing in your api key and api key secret.
@@ -66,14 +66,14 @@ const user = await client.getUser(newUserUid);
 
 // gets a user by email or client_id
 // will return a <User> type if the user exists, otherwise will return null
-const userByEmail = await client.getUserByEmail({ email: 'YOUR_EMAIL' });
+const userByEmail = await client.getUserByEmail('YOUR_EMAIL');
 
-const userByClientId = await client.getUserByClientId({ email: 'YOUR_CLIENT_ID' });
+const userByClientId = await client.getUserByClientId('YOUR_CLIENT_ID');
 ```
 
 ### Asset
 
-The asset methods exposed by the sdk are used to create or (mint assets) and retrieve assets from the Original API.
+The asset methods exposed by the sdk are used to create (mint) assets and retrieve assets from the Original API.
 
 ```typescript
 // prepare the new asset params following the <AssetParams> type
@@ -120,9 +120,9 @@ const newAssetUid = await client.createAsset(newAssetParams);
 // returns a <Asset> type
 const asset = await client.getAsset(newAssetUid);
 
-// gets assets the owner uid and a
+// gets assets by the owner uid
 // will return a list of <Asset>[] owned by the user
-const assets = await client.getAssetsByUserId(newUserUid)
+const assets = await client.getAssetsByUserUid(newUserUid)
 
 // prepare the edit asset params following the <EditAssetParams> type
 const editAssetData =
@@ -172,7 +172,7 @@ const transfer = await client.getTransfer(newTransferUid);
 
 // gets transfers by user uid
 // will return a list of <Transfer>[] for the asset
-const transfers = await client.getTransfersByUserId(newUserUid);
+const transfers = await client.getTransfersByUserUid(newUserUid);
 ```
 
 ### Burn
@@ -193,7 +193,7 @@ const burn = await client.getBurn(newBurnUid);
 
 // gets burns by user uid
 // will return a list of <Burn>[] for the asset
-const burns = await client.getBurnsByUserId(newUserUid);
+const burns = await client.getBurnsByUserUid(newUserUid);
 ```
 
 ## 🔗 (Optional) Development Setup in Combination with our SDK
