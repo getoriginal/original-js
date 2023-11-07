@@ -79,7 +79,7 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('gets assets by user uid', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: 'https://api-acceptance.getoriginal.com/api/v1' });
-		const usersAssets = await original.getAssetsByUserId(mintToUserUid);
+		const usersAssets = await original.getAssetsByUserUid(mintToUserUid);
 		const assetUid = usersAssets.data[0].uid;
 		const response = await original.getAsset(assetUid);
 		expect(response.data.uid).to.equal(assetUid);

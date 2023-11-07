@@ -243,11 +243,11 @@ export class Original {
 
   /**
    * listAssets
-   * @param {string} userId userId of the owner of the assets to get
+   * @param {string} userUid uid of the owner of the assets to get
    * @return {Promise<APISearchResponse<Asset[]>>} Returns a list of assets owned by the user, or null data if not found.
    */
-  async getAssetsByUserId(userId: string) {
-    return await this._get<APISearchResponse<Asset[]>>('asset', { user_uid: userId });
+  async getAssetsByUserUid(userUid: string) {
+    return await this._get<APISearchResponse<Asset[]>>('asset', { user_uid: userUid });
   }
 
   /**
