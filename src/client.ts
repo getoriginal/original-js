@@ -10,7 +10,7 @@ import {
   TransferParams,
   UserParams,
   OriginalOptions,
-  Uid,
+  UidResponse,
   Transfer,
   User,
   APISearchResponse,
@@ -160,12 +160,12 @@ export class Original {
    * createUser
    *
    * @param {UserParams} user The details of the user to be created
-   * @return {Promise<APIResponse<Uid>>} The uid of the created user
+   * @return {Promise<APIResponse<UidResponse>>} The uid of the created user
    * Will throw an error if the user already exists, or if not all required fields
    * in the UserParams are provided.
    */
   async createUser(user: UserParams) {
-    return await this._post<APIResponse<Uid>>('user', user);
+    return await this._post<APIResponse<UidResponse>>('user', user);
   }
 
   /**
@@ -223,12 +223,12 @@ export class Original {
   /**
    * createAsset
    * @param {AssetParams} asset The details of the asset to be created
-   * @return {Promise<APIResponse<Uid>>} Returns the uid of the created asset
+   * @return {Promise<APIResponse<UidResponse>>} Returns the uid of the created asset
    * Will throw an error if the asset already exists, or if not all required fields
    * in the NewAsset are provided.
    */
   async createAsset(asset: AssetParams) {
-    return await this._post<APIResponse<Uid>>('asset', asset);
+    return await this._post<APIResponse<UidResponse>>('asset', asset);
   }
 
   /**
@@ -254,10 +254,10 @@ export class Original {
    * editAsset
    * @param {string} uid uid of the asset to edit
    * @param {EditAssetParams} asset The details of the asset to be edited
-   * @return {Promise<APIResponse<Uid>>} Returns the uid of the edited asset
+   * @return {Promise<{success: boolean}>} Returns success status of the edit
    */
   async editAsset(uid: string, asset: EditAssetParams) {
-    return await this._put<APIResponse<Uid>>(`asset/${uid}`, asset);
+    return await this._put<{ success: boolean }>(`asset/${uid}`, asset);
   }
 
   /**
@@ -267,11 +267,11 @@ export class Original {
   /**
    * createTransfer
    * @param {TransferParams} transfer The details of the transfer to be created
-   * @return {Promise<APIResponse<Uid>>} Returns the uid of the created transfer
+   * @return {Promise<APIResponse<UidResponse>>} Returns the uid of the created transfer
    * Will throw an error if the transfer already exists, or if not all required fields
    */
   async createTransfer(transfer: TransferParams) {
-    return await this._post<APIResponse<Uid>>('transfer', transfer);
+    return await this._post<APIResponse<UidResponse>>('transfer', transfer);
   }
 
   /**
@@ -300,10 +300,10 @@ export class Original {
   /**
    * createBurn
    * @param {NewBurn} burn The details of the burn to be created
-   * @return {Promise<APIResponse<Uid>>} Uid of the created burn
+   * @return {Promise<APIResponse<UidResponse>>} Uid of the created burn
    */
   async createBurn(burn: NewBurn) {
-    return await this._post<APIResponse<Uid>>('burn', burn);
+    return await this._post<APIResponse<UidResponse>>('burn', burn);
   }
 
   /**
