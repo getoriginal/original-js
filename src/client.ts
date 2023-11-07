@@ -13,7 +13,6 @@ import {
   UidResponse,
   Transfer,
   User,
-  APISearchResponse,
   Environment,
   AssetParams,
   EditAssetParams,
@@ -183,22 +182,22 @@ export class Original {
    * getUserByEmail
    *
    * @param {String} email Email of the user to get
-   * @return {Promise<APISearchResponse<User>>} Returns the details of the user,
+   * @return {Promise<APIResponse<User | null>>} Returns the details of the user,
    * or null data if not found.
    */
   async getUserByEmail(email: string) {
-    return await this._get<APIResponse<User>>('user', { email });
+    return await this._get<APIResponse<User | null>>('user', { email });
   }
 
   /**
    * getUserByClientId
    *
    * @param {String} clientId ClientId of the user to get
-   * @return {Promise<APISearchResponse<User>} Returns the details of the user,
+   * @return {Promise<APIResponse<User | null>} Returns the details of the user,
    * or null data if not found.
    */
   async getUserByClientId(clientId: string) {
-    return await this._get<APISearchResponse<User>>('user', { client_id: clientId });
+    return await this._get<APIResponse<User | null>>('user', { client_id: clientId });
   }
 
   /**
@@ -244,20 +243,20 @@ export class Original {
   /**
    * listAssets
    * @param {string} userUid uid of the owner of the assets to get
-   * @return {Promise<APISearchResponse<Asset[]>>} Returns a list of assets owned by the user, or null data if not found.
+   * @return {Promise<APIResponse<Asset[] | null>>} Returns a list of assets owned by the user, or null data if not found.
    */
   async getAssetsByUserUid(userUid: string) {
-    return await this._get<APISearchResponse<Asset[]>>('asset', { user_uid: userUid });
+    return await this._get<APIResponse<Asset[] | null>>('asset', { user_uid: userUid });
   }
 
   /**
    * editAsset
    * @param {string} uid uid of the asset to edit
    * @param {EditAssetParams} asset The details of the asset to be edited
-   * @return {Promise<{success: boolean}>} Returns success status of the edit
+   * @return {Promise<APIResponse<null>>} Returns success status of the edit
    */
   async editAsset(uid: string, asset: EditAssetParams) {
-    return await this._put<{ success: boolean }>(`asset/${uid}`, asset);
+    return await this._put<APIResponse<null>>(`asset/${uid}`, asset);
   }
 
   /**
@@ -287,10 +286,10 @@ export class Original {
   /**
    * listTransfers
    * @param {string} userUid userUid of asset to transfer
-   * @return {Promise<APISearchResponse<Transfer[]>>} Returns a list of transfers made by the user, or null data if not found.
+   * @return {Promise<APIResponse<Transfer[] | null>>} Returns a list of transfers made by the user, or null data if not found.
    */
   async getTransfersByUserUid(userUid: string) {
-    return await this._get<APISearchResponse<Transfer[]>>('transfer', { user_uid: userUid });
+    return await this._get<APIResponse<Transfer[] | null>>('transfer', { user_uid: userUid });
   }
 
   /**
@@ -318,9 +317,9 @@ export class Original {
   /**
    * listBurns
    * @param {string} userUid user_uid of asset to burn
-   * @return {Promise<APISearchResponse<Burn[]>>} Returns a list of burns made by the user.
+   * @return {Promise<APIResponse<Burn[] | null>>} Returns a list of burns made by the user.
    */
   async getBurnsByUserUid(userUid: string) {
-    return await this._get<APISearchResponse<Burn[]>>('burn', { user_uid: userUid });
+    return await this._get<APIResponse<Burn[] | null>>('burn', { user_uid: userUid });
   }
 }
