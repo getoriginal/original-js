@@ -172,7 +172,7 @@ export class Original {
    *
    * @param {String} uid Uid of the user to get
    * @return {Promise<APIResponse<User>>} Returns the details of the user.
-   * Will throw an error if the user does not exist.
+   * Will throw a 404 error if the user does not exist.
    */
   async getUser(uid: string) {
     return await this._get<APIResponse<User>>(`user/${uid}`);
@@ -209,7 +209,7 @@ export class Original {
    *
    * @param {String} uid Uid of the collection to get
    * @return {Promise<APIResponse<Collection>>} Returns the details of the collection.
-   * Will throw an error if the user does not exist.
+   * Will throw a 404 error if the collection does not exist.
    */
   async getCollection(uid: string) {
     return await this._get<APIResponse<Collection>>(`collection/${uid}`);
@@ -234,7 +234,7 @@ export class Original {
    * getAsset
    * @param {string} uid Uid of the asset to get
    * @return {Promise<APIResponse<Asset>>} Returns the details of the asset
-   * Will throw an error if the asset does not exist.
+   * Will throw a 404 error if the asset does not exist.
    */
   async getAsset(uid: string) {
     return await this._get<APIResponse<Asset>>(`asset/${uid}`);
@@ -243,7 +243,7 @@ export class Original {
   /**
    * listAssets
    * @param {string} userUid uid of the owner of the assets to get
-   * @return {Promise<APIResponse<Asset[] | null>>} Returns a list of assets owned by the user, or null data if not found.
+   * @return {Promise<APIResponse<Asset[]>>} Returns a list of assets owned by the user, empty if none found.
    */
   async getAssetsByUserUid(userUid: string) {
     return await this._get<APIResponse<Asset[] | null>>('asset', { user_uid: userUid });
@@ -277,7 +277,7 @@ export class Original {
    * getTransfer
    * @param {string} uid uid of the transfer to get
    * @return {Promise<APIResponse<Transfer>>} Returns the details of the transfer.
-   * Will throw an error if the transfer does not exist.
+   * Will throw a 404 error if the transfer does not exist.
    */
   async getTransfer(uid: string) {
     return await this._get<APIResponse<Transfer>>(`transfer/${uid}`);
@@ -286,7 +286,7 @@ export class Original {
   /**
    * listTransfers
    * @param {string} userUid userUid of asset to transfer
-   * @return {Promise<APIResponse<Transfer[] | null>>} Returns a list of transfers made by the user, or null data if not found.
+   * @return {Promise<APIResponse<Transfer[]>>} Returns a list of transfers made by the user, empty if none found.
    */
   async getTransfersByUserUid(userUid: string) {
     return await this._get<APIResponse<Transfer[] | null>>('transfer', { user_uid: userUid });
@@ -309,6 +309,7 @@ export class Original {
    * getBurn
    * @param {string} uid burn uid to get
    * @return {Promise<APIResponse<Burn>>} Returns details of the burn
+   * Will throw a 404 error if the burn does not exist.
    */
   async getBurn(uid: string) {
     return await this._get<APIResponse<Burn>>(`burn/${uid}`);
@@ -317,7 +318,7 @@ export class Original {
   /**
    * listBurns
    * @param {string} userUid user_uid of asset to burn
-   * @return {Promise<APIResponse<Burn[] | null>>} Returns a list of burns made by the user.
+   * @return {Promise<APIResponse<Burn[]>>} Returns a list of burns made by the user, empty if none found
    */
   async getBurnsByUserUid(userUid: string) {
     return await this._get<APIResponse<Burn[] | null>>('burn', { user_uid: userUid });
