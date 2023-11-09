@@ -39,6 +39,8 @@ The Original SDK is set up to expose and type all values returned from the Origi
 
 Import the sdk with using commonjs or es6 imports.
 
+Read the full [Original API documentation](https://docs.getoriginal.com).
+
 ```typescript
 const { Original } = require('original-sdk');
 //or
