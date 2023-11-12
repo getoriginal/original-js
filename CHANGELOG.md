@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.2](https://github.com/getoriginal/original-js/compare/v1.1.1...v1.1.2) (2023-11-12)
+
+
+### Bug Fixes
+
+* [ORI-1381] fix uid return type to {uid: string}. Fix return type of editAsset (only returns success status) ([30fbf65](https://github.com/getoriginal/original-js/commit/30fbf65c07d1e32ef5a4960aa482f3eccbbdbf56))
+* cleanup return types on get...ByUserId, minor cleanups on method doc strings ([a335dcc](https://github.com/getoriginal/original-js/commit/a335dcca8308e0a675295a6154158aec1348a4cb))
+* get rid of ApiSearchResponse type and use ApiResponse type throughout class. ([91f57e4](https://github.com/getoriginal/original-js/commit/91f57e4794d7cc96284ef956cdc2be3163e444d1))
+* README add link to original docs ([45c0b16](https://github.com/getoriginal/original-js/commit/45c0b163df2c392e73d97efa230904e29293c69e))
+* README updates ([a6e889b](https://github.com/getoriginal/original-js/commit/a6e889b87c80f4b27731a7b67ea39206ff3bc191))
+* refactor getAssetsByUserId to getAssetsByUserUid to be consistent with naming conventions. ([0808700](https://github.com/getoriginal/original-js/commit/0808700be21f55ffc84f223280008b13a7d462d1))
+
 ### [1.1.1](https://github.com/getoriginal/original-js/compare/v1.1.0...v1.1.1) (2023-11-03)
 
 
