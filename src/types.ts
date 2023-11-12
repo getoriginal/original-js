@@ -119,8 +119,7 @@ export type Burn = {
 };
 
 export type APIResponse<T> = { data: T; success: boolean };
-export type APISearchResponse<T> = { data: T | null; success: boolean };
-export type Uid = string;
+export type UidResponse = { uid: string };
 
 export enum Environment {
   Production = 'production',

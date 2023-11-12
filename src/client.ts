@@ -10,10 +10,9 @@ import {
   TransferParams,
   UserParams,
   OriginalOptions,
-  Uid,
+  UidResponse,
   Transfer,
   User,
-  APISearchResponse,
   Environment,
   AssetParams,
   EditAssetParams,
@@ -160,12 +159,12 @@ export class Original {
    * createUser
    *
    * @param {UserParams} user The details of the user to be created
-   * @return {Promise<APIResponse<Uid>>} The uid of the created user
+   * @return {Promise<APIResponse<UidResponse>>} The uid of the created user
    * Will throw an error if the user already exists, or if not all required fields
    * in the UserParams are provided.
    */
   async createUser(user: UserParams) {
-    return await this._post<APIResponse<Uid>>('user', user);
+    return await this._post<APIResponse<UidResponse>>('user', user);
   }
 
   /**
@@ -173,7 +172,7 @@ export class Original {
    *
    * @param {String} uid Uid of the user to get
    * @return {Promise<APIResponse<User>>} Returns the details of the user.
-   * Will throw an error if the user does not exist.
+   * Will throw a 404 error if the user does not exist.
    */
   async getUser(uid: string) {
     return await this._get<APIResponse<User>>(`user/${uid}`);
@@ -183,22 +182,22 @@ export class Original {
    * getUserByEmail
    *
    * @param {String} email Email of the user to get
-   * @return {Promise<APISearchResponse<User>>} Returns the details of the user,
+   * @return {Promise<APIResponse<User | null>>} Returns the details of the user,
    * or null data if not found.
    */
   async getUserByEmail(email: string) {
-    return await this._get<APIResponse<User>>('user', { email });
+    return await this._get<APIResponse<User | null>>('user', { email });
   }
 
   /**
    * getUserByClientId
    *
    * @param {String} clientId ClientId of the user to get
-   * @return {Promise<APISearchResponse<User>} Returns the details of the user,
+   * @return {Promise<APIResponse<User | null>} Returns the details of the user,
    * or null data if not found.
    */
   async getUserByClientId(clientId: string) {
-    return await this._get<APISearchResponse<User>>('user', { client_id: clientId });
+    return await this._get<APIResponse<User | null>>('user', { client_id: clientId });
   }
 
   /**
@@ -210,7 +209,7 @@ export class Original {
    *
    * @param {String} uid Uid of the collection to get
    * @return {Promise<APIResponse<Collection>>} Returns the details of the collection.
-   * Will throw an error if the user does not exist.
+   * Will throw a 404 error if the collection does not exist.
    */
   async getCollection(uid: string) {
     return await this._get<APIResponse<Collection>>(`collection/${uid}`);
@@ -223,19 +222,19 @@ export class Original {
   /**
    * createAsset
    * @param {AssetParams} asset The details of the asset to be created
-   * @return {Promise<APIResponse<Uid>>} Returns the uid of the created asset
+   * @return {Promise<APIResponse<UidResponse>>} Returns the uid of the created asset
    * Will throw an error if the asset already exists, or if not all required fields
    * in the NewAsset are provided.
    */
   async createAsset(asset: AssetParams) {
-    return await this._post<APIResponse<Uid>>('asset', asset);
+    return await this._post<APIResponse<UidResponse>>('asset', asset);
   }
 
   /**
    * getAsset
    * @param {string} uid Uid of the asset to get
    * @return {Promise<APIResponse<Asset>>} Returns the details of the asset
-   * Will throw an error if the asset does not exist.
+   * Will throw a 404 error if the asset does not exist.
    */
   async getAsset(uid: string) {
     return await this._get<APIResponse<Asset>>(`asset/${uid}`);
@@ -243,21 +242,21 @@ export class Original {
 
   /**
    * listAssets
-   * @param {string} userId userId of the owner of the assets to get
-   * @return {Promise<APISearchResponse<Asset[]>>} Returns a list of assets owned by the user, or null data if not found.
+   * @param {string} userUid uid of the owner of the assets to get
+   * @return {Promise<APIResponse<Asset[]>>} Returns a list of assets owned by the user, empty if none found.
    */
-  async getAssetsByUserId(userId: string) {
-    return await this._get<APISearchResponse<Asset[]>>('asset', { user_uid: userId });
+  async getAssetsByUserUid(userUid: string) {
+    return await this._get<APIResponse<Asset[] | null>>('asset', { user_uid: userUid });
   }
 
   /**
    * editAsset
    * @param {string} uid uid of the asset to edit
    * @param {EditAssetParams} asset The details of the asset to be edited
-   * @return {Promise<APIResponse<Uid>>} Returns the uid of the edited asset
+   * @return {Promise<APIResponse<null>>} Returns success status of the edit
    */
   async editAsset(uid: string, asset: EditAssetParams) {
-    return await this._put<APIResponse<Uid>>(`asset/${uid}`, asset);
+    return await this._put<APIResponse<null>>(`asset/${uid}`, asset);
   }
 
   /**
@@ -267,18 +266,18 @@ export class Original {
   /**
    * createTransfer
    * @param {TransferParams} transfer The details of the transfer to be created
-   * @return {Promise<APIResponse<Uid>>} Returns the uid of the created transfer
+   * @return {Promise<APIResponse<UidResponse>>} Returns the uid of the created transfer
    * Will throw an error if the transfer already exists, or if not all required fields
    */
   async createTransfer(transfer: TransferParams) {
-    return await this._post<APIResponse<Uid>>('transfer', transfer);
+    return await this._post<APIResponse<UidResponse>>('transfer', transfer);
   }
 
   /**
    * getTransfer
    * @param {string} uid uid of the transfer to get
    * @return {Promise<APIResponse<Transfer>>} Returns the details of the transfer.
-   * Will throw an error if the transfer does not exist.
+   * Will throw a 404 error if the transfer does not exist.
    */
   async getTransfer(uid: string) {
     return await this._get<APIResponse<Transfer>>(`transfer/${uid}`);
@@ -287,10 +286,10 @@ export class Original {
   /**
    * listTransfers
    * @param {string} userUid userUid of asset to transfer
-   * @return {Promise<APISearchResponse<Transfer[]>>} Returns a list of transfers made by the user, or null data if not found.
+   * @return {Promise<APIResponse<Transfer[]>>} Returns a list of transfers made by the user, empty if none found.
    */
   async getTransfersByUserUid(userUid: string) {
-    return await this._get<APISearchResponse<Transfer[]>>('transfer', { user_uid: userUid });
+    return await this._get<APIResponse<Transfer[] | null>>('transfer', { user_uid: userUid });
   }
 
   /**
@@ -300,16 +299,17 @@ export class Original {
   /**
    * createBurn
    * @param {NewBurn} burn The details of the burn to be created
-   * @return {Promise<APIResponse<Uid>>} Uid of the created burn
+   * @return {Promise<APIResponse<UidResponse>>} Uid of the created burn
    */
   async createBurn(burn: NewBurn) {
-    return await this._post<APIResponse<Uid>>('burn', burn);
+    return await this._post<APIResponse<UidResponse>>('burn', burn);
   }
 
   /**
    * getBurn
    * @param {string} uid burn uid to get
    * @return {Promise<APIResponse<Burn>>} Returns details of the burn
+   * Will throw a 404 error if the burn does not exist.
    */
   async getBurn(uid: string) {
     return await this._get<APIResponse<Burn>>(`burn/${uid}`);
@@ -318,9 +318,9 @@ export class Original {
   /**
    * listBurns
    * @param {string} userUid user_uid of asset to burn
-   * @return {Promise<APISearchResponse<Burn[]>>} Returns a list of burns made by the user.
+   * @return {Promise<APIResponse<Burn[]>>} Returns a list of burns made by the user, empty if none found
    */
   async getBurnsByUserUid(userUid: string) {
-    return await this._get<APISearchResponse<Burn[]>>('burn', { user_uid: userUid });
+    return await this._get<APIResponse<Burn[] | null>>('burn', { user_uid: userUid });
   }
 }
