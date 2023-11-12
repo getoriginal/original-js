@@ -1,0 +1,18 @@
+{
+  "name": "transfers",
+  "version": "1.0.0",
+  "description": "Example using the original-sdk to manage original transfers from a node express server",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "original-sdk": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21"
+  }
+}
