@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.3](https://github.com/getoriginal/original-js/compare/v1.1.2...v1.1.3) (2023-11-13)
+
+
+### Bug Fixes
+
+* display type on assetData attributes is optional ([1d093b3](https://github.com/getoriginal/original-js/commit/1d093b391ef01b319c1a63d722462b86e592d179))
+
 ### [1.1.2](https://github.com/getoriginal/original-js/compare/v1.1.1...v1.1.2) (2023-11-12)
 
 
