@@ -2,10 +2,14 @@ const express = require('express');
 const app = express();
 
 import { AssetData, Original } from 'original-sdk';
-import { Request } from 'express';
+import { Request, Response } from 'express';
+// @ts-ignore
 import { EditAssetRequest, MintRequest } from './types';
 
-const original = new Original(process.env.API_KEY, process.env.API_SECRET, { baseURL: process.env.ENDPOINT });
+const API_KEY = process.env.API_KEY || 'YOUR_API_KEY';
+const API_SECRET = process.env.API_SECRET || 'YOUR_API_SECRET';
+
+const original = new Original(API_KEY, API_SECRET, { baseURL: process.env.ENDPOINT });
 // mock user data, this would be stored in a database
 const mockClientUserData = {
   '001': {
@@ -20,7 +24,7 @@ const mockClientUserData = {
   },
 };
 
-const mockClientAssetData: Record<string, { assetData: AssetData; originalUid: string }> = {
+const mockClientAssetData: Record<string, { assetData: AssetData; originalUid: string | null }> = {
   '001': {
     assetData: {
       name: 'asset 001',
@@ -68,11 +72,11 @@ const mockClientAssetData: Record<string, { assetData: AssetData; originalUid: s
 // - userId: the id of the user (client user) to mint the asset for
 // - assetId: the data of the asset (client data) to be minted
 // - collectionUid: the original uid of the collection to mint from
-app.post('/assets/mint', async function (req: Request<{}, {}, MintRequest>, res) {
+app.post('/assets/mint', async function (req: Request<{}, {}, MintRequest>, res: any) {
   const userId = req.body.userId;
   const assetId = req.body.assetId;
   const assetData = mockClientAssetData[assetId];
-  const user = mockClientUserData[userId];
+  const user = mockClientUserData[userId as keyof typeof mockClientUserData];
 
   if (!assetData) {
     return res.status(404).send('asset data not found');
@@ -108,13 +112,17 @@ app.post('/assets/mint', async function (req: Request<{}, {}, MintRequest>, res)
 // request body should contain the following the fields:
 // - assetId: the id of the asset (client asset) to edit
 // - assetData: the new asset data of the asset (client data) to be edited
-app.post('/assets/edit', async function (req: Request<{}, {}, EditAssetRequest>, res) {
+app.post('/assets/edit', async function (req: Request<{}, {}, EditAssetRequest>, res: Response) {
   const assetId = req.body.assetId;
   const editedAssetData = req.body.editedAssetData;
   const asset = mockClientAssetData[assetId];
 
   if (!asset) {
     return res.status(404).send('asset not found');
+  }
+
+  if (!asset.originalUid) {
+    return res.status(404).send('asset not not minted, or does not have originalUid');
   }
 
   try {
@@ -130,11 +138,11 @@ app.post('/assets/edit', async function (req: Request<{}, {}, EditAssetRequest>,
 // example of getting a list all the asset a user owns through the original sdk
 // request body should contain the following the fields:
 // - userOriginalUid: the id of the user (client user) to get the asset for
-app.get('/assets', async function (req: Request<{}, {}, { userOriginalUid: string }>, res) {
+app.get('/assets', async function (req: Request<{}, {}, { userOriginalUid: string }>, res: Response) {
   const userOriginalUid = req.body.userOriginalUid;
 
   try {
-    const assets = await original.getAssetsByUserId(userOriginalUid);
+    const assets = await original.getAssetsByUserUid(userOriginalUid);
 
     console.log('Assets Retrieved:', assets.data);
     return res.send(`Assets Retrieved: ${assets.data}`);
@@ -146,7 +154,7 @@ app.get('/assets', async function (req: Request<{}, {}, { userOriginalUid: strin
 // example of an endpoint used for retrieving data for a single asset
 // request should contain the following params:
 // - uid: the originalUid of the asset to retrieve
-app.get('/assets/:uid', async function (req: Request<{ uid: string }>, res) {
+app.get('/assets/:uid', async function (req: Request<{ uid: string }>, res: Response) {
   const assetOriginalUid = req.params.uid;
 
   try {
@@ -162,7 +170,7 @@ app.get('/assets/:uid', async function (req: Request<{ uid: string }>, res) {
 // example of the webhook endpoint, which would be configured in the original dashboard
 // configured to only send asset.minted events
 // requests will be sent to the configured endpoint when an asset has completed minting on the blockchain
-app.post('/webhook/asset-minted', (req, res) => {
+app.post('/webhook/asset-minted', (req: Request, res: Response) => {
   console.log('Received Asset Minted event:', req.body);
   // {
   //   "event": "asset.minted",
@@ -177,7 +185,7 @@ app.post('/webhook/asset-minted', (req, res) => {
 // example of the webhook endpoint, which would be configured in the original dashboard
 // configured to only send asset.edited events
 // requests will be sent to the configured endpoint when an edit asset transaction has completed and the edited data is on the blockchain
-app.post('/webhook/asset-edited', (req, res) => {
+app.post('/webhook/asset-edited', (req: Request, res: Response) => {
   console.log('Received Asset Edited` event:', req.body);
   // {
   //   "event": "asset.edited",
