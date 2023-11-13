@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 import { Original } from 'original-sdk';
 import { Request, Response } from 'express';
 // @ts-ignore

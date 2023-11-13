@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 import { AssetData, Original } from 'original-sdk';
 import { Request, Response } from 'express';
 // @ts-ignore
@@ -8,6 +12,9 @@ import { EditAssetRequest, MintRequest } from './types';
 
 const API_KEY = process.env.API_KEY || 'YOUR_API_KEY';
 const API_SECRET = process.env.API_SECRET || 'YOUR_API_SECRET';
+
+console.log('API_KEY', API_KEY);
+console.log('API_SECRET', API_SECRET);
 
 const original = new Original(API_KEY, API_SECRET, { baseURL: process.env.ENDPOINT });
 // mock user data, this would be stored in a database
