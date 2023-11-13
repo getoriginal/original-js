@@ -1,5 +1,7 @@
 /dist
 /node_modules
 /test
+/examples
 scripts/get_changelog_diff.js
 *.md
+
