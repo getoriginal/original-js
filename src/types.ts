@@ -45,7 +45,7 @@ export type AssetData = {
   name: string;
   store_image_on_ipfs: boolean;
   unique_name: boolean;
-  attributes?: { display_type: string; trait_type: string; value: string }[];
+  attributes?: { trait_type: string; value: string; display_type?: string }[];
   description?: string;
   external_url?: string;
 };
