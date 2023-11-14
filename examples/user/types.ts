@@ -1,6 +1,6 @@
 export type CreateUserRequest = {
-  email: string;
-  password: string;
-  name: string;
   clientId: string;
+  email: string;
+  name: string;
+  password: string;
 };

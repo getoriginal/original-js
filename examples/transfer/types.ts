@@ -1,5 +1,5 @@
 export type CreateTransferRequest = {
-  fromUserUid: string;
   assetUid: string;
+  fromUserUid: string;
   toAddress: string;
 };

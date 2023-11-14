@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2018",
-    "lib": [
-      "dom",
-      "es2018",
-      "esnext.asynciterable"
-    ],
+    "lib": ["dom", "es2018", "esnext.asynciterable"],
     "incremental": false,
     "declaration": true,
     "module": "commonjs",
@@ -19,16 +15,6 @@
     "allowJs": true,
     "resolveJsonModule": true
   },
-  "exclude": [
-    "asset/node_modules",
-    "dist",
-    "spec",
-    "tests/**/*",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ],
-  "include": [
-    "index.ts",
-    "src/**/*.ts"
-  ],
+  "exclude": ["asset/node_modules", "dist", "spec", "tests/**/*", "**/*.test.ts", "**/*.spec.ts"],
+  "include": ["index.ts", "src/**/*.ts"]
 }

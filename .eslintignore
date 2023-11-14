@@ -1,7 +1,13 @@
 /dist
 /node_modules
 /test
-/examples
+/examples/user/dist
+/examples/user/node_modules
+/examples/asset/dist
+/examples/asset/node_modules
+/examples/transfer/dist
+/examples/transfer/node_modules
+/examples/burn/dist
+/examples/burn/node_modules
 scripts/get_changelog_diff.js
 *.md
-

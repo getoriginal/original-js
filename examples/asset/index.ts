@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const express = require('express');
 const app = express();
 
@@ -79,7 +80,7 @@ const mockClientAssetData: Record<string, { assetData: AssetData; originalUid: s
 // - userId: the id of the user (client user) to mint the asset for
 // - assetId: the data of the asset (client data) to be minted
 // - collectionUid: the original uid of the collection to mint from
-app.post('/assets/mint', async function (req: Request<{}, {}, MintRequest>, res: any) {
+app.post('/assets/mint', async function (req: Request<{}, {}, MintRequest>, res: Response) {
   const userId = req.body.userId;
   const assetId = req.body.assetId;
   const assetData = mockClientAssetData[assetId];

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const express = require('express');
 const app = express();
 
@@ -12,7 +13,7 @@ const API_SECRET = process.env.API_SECRET || 'YOUR_API_SECRET';
 const original = new Original(API_KEY, API_SECRET, { baseURL: process.env.ENDPOINT });
 
 // mock user data, this would be stored in a database
-const mockClientUserData: Record<string, { id: string; name: string; email: string; originalUid: string | null }> = {
+const mockClientUserData: Record<string, { email: string; id: string; name: string; originalUid: string | null }> = {
   '001': {
     id: '001',
     name: 'John Doe',
@@ -58,19 +59,16 @@ app.post('/user/link-original', async function (req: Request<{}, {}, { id: strin
 // example of a client endpoint, which would get a user and also retrieve the original user if it exists
 app.get('/user/:id', async function (req: Request<{ id: string }>, res: Response) {
   const id = req.params.id;
-  const user: any = mockClientUserData[id];
+  const user = mockClientUserData[id];
   if (!user) {
     res.status(404).send('user not found');
   }
   try {
     // get the original user, if it exists, add it to the user object
     const originalUser = await original.getUserByEmail(user.email);
-    if (originalUser.data) {
-      user.original_user = originalUser.data;
-    }
 
-    console.log('User Retrieved:', user);
-    return res.send(`User Retrieved: ${user}`);
+    console.log('User Retrieved:', { ...user, original_user: originalUser.data });
+    return res.send(`User Retrieved: ${{ ...user, original_user: originalUser.data }}`);
   } catch (error) {
     return res.send(`User Retrieval Failed: ${error}`);
   }

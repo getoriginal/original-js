@@ -1,4 +1,4 @@
 export type CreateBurnRequest = {
-  fromUserUid: string;
   assetUid: string;
+  fromUserUid: string;
 };
