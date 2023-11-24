@@ -12,6 +12,7 @@
   - [Transfer](#transfer)
   - [Burn](#burn)
 - [Development Setup](#-development-setup-in-combination-with-our-sdk)
+- [Examples](#-examples)
 
 ## 📝 About Original
 
@@ -213,4 +214,28 @@ Run this in your local project
 ```shell
 yarn link original-sdk
 yarn dev
+```
+
+## 📝 Examples
+
+You can find more examples in the examples subdirectory.
+
+```bash
+cd examples/user
+# or
+cd examples/asset
+# or
+cd examples/collection
+# or
+cd examples/transfer
+# or
+cd examples/burn
+```
+
+From within any of the examples, you can set up and start the example server with the following commands:
+
+```shell
+yarn install
+yarn build
+yarn start
 ```
