@@ -11,6 +11,7 @@
   - [Collection](#collection)
   - [Transfer](#transfer)
   - [Burn](#burn)
+  - [Deposit](#deposit)
 - [Development Setup](#-development-setup-in-combination-with-our-sdk)
 
 ## 📝 About Original
@@ -198,6 +199,15 @@ const burn = await client.getBurn(newBurnUid);
 const burns = await client.getBurnsByUserUid(newUserUid);
 ```
 
+### Deposit
+
+The deposit methods exposed by the sdk are retrieve the details needed to deposit assets to a user
+
+```typescript
+// gets a deposit by uid, will throw a 404 Not Found error if the user does not exist
+// returns a <Deposit> type
+const deposit = await client.getDeposit(newUserUid);
+```
 ## 🔗 (Optional) Development Setup in Combination with our SDK
 
 ### Connect to [Original SDK](https://github.com/GetOriginal/original-js)
