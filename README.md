@@ -208,6 +208,7 @@ The deposit methods exposed by the sdk are retrieve the details needed to deposi
 // returns a <Deposit> type
 const deposit = await client.getDeposit(newUserUid);
 ```
+
 ## 🔗 (Optional) Development Setup in Combination with our SDK
 
 ### Connect to [Original SDK](https://github.com/GetOriginal/original-js)
