@@ -118,6 +118,13 @@ export type Burn = {
   uid: string;
 };
 
+export type Deposit = {
+  chain_id: number;
+  network: string;
+  qr_code_data: string;
+  wallet_address: string;
+};
+
 export type APIResponse<T> = { data: T; success: boolean };
 export type UidResponse = { uid: string };
 
