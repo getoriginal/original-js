@@ -7,6 +7,8 @@ const expect = chai.expect;
 chai.use(chaiAsPromised);
 require('dotenv').config({ path: `${process.cwd()}/test/sdk/.env` });
 
+const ACCEPTANCE_CHAIN_ID = 80001;
+const ACCEPTANCE_NETWORK = 'Mumbai';
 describe('Original sdk e2e-method tests', async () => {
 	const apiKey = process.env.API_KEY;
 	const apiSecret = process.env.API_SECRET;
@@ -123,6 +125,14 @@ describe('Original sdk e2e-method tests', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getCollection(nonEditableCollectionUid);
 		expect(response.data.uid).to.equal(nonEditableCollectionUid);
+	});
+
+	it('get deposit address', async () => {
+		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.getDeposit(transferToUserUid);
+		expect(response.data.wallet_address).to.equal(transferToUserWallet);
+		expect(response.data.network).to.equal(ACCEPTANCE_NETWORK);
+		expect(response.data.chain_id).to.equal(ACCEPTANCE_CHAIN_ID);
 	});
 
 	it('edits asset in an editable collection', async () => {
