@@ -26,6 +26,7 @@ jobs:
           MINT_TO_USER_UID: ${{secrets.MINT_TO_USER_UID}}
           BURN_USER_UID: ${{secrets.BURN_USER_UID}}
           MINT_TO_USER_CLIENT_ID: ${{secrets.MINT_TO_USER_CLIENT_ID}}
+          MINT_TO_USER_EMAIL: ${{secrets.MINT_TO_USER_EMAIL}}
           TRANSFER_TO_USER_WALLET: ${{secrets.TRANSFER_TO_USER_WALLET}}
           TRANSFER_TO_USER_UID: ${{secrets.TRANSFER_TO_USER_UID}}
           ASSET_UID: ${{secrets.ASSET_UID}}
