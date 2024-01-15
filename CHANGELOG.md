@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.5](https://github.com/getoriginal/original-js/compare/v1.1.4...v1.1.5) (2024-01-15)
+
+
+### Bug Fixes
+
+* [readMe] update read me to include depo ([#18](https://github.com/getoriginal/original-js/issues/18)) ([88e16e6](https://github.com/getoriginal/original-js/commit/88e16e6210497017c3b8e11175288d1c4f567585))
+
 ### [1.1.4](https://github.com/getoriginal/original-js/compare/v1.1.3...v1.1.4) (2024-01-15)
 
 
