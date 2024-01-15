@@ -20,8 +20,7 @@ import {
 import { isErrorResponse } from './error';
 import { TokenManager } from './token_manager';
 
-const SANDBOX_URL = 'https://api-sandbox.getoriginal.com/api/v1';
-const PRODUCTION_URL = 'https://api.getoriginal.com/api/v1';
+const PRODUCTION_URL = 'https://api.getoriginal.com/v1';
 
 export class Original {
   apiKey: string;
@@ -58,13 +57,12 @@ export class Original {
     // TODO have some thoughts on moving to fetch instead of axios
     this.axiosInstance = axios.create(this.options);
 
+    // leave the env option in for backwards compatibility, but only option for now is production
     this.baseURL = this.options.baseURL || this.getEnvURL(this.options.env || Environment.Production);
   }
 
   getEnvURL(env: string) {
-    if (env === Environment.Sandbox) {
-      return SANDBOX_URL;
-    } else if (env === Environment.Production) {
+    if (env === Environment.Production) {
       return PRODUCTION_URL;
     } else {
       throw new Error('Invalid environment');

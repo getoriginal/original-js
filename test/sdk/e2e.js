@@ -13,6 +13,7 @@ describe('Original sdk e2e-method tests', async () => {
 	const mintToUserUid = process.env.MINT_TO_USER_UID;
 	const burnUserUid = process.env.BURN_USER_UID;
 	const mintToUserClientId = process.env.MINT_TO_USER_CLIENT_ID;
+	const mintToUserEmail = process.env.MINT_TO_USER_EMAIL;
 	const transferToUserWallet = process.env.TRANSFER_TO_USER_WALLET;
 	const transferToUserUid = process.env.TRANSFER_TO_USER_UID;
 	const getAssetUid = process.env.ASSET_UID;
@@ -41,14 +42,14 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('gets user by email', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const response = await original.getUserByEmail(`${mintToUserClientId}@test.com`);
-		expect(response.data.email).to.equal(`${mintToUserClientId}@test.com`);
+		const response = await original.getUserByEmail(mintToUserEmail);
+		expect(response.data.email).to.equal(mintToUserEmail);
 	});
 
 	it('gets user by client_id', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getUserByClientId(mintToUserClientId);
-		expect(response.data.email).to.equal(`${mintToUserClientId}@test.com`);
+		expect(response.data.email).to.equal(mintToUserEmail);
 	});
 
 	it('get user by email does not fail when no query results', async () => {
@@ -150,7 +151,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let assetIsTransferable = false;
 		let retries = 0;
 		// wait for asset to be transferable
-		while (!assetIsTransferable && retries < 5) {
+		while (!assetIsTransferable && retries < 10) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const asset = await original.getAsset(assetUid);
 			assetIsTransferable = asset.data.is_transferable;
