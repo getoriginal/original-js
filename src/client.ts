@@ -16,7 +16,7 @@ import {
   Environment,
   AssetParams,
   EditAssetParams,
-  DepositDetails,
+  Deposit,
 } from './types';
 import { isErrorResponse } from './error';
 import { TokenManager } from './token_manager';
@@ -325,10 +325,10 @@ export class Original {
   /**
    * getDeposit
    * @param {string} userUid user_uid of the user to get deposit details for
-   * @return {Promise<APIResponse<DepositDetails>>} Returns the deposit details of a user
+   * @return {Promise<APIResponse<Deposit>>} Returns the deposit details of a user
    * Will throw a 404 error if the user does not exist.
    */
   async getDeposit(userUid: string) {
-    return await this._get<APIResponse<DepositDetails>>('deposit', { user_uid: userUid });
+    return await this._get<APIResponse<Deposit>>('deposit', { user_uid: userUid });
   }
 }

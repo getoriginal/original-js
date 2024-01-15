@@ -118,7 +118,7 @@ export type Burn = {
   uid: string;
 };
 
-export type DepositDetails = {
+export type Deposit = {
   chain_id: number;
   network: string;
   qr_code_data: string;
