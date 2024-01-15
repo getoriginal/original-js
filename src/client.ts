@@ -54,10 +54,9 @@ export class Original {
       withCredentials: false, // making sure cookies are not sent
       ...configOptions,
     };
-    // TODO have some thoughts on moving to fetch instead of axios
+
     this.axiosInstance = axios.create(this.options);
 
-    // leave the env option in for backwards compatibility, but only option for now is production
     this.baseURL = this.options.baseURL || this.getEnvURL(this.options.env || Environment.Production);
   }
 
