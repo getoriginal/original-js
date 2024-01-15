@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.4](https://github.com/getoriginal/original-js/compare/v1.1.3...v1.1.4) (2024-01-15)
+
+
+### Bug Fixes
+
+* [ORI-1665] Fix production endpoint, and remove option for sandbox. Update e2e tests to match changes to acceptance from move to gcp ([78eaad3](https://github.com/getoriginal/original-js/commit/78eaad3b0addb099e29861682fad5df407a0ea9b))
+* [ORI-1671] Add method getDeposit, which exposes the deposit endpoint ([586b36c](https://github.com/getoriginal/original-js/commit/586b36c3df68b1acb42df633ce9d25c9f7fc05bd))
+* [ORI-1671] pr review, naming ([beb1c62](https://github.com/getoriginal/original-js/commit/beb1c623133eb932e6a506a30d66bf1d4cca29b7))
+
 ### [1.1.3](https://github.com/getoriginal/original-js/compare/v1.1.2...v1.1.3) (2023-11-13)
 
 
