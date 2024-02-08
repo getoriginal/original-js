@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.6](https://github.com/getoriginal/original-js/compare/v1.1.5...v1.1.6) (2024-02-08)
+
+
+### Bug Fixes
+
+* [ORI-1869] fix up parsing on error responses ([#20](https://github.com/getoriginal/original-js/issues/20)) ([b5f1a80](https://github.com/getoriginal/original-js/commit/b5f1a80af2e381db0df718b4f9486704a848bfd3))
+* [ORI-1872] export alias OriginalClient with backwards compatibility to Original, to sync naming convention across sdks ([#21](https://github.com/getoriginal/original-js/issues/21)) ([dd9c4fa](https://github.com/getoriginal/original-js/commit/dd9c4faa0b3c53321aa248d2f0b9932ee77d3f55))
+
 ### [1.1.5](https://github.com/getoriginal/original-js/compare/v1.1.4...v1.1.5) (2024-01-15)
 
 
