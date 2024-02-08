@@ -43,15 +43,15 @@ Import the sdk with using commonjs or es6 imports.
 Read the full [Original API documentation](https://docs.getoriginal.com).
 
 ```typescript
-const { Original } = require('original-sdk');
+const { OriginalClient } = require('original-sdk');
 //or
-import { Original } from 'original-sdk';
+import { OriginalClient } from 'original-sdk';
 ```
 
 Create a new instance of the Original client by passing in your api key and api key secret.
 
 ```typescript
-const client = new Original('YOUR_API_KEY', 'API_KEY_SECRET');
+const client = new OriginalClient('YOUR_API_KEY', 'API_KEY_SECRET');
 ```
 
 ### User
