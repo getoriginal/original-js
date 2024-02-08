@@ -1,6 +1,6 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const { Original } = require('../../dist');
+const { OriginalClient } = require('../../dist');
 const randomString = require('randomstring');
 
 const expect = chai.expect;
@@ -37,31 +37,31 @@ describe('Original sdk e2e-method tests', async () => {
 	};
 
 	it('gets user by uid', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getUser(mintToUserUid);
 		expect(response.data.client_id).to.equal(mintToUserClientId);
 	});
 
 	it('gets user by email', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getUserByEmail(mintToUserEmail);
 		expect(response.data.email).to.equal(mintToUserEmail);
 	});
 
 	it('gets user by client_id', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getUserByClientId(mintToUserClientId);
 		expect(response.data.email).to.equal(mintToUserEmail);
 	});
 
 	it('get user by email does not fail when no query results', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getUserByEmail('randomnotfound@test.com');
 		expect(response.data).to.equal(null);
 	});
 
 	it('get user not found throws error', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		await expectThrowsAsync(
 			() => original.getUser('notfound'),
 			'Original error code 404: client_error: {"code":"not_found","message":"User not found."}',
@@ -70,7 +70,7 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('creates user', async () => {
 		const clientId = randomString.generate(8);
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.createUser({
 			email: `${clientId}@test.com`,
 			client_id: clientId,
@@ -80,7 +80,7 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('handles error on creates user', async () => {
 		const clientId = 'existing_client';
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		await expectThrowsAsync(
 			() =>
 				original.createUser({
@@ -92,13 +92,13 @@ describe('Original sdk e2e-method tests', async () => {
 	});
 
 	it('gets asset by uid', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getAsset(getAssetUid);
 		expect(response.data.uid).to.equal(getAssetUid);
 	});
 
 	it('gets assets by user uid', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const usersAssets = await original.getAssetsByUserUid(mintToUserUid);
 		const assetUid = usersAssets.data[0].uid;
 		const response = await original.getAsset(assetUid);
@@ -107,7 +107,7 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('gets assets/transfers/burns by user uid return empty arrays', async () => {
 		const clientId = randomString.generate(8);
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const userResponse = await original.createUser({
 			email: `${clientId}@test.com`,
 			client_id: clientId,
@@ -123,7 +123,7 @@ describe('Original sdk e2e-method tests', async () => {
 	});
 
 	it('gets transfer by user uid', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const usersTransfers = await original.getTransfersByUserUid(mintToUserUid);
 		const transferUid = usersTransfers.data[0].uid;
 		const response = await original.getTransfer(transferUid);
@@ -131,7 +131,7 @@ describe('Original sdk e2e-method tests', async () => {
 	});
 
 	it('queries and gets burn', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const userBurns = await original.getBurnsByUserUid(burnUserUid);
 		const burnUid = userBurns.data[0].uid;
 		const response = await original.getBurn(burnUid);
@@ -139,13 +139,13 @@ describe('Original sdk e2e-method tests', async () => {
 	});
 
 	it('get collection', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getCollection(nonEditableCollectionUid);
 		expect(response.data.uid).to.equal(nonEditableCollectionUid);
 	});
 
 	it('get deposit address', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getDeposit(transferToUserUid);
 		expect(response.data.wallet_address).to.equal(transferToUserWallet);
 		expect(response.data.network).to.equal(ACCEPTANCE_NETWORK);
@@ -153,7 +153,7 @@ describe('Original sdk e2e-method tests', async () => {
 	});
 
 	it('edits asset in an editable collection', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const assetName = randomString.generate(8);
 		const asset_data = {
 			name: assetName,
@@ -190,7 +190,7 @@ describe('Original sdk e2e-method tests', async () => {
 	});
 
 	it('creates asset, transfer, and burn flow', async () => {
-		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const assetName = randomString.generate(8);
 		const asset_data = {
 			name: assetName,

@@ -38,7 +38,7 @@ export class Original {
    * @param {string} [secret] - the api secret
    * @param {OriginalOptions} [options] - additional options, here you can pass custom options to axios instance
    * @example <caption>initialize the client</caption>
-   * new Original('api_key', 'secret')
+   * new OriginalClient('api_key', 'secret')
    */
 
   constructor(apiKey: string, secret: string, options?: OriginalOptions) {
@@ -341,3 +341,5 @@ export class Original {
     return await this._get<APIResponse<Deposit>>('deposit', { user_uid: userUid });
   }
 }
+
+export const OriginalClient = Original;
