@@ -133,10 +133,10 @@ export class Original {
   }
   errorFromResponse(response: AxiosResponse<APIErrorResponse>): ErrorFromResponse<APIErrorResponse> {
     let err: ErrorFromResponse<APIErrorResponse>;
-    err = new ErrorFromResponse(`GetOriginal error HTTP code: ${response.status}`);
+    err = new ErrorFromResponse(`Original error HTTP code: ${response.status}`);
     if (response.data && response.data.error && response.data.error.detail && response.data.error.type) {
       err = new Error(
-        `GetOriginal error code ${response.status}: ${response.data.error.type}: ${JSON.stringify(
+        `Original error code ${response.status}: ${response.data.error.type}: ${JSON.stringify(
           response.data.error.detail,
         )}`,
       );

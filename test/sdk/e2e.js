@@ -64,7 +64,7 @@ describe('Original sdk e2e-method tests', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		await expectThrowsAsync(
 			() => original.getUser('notfound'),
-			'GetOriginal error code 404: client_error: {"code":"not_found","message":"User not found."}',
+			'Original error code 404: client_error: {"code":"not_found","message":"User not found."}',
 		);
 	});
 
@@ -87,7 +87,7 @@ describe('Original sdk e2e-method tests', async () => {
 					email: `${clientId}@test.com`,
 					client_id: clientId,
 				}),
-			'GetOriginal error code 400: client_error: {"code":"bad_request","message":"User already exists."}',
+			'Original error code 400: client_error: {"code":"bad_request","message":"User already exists."}',
 		);
 	});
 
