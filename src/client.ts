@@ -95,18 +95,23 @@ export class Original {
     };
     try {
       let response: AxiosResponse<T>;
-      switch (type) {
-        case 'get':
-          response = await this.axiosInstance.get(url, requestConfig);
-          break;
-        case 'post':
-          response = await this.axiosInstance.post(url, data, requestConfig);
-          break;
-        case 'put':
-          response = await this.axiosInstance.put(url, data, requestConfig);
-          break;
-        default:
-          throw new Error('Invalid request type');
+      try {
+        switch (type) {
+          case 'get':
+            response = await this.axiosInstance.get(url, requestConfig);
+            break;
+          case 'post':
+            response = await this.axiosInstance.post(url, data, requestConfig);
+            break;
+          case 'put':
+            response = await this.axiosInstance.put(url, data, requestConfig);
+            break;
+          default:
+            throw new Error('Invalid request type');
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
+        return this.handleResponse(e.response);
       }
       return this.handleResponse(response);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -128,13 +133,17 @@ export class Original {
   }
   errorFromResponse(response: AxiosResponse<APIErrorResponse>): ErrorFromResponse<APIErrorResponse> {
     let err: ErrorFromResponse<APIErrorResponse>;
-    err = new ErrorFromResponse(`GetOriginal error HTTP code: ${response.status}`);
-    if (response.data && response.data.code) {
-      err = new Error(`GetOriginal error code ${response.data.code}: ${response.data.message}`);
-      err.code = response.data.code;
+    err = new ErrorFromResponse(`Original error HTTP code: ${response.status}`);
+    if (response.data && response.data.error && response.data.error.detail && response.data.error.type) {
+      err = new Error(
+        `Original error code ${response.status}: ${response.data.error.type}: ${JSON.stringify(
+          response.data.error.detail,
+        )}`,
+      );
+    } else {
+      err.response = response;
+      err.status = response.status;
     }
-    err.response = response;
-    err.status = response.status;
     return err;
   }
 

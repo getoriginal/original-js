@@ -62,7 +62,10 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('get user not found throws error', async () => {
 		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		await expectThrowsAsync(() => original.getUser('notfound'), 'Request failed with status code 404');
+		await expectThrowsAsync(
+			() => original.getUser('notfound'),
+			'Original error code 404: client_error: {"code":"not_found","message":"User not found."}',
+		);
 	});
 
 	it('creates user', async () => {
@@ -73,6 +76,19 @@ describe('Original sdk e2e-method tests', async () => {
 			client_id: clientId,
 		});
 		expect(response.data.uid).to.exist;
+	});
+
+	it('handles error on creates user', async () => {
+		const clientId = 'existing_client';
+		const original = new Original(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		await expectThrowsAsync(
+			() =>
+				original.createUser({
+					email: `${clientId}@test.com`,
+					client_id: clientId,
+				}),
+			'Original error code 400: client_error: {"code":"bad_request","message":"User already exists."}',
+		);
 	});
 
 	it('gets asset by uid', async () => {

@@ -6,16 +6,17 @@ export type OriginalOptions = AxiosRequestConfig & {
 
 type ErrorResponseDetails = {
   code: number;
-  messages: string[];
+  message: string[];
+};
+
+type ErrorResponseOriginalError = {
+  detail: ErrorResponseDetails;
+  type: string;
 };
 
 export type APIErrorResponse = {
-  code: number;
-  duration: string;
-  message: string;
-  more_info: string;
-  statusCode: number;
-  details?: ErrorResponseDetails;
+  success: boolean;
+  error?: ErrorResponseOriginalError;
 };
 
 export class ErrorFromResponse<T> extends Error {
