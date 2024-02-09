@@ -21,6 +21,7 @@ import {
 import { isErrorResponse } from './error';
 import { TokenManager } from './token_manager';
 
+const DEVELOPMENT_URL = 'https://api-dev.getoriginal.com/v1';
 const PRODUCTION_URL = 'https://api.getoriginal.com/v1';
 
 export class Original {
@@ -45,8 +46,8 @@ export class Original {
     if (!apiKey || !secret) {
       throw new Error('apiKey and secret are required');
     }
-    this.secret = secret;
     this.apiKey = apiKey;
+    this.secret = secret;
 
     this.tokenManager = new TokenManager(this.apiKey, this.secret);
     const configOptions = options ? options : {};
@@ -62,6 +63,9 @@ export class Original {
   }
 
   getEnvURL(env: string) {
+    if (env === Environment.Development) {
+      return DEVELOPMENT_URL;
+    } else
     if (env === Environment.Production) {
       return PRODUCTION_URL;
     } else {

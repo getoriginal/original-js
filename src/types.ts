@@ -130,5 +130,6 @@ export type APIResponse<T> = { data: T; success: boolean };
 export type UidResponse = { uid: string };
 
 export enum Environment {
-  Production = 'production',
+  Development = 'development',
+  Production = 'production'
 }
