@@ -131,5 +131,5 @@ export type UidResponse = { uid: string };
 
 export enum Environment {
   Development = 'development',
-  Production = 'production'
+  Production = 'production',
 }

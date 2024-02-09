@@ -65,8 +65,7 @@ export class Original {
   getEnvURL(env: string) {
     if (env === Environment.Development) {
       return DEVELOPMENT_URL;
-    } else
-    if (env === Environment.Production) {
+    } else if (env === Environment.Production) {
       return PRODUCTION_URL;
     } else {
       throw new Error('Invalid environment');

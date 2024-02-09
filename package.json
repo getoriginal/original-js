@@ -15,7 +15,7 @@
     "compile": "rollup -c",
     "changelog": "standard-version --skip.tag --skip.commit --tag-prefix=v",
     "commitlinter": "commitlint",
-    "build": "rm -rf dist && yarn run types && yarn run compile",
+    "build": "rm -rf dist && yarn run types && yarn lint-fix && yarn run compile",
     "types": "tsc --emitDeclarationOnly true",
     "prettier": "prettier --check '**/*.{js,ts,md,css,scss,json}' .eslintrc.json .prettierrc .babelrc",
     "prettier-fix": "npx prettier --write '**/*.{js,ts,md,css,scss,json}' .eslintrc.json .prettierrc .babelrc",
