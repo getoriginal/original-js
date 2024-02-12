@@ -23,6 +23,11 @@ describe('Original sdk tests', async () => {
 		expect(original.baseURL).to.equal('http://localhost:3004');
 	});
 
+	it('sets baseURL dependent on environment in config, development', () => {
+		const original = new OriginalClient(apiKey, apiSecret, { env: Environment.Development });
+		expect(original.baseURL).to.equal('https://api-dev.getoriginal.com/v1');
+	});
+
 	it('sets baseURL dependent on environment in config, production', () => {
 		const original = new OriginalClient(apiKey, apiSecret, { env: Environment.Production });
 		expect(original.baseURL).to.equal('https://api.getoriginal.com/v1');

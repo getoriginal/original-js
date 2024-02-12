@@ -48,11 +48,22 @@ const { OriginalClient } = require('original-sdk');
 import { OriginalClient } from 'original-sdk';
 ```
 
-Create a new instance of the Original client by passing in your api key and api key secret.
+Create a new instance of the Original client by passing in your api key and api secret with
+the environment associated with that app.
+
+Development:
 
 ```typescript
-const client = new OriginalClient('YOUR_API_KEY', 'API_KEY_SECRET');
+const client = new OriginalClient('YOUR_DEV_APP_API_KEY', 'YOUR_DEV_APP_SECRET', { env: Environment.Development });
 ```
+
+Production:
+
+```typescript
+const client = new OriginalClient('YOUR_PROD_APP_API_KEY', 'YOUR_PROD_APP_SECRET', { env: Environment.Production });
+```
+
+NOTE: If you do not pass the environment, it will default to Production.
 
 ### User
 
