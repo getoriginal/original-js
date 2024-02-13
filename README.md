@@ -1,8 +1,7 @@
-# Official server side JavaScript sdk for [Original](https://getoriginal.com) API
+# Official server side JavaScript SDK for [Original](https://getoriginal.com) API
 
 ## Table of Contents
 
-- [About Original](#-about-original)
 - [Getting Started](#-getting-started)
 - [Documentation](#-documentation)
   - [Initialization](#initialization)
@@ -12,13 +11,11 @@
   - [Transfer](#transfer)
   - [Burn](#burn)
   - [Deposit](#deposit)
-- [Development Setup](#-development-setup-in-combination-with-our-sdk)
-
-## 📝 About Original
-
-You can request access for an Original account at our [Request Access](https://getoriginal.com/contact-us/) page.
 
 ## ✨ Getting started
+
+Ensure you have registered for an account at [Original](https://app.getoriginal.com) before getting started.
+You will need to create an app and note down your API key and secret from the [API Keys page](https://docs.getoriginal.com/docs/create-your-api-key) to use the Original SDK.
 
 Install Original using [`npm`](https://www.npmjs.com/package/jest):
 
@@ -26,7 +23,7 @@ Install Original using [`npm`](https://www.npmjs.com/package/jest):
 npm install original-sdk
 ```
 
-or with yarn [`yarn`](https://yarnpkg.com/en/package/jest):
+or with [`yarn`](https://yarnpkg.com/en/package/jest):
 
 ```bash
 yarn add original-sdk
@@ -38,32 +35,46 @@ yarn add original-sdk
 
 The Original SDK is set up to expose and type all values returned from the Original API.
 
-Import the sdk with using commonjs or es6 imports.
-
 Read the full [Original API documentation](https://docs.getoriginal.com).
 
+Import the sdk using commonjs or es6 imports.
+
 ```typescript
-const { OriginalClient, Environment } = require('original-sdk');
-//or
-import { OriginalClient, Environment } from 'original-sdk';
+import { OriginalClient } from 'original-sdk';
+// or
+const { OriginalClient } = require('original-sdk');
 ```
 
-Create a new instance of the Original client by passing in your api key and api secret with
+Create a new instance of the Original client by passing in your api key and secret with
 the environment associated with that app.
 
-Development:
+### Development
+
+For development apps, you must pass the environment:
 
 ```typescript
+import { OriginalClient, Environment } from 'original-sdk';
+
 const client = new OriginalClient('YOUR_DEV_APP_API_KEY', 'YOUR_DEV_APP_SECRET', { env: Environment.Development });
 ```
 
-Production:
+### Production
+
+For production apps, you can optionally pass the production environment:
 
 ```typescript
+import { OriginalClient, Environment } from 'original-sdk';
+
 const client = new OriginalClient('YOUR_PROD_APP_API_KEY', 'YOUR_PROD_APP_SECRET', { env: Environment.Production });
 ```
 
-NOTE: If you do not pass the environment, it will default to Production.
+or omit the environment, which will default to production:
+
+```typescript
+import { OriginalClient } from 'original-sdk';
+
+const client = new OriginalClient('YOUR_PROD_APP_API_KEY', 'YOUR_PROD_APP_SECRET');
+```
 
 ### User
 
@@ -218,21 +229,4 @@ The deposit methods exposed by the sdk are retrieve the details needed to deposi
 // gets a deposit by uid, will throw a 404 Not Found error if the user does not exist
 // returns a <Deposit> type
 const deposit = await client.getDeposit(newUserUid);
-```
-
-## 🔗 (Optional) Development Setup in Combination with our SDK
-
-### Connect to [Original SDK](https://github.com/GetOriginal/original-js)
-
-Run this in project root
-
-```shell
-yarn link
-```
-
-Run this in your local project
-
-```shell
-yarn link original-sdk
-yarn dev
 ```
