@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/getoriginal/original-js/compare/v1.1.6...v1.2.0) (2024-02-13)
+
+
+### Features
+
+* [ORI-1880] Add development environment and URL ([ea7193f](https://github.com/getoriginal/original-js/commit/ea7193f408804331d8872dde95f37f45e8680a5c))
+
 ### [1.1.6](https://github.com/getoriginal/original-js/compare/v1.1.5...v1.1.6) (2024-02-08)
 
 
