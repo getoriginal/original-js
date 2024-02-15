@@ -85,7 +85,7 @@ export type Transfer = {
   uid: string;
 };
 
-export type NewBurn = {
+export type BurnParams = {
   asset_uid: string;
   from_user_uid: string;
 };
@@ -112,3 +112,8 @@ export enum Environment {
   Development = 'development',
   Production = 'production',
 }
+
+/**
+ * @deprecated use BurnParams instead
+ */
+export type NewBurn = BurnParams;
