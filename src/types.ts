@@ -1,29 +1,8 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosRequestConfig } from 'axios';
 
 export type OriginalOptions = AxiosRequestConfig & {
   env?: Environment;
 };
-
-type ErrorResponseDetails = {
-  code: number;
-  message: string[];
-};
-
-type ErrorResponseOriginalError = {
-  detail: ErrorResponseDetails;
-  type: string;
-};
-
-export type APIErrorResponse = {
-  success: boolean;
-  error?: ErrorResponseOriginalError;
-};
-
-export class ErrorFromResponse<T> extends Error {
-  code?: number;
-  response?: AxiosResponse<T>;
-  status?: number;
-}
 
 export type UserParams = { client_id: string; email: string };
 

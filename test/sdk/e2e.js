@@ -1,6 +1,6 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
-const { OriginalClient } = require('../../dist');
+const { OriginalClient, OriginalError, ClientError, ValidationError } = require('../../dist');
 const randomString = require('randomstring');
 
 const expect = chai.expect;
@@ -22,19 +22,6 @@ describe('Original sdk e2e-method tests', async () => {
 	const nonEditableCollectionUid = process.env.NON_EDITABLE_COLLECTION_UID;
 	const editableCollectionUid = process.env.EDITABLE_COLLECTION_UID;
 	const acceptanceEndpoint = process.env.ACCEPTANCE_ENDPOINT;
-
-	const expectThrowsAsync = async (method, errorMessage) => {
-		let error = null;
-		try {
-			await method();
-		} catch (err) {
-			error = err;
-		}
-		expect(error).to.be.an('Error');
-		if (errorMessage) {
-			expect(error.message).to.equal(errorMessage);
-		}
-	};
 
 	it('gets user by uid', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
@@ -60,12 +47,28 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data).to.equal(null);
 	});
 
-	it('get user not found throws error', async () => {
+	it('get user with empty params throws a client not found error', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		await expectThrowsAsync(
-			() => original.getUser('notfound'),
-			'Original error code 404: client_error: {"code":"not_found","message":"User not found."}',
-		);
+		try {
+			await original.getUser('');
+			expect.fail('getUser should have thrown an error');
+		} catch (error) {
+			expect(error).to.be.instanceOf(ClientError);
+			expect(error.message).to.equal('Not Found');
+		}
+	});
+
+	it('get user not found throws client error', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		try {
+			await original.getUser('notfound');
+			expect.fail('getUser should have thrown an error');
+		} catch (error) {
+			expect(error).to.be.instanceOf(OriginalError);
+			expect(error).to.be.instanceOf(ClientError);
+			expect(error.status).to.equal(404);
+			expect(error.message).to.equal('User not found.');
+		}
 	});
 
 	it('creates user', async () => {
@@ -78,17 +81,38 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.exist;
 	});
 
-	it('handles error on creates user', async () => {
+	it('handles validation error on create user', async () => {
+		const clientId = randomString.generate(8);
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		try {
+			await original.createUser({
+				email: `invalid_email`,
+				client_id: clientId,
+			});
+			expect.fail('createUser should have thrown an error');
+		} catch (error) {
+			expect(error).to.be.instanceOf(OriginalError);
+			expect(error).to.be.instanceOf(ValidationError);
+			expect(error.status).to.equal(400);
+			expect(error.message).to.equal('Enter a valid email address.');
+		}
+	});
+
+	it('handles client error on create user', async () => {
 		const clientId = 'existing_client';
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		await expectThrowsAsync(
-			() =>
-				original.createUser({
-					email: `${clientId}@test.com`,
-					client_id: clientId,
-				}),
-			'Original error code 400: client_error: {"code":"bad_request","message":"User already exists."}',
-		);
+		try {
+			await original.createUser({
+				email: `${clientId}@test.com`,
+				client_id: clientId,
+			});
+			expect.fail('createUser should have thrown an error');
+		} catch (error) {
+			expect(error).to.be.instanceOf(OriginalError);
+			expect(error).to.be.instanceOf(ClientError);
+			expect(error.status).to.equal(400);
+			expect(error.message).to.equal('User already exists.');
+		}
 	});
 
 	it('gets asset by uid', async () => {
