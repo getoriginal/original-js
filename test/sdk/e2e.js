@@ -47,13 +47,13 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data).to.equal(null);
 	});
 
-	it('get user not found throws validation error', async () => {
+	it('get user with empty params throws a client not found error', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		try {
 			await original.getUser('');
 			expect.fail('getUser should have thrown an error');
 		} catch (error) {
-			expect(error).to.be.instanceOf(Error);
+			expect(error).to.be.instanceOf(ClientError);
 			expect(error.message).to.equal('Not Found');
 		}
 	});
