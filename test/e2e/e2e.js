@@ -5,7 +5,7 @@ const randomString = require('randomstring');
 
 const expect = chai.expect;
 chai.use(chaiAsPromised);
-require('dotenv').config({ path: `${process.cwd()}/test/sdk/.env` });
+require('dotenv').config({ path: `${process.cwd()}/test/e2e/.env` });
 
 const ACCEPTANCE_CHAIN_ID = 80001;
 const ACCEPTANCE_NETWORK = 'Mumbai';
