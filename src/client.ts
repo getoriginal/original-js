@@ -1,11 +1,9 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import {
-  APIErrorResponse,
   APIResponse,
   Asset,
   Burn,
   Collection,
-  ErrorFromResponse,
   NewBurn,
   TransferParams,
   UserParams,
@@ -18,7 +16,7 @@ import {
   EditAssetParams,
   Deposit,
 } from './types';
-import { isErrorResponse } from './error';
+import { APIErrorResponse, isErrorResponse, throwErrorFromResponse } from './error';
 import { TokenManager } from './token_manager';
 
 const DEVELOPMENT_URL = 'https://api-dev.getoriginal.com/v1';
@@ -37,7 +35,7 @@ export class Original {
    *
    * @param {string } [apiKey] - the api key
    * @param {string} [secret] - the api secret
-   * @param {OriginalOptions} [options] - additional options, here you can pass custom options to axios instance
+   * @param {OriginalOptions} [options] - additional options, here you can pass the env and options to axios instance
    * @example <caption>initialize the client</caption>
    * new OriginalClient('api_key', 'secret')
    */
@@ -134,26 +132,11 @@ export class Original {
   _put<T>(url: string, data?: unknown) {
     return this.doAxiosRequest<T>('put', url, data);
   }
-  errorFromResponse(response: AxiosResponse<APIErrorResponse>): ErrorFromResponse<APIErrorResponse> {
-    let err: ErrorFromResponse<APIErrorResponse>;
-    err = new ErrorFromResponse(`Original error HTTP code: ${response.status}`);
-    if (response.data && response.data.error && response.data.error.detail && response.data.error.type) {
-      err = new Error(
-        `Original error code ${response.status}: ${response.data.error.type}: ${JSON.stringify(
-          response.data.error.detail,
-        )}`,
-      );
-    } else {
-      err.response = response;
-      err.status = response.status;
-    }
-    return err;
-  }
 
   handleResponse<T>(response: AxiosResponse<T>) {
     const data = response.data;
     if (isErrorResponse(response)) {
-      throw this.errorFromResponse(response);
+      throw throwErrorFromResponse(response);
     }
     return data;
   }
