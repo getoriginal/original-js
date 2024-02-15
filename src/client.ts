@@ -23,12 +23,12 @@ const DEVELOPMENT_URL = 'https://api-dev.getoriginal.com/v1';
 const PRODUCTION_URL = 'https://api.getoriginal.com/v1';
 
 export class OriginalClient {
-  apiKey: string;
-  secret: string;
-  axiosInstance: AxiosInstance;
-  options: OriginalOptions;
-  baseURL: string;
-  tokenManager: TokenManager;
+  private apiKey: string;
+  private secret: string;
+  private axiosInstance: AxiosInstance;
+  private options: OriginalOptions;
+  private baseURL: string;
+  private tokenManager: TokenManager;
 
   /**
    * Initialize a client
