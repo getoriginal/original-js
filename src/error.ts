@@ -69,8 +69,8 @@ export function throwErrorFromResponse(res: AxiosResponse<APIErrorResponse>) {
   } else if (errorType === OriginalErrorCode.validationError) {
     throw new ValidationError(errorMessage, errorStatus, errorData);
   } else {
-    // TODO: We should extract the original Axios Error and throw it.
-    throw new Error(errorMessage);
+    // Likely a client axios error (Not Found, Forbidden, etc)
+    throw new ClientError(errorMessage, errorStatus, res?.statusText);
   }
 }
 
