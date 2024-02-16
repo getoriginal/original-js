@@ -252,7 +252,7 @@ export enum OriginalErrorCode {
 
 export class OriginalError extends Error {
   status: number;
-  data: unknown;
+  data: APIErrorResponse | string;
   code: OriginalErrorCode;
   // ...
 }
