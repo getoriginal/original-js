@@ -22,10 +22,10 @@ export type APIErrorResponse = {
 
 export class OriginalError extends Error {
   status: number;
-  data: unknown;
+  data: APIErrorResponse | string;
   code: OriginalErrorCode;
 
-  constructor(message: string, status: number, data: unknown, code: OriginalErrorCode) {
+  constructor(message: string, status: number, data: APIErrorResponse | string, code: OriginalErrorCode) {
     super(message);
     this.status = status;
     this.data = data;
@@ -34,19 +34,19 @@ export class OriginalError extends Error {
 }
 
 export class ClientError extends OriginalError {
-  constructor(message: string, status: number, data: unknown) {
+  constructor(message: string, status: number, data: APIErrorResponse | string) {
     super(message, status, data, OriginalErrorCode.clientError);
   }
 }
 
 export class ServerError extends OriginalError {
-  constructor(message: string, status: number, data: unknown) {
+  constructor(message: string, status: number, data: APIErrorResponse | string) {
     super(message, status, data, OriginalErrorCode.serverError);
   }
 }
 
 export class ValidationError extends OriginalError {
-  constructor(message: string, status: number, data: unknown) {
+  constructor(message: string, status: number, data: APIErrorResponse | string) {
     super(message, status, data, OriginalErrorCode.validationError);
   }
 }
