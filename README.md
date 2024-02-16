@@ -230,3 +230,92 @@ The deposit methods exposed by the sdk are retrieve the details needed to deposi
 // returns a <Deposit> type
 const deposit = await client.getDeposit(newUserUid);
 ```
+
+### Handling Errors
+
+If something goes wrong, you will receive well typed error messages.
+
+```typescript
+export class ClientError extends OriginalError { ... }
+export class ServerError extends OriginalError { ... }
+export class ValidationError extends OriginalError { ... }
+```
+
+All errors inherit from an `OriginalError` class where you can access the standard properties from the `Error` class as well as the following:
+
+```typescript
+export enum OriginalErrorCode {
+  clientError = 'client_error',
+  serverError = 'server_error',
+  validationError = 'validation_error',
+}
+
+export class OriginalError extends Error {
+  status: number;
+  data: unknown;
+  code: OriginalErrorCode;
+  // ...
+}
+```
+
+So when an error occurs, you can either catch all using the OriginalError class:
+
+```typescript
+import { OriginalError } from 'original-sdk';
+
+try {
+  client.createUser('client_id', 'invalid_email');
+} catch (error: unknown) {
+  if (error instanceof OriginalError) {
+    // handle all errors
+  }
+}
+```
+
+or specific errors:
+
+```typescript
+import { ClientError, ServerError, ValidationError } from 'original-sdk';
+
+try {
+  client.createUser('client_id', 'invalid_email');
+} catch (error: unknown) {
+  if (error instanceof ClientError) {
+    // handle client errors
+  } else if (error instanceof ServerError) {
+    // handle server errors
+  } else if (error instanceof ValidationError) {
+    // handle validation errors
+  }
+}
+```
+
+If the error comes from our server, you will receive an error in this structure:
+
+```json
+{
+  "status": 400,
+  "data": {
+    "success": false,
+    "error": {
+      "type": "validation_error",
+      "detail": {
+        "code": "invalid",
+        "message": "Enter a valid email address.",
+        "field_name": "email"
+      }
+    }
+  },
+  "code": "validation_error"
+}
+```
+
+Otherwise if it comes from the client, you will receive error in this format:
+
+```json
+{
+  "status": 404,
+  "data": "Not Found",
+  "code": "client_error"
+}
+```
