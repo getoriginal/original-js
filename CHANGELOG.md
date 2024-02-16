@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/getoriginal/original-js/compare/v1.2.0...v1.2.1) (2024-02-16)
+
+
+### Bug Fixes
+
+* Add specific error classes for the types of errors we can receive ([60dbac5](https://github.com/getoriginal/original-js/commit/60dbac508f1ed764b8d6305d33fd1904ce9e4c5c))
+* Fallback to throwing a client error ([04a3299](https://github.com/getoriginal/original-js/commit/04a3299754277295468bff383f8c30beff9f28f2))
+
+
 ## [1.2.0](https://github.com/getoriginal/original-js/compare/v1.1.6...v1.2.0) (2024-02-13)
 
 
