@@ -15,6 +15,9 @@ import {
   EditAssetParams,
   Deposit,
   BurnParams,
+  AllocationParams,
+  Allocation,
+  ClaimParams,
 } from './types';
 import { APIErrorResponse, isErrorResponse, throwErrorFromResponse } from './error';
 import { TokenManager } from './token_manager';
@@ -321,6 +324,43 @@ export class OriginalClient {
    */
   public async getDeposit(userUid: string) {
     return await this._get<APIResponse<Deposit>>('deposit', { user_uid: userUid });
+  }
+
+  /**
+   * createAllocation
+   * @param {AllocationParams} allocation The details of the allocation to be created
+   * @return {Promise<APIResponse<UidResponse>>} Uid of the created allocation
+   */
+  public async createAllocation(allocation: AllocationParams) {
+    return await this._post<APIResponse<UidResponse>>('allocate', allocation);
+  }
+
+  /**
+   * getAllocation
+   * @param {string} uid allocation uid to get
+   * @return {Promise<APIResponse<Burn>>} Returns details of the allocation
+   * Will throw a 404 error if the allocation does not exist.
+   */
+  public async getAllocation(uid: string) {
+    return await this._get<APIResponse<Allocation>>(`allocate/${uid}`);
+  }
+
+  /**
+   * listAllocations
+   * @param {string} userUid user_uid of allocations
+   * @return {Promise<APIResponse<Allocation[]>>} Returns a list of allocations available to the user, empty if none found
+   */
+  public async getAllocationsByUserUid(userUid: string) {
+    return await this._get<APIResponse<Allocation[] | null>>('allocate', { user_uid: userUid });
+  }
+
+  /**
+   * createAllocation
+   * @param {ClaimParams} claim The details of the claim to be created
+   * @return {Promise<APIResponse<UidResponse>>} Uid of the created claim
+   */
+  public async createClaim(claim: ClaimParams) {
+    return await this._post<APIResponse<UidResponse>>('claim', claim);
   }
 }
 

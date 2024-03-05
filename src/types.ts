@@ -98,6 +98,29 @@ export type Burn = {
   uid: string;
 };
 
+export type AllocationParams = {
+  amount: number;
+  client_allocation_id: string;
+  reward_uid: string;
+  to_user_uid: string;
+};
+
+export type Allocation = {
+  amount: number;
+  client_allocation_id: string;
+  created_at: string;
+  reward_uid: string;
+  status: AllocationType;
+  to_user_uid: string;
+  uid: string;
+};
+
+export type ClaimParams = {
+  from_user_uid: string;
+  reward_uid: string;
+  to_address: string;
+};
+
 export type Deposit = {
   chain_id: number;
   network: string;
@@ -111,6 +134,12 @@ export type UidResponse = { uid: string };
 export enum Environment {
   Development = 'development',
   Production = 'production',
+}
+
+export enum AllocationType {
+  ALLOCATED = 'allocated',
+  FAILED = 'failed',
+  PENDING = 'pending',
 }
 
 /**

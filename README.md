@@ -10,6 +10,7 @@
   - [Collection](#collection)
   - [Transfer](#transfer)
   - [Burn](#burn)
+  - [Allocate](#allocate)
   - [Deposit](#deposit)
 
 ## ✨ Getting started
@@ -219,6 +220,44 @@ const burn = await client.getBurn(newBurnUid);
 // gets burns by user uid
 // will return a list of <Burn>[] for the asset
 const burns = await client.getBurnsByUserUid(newUserUid);
+```
+
+### Allocate
+
+The allocate methods exposed by the sdk are used to allocate funds in a reward contract, to an app user
+
+```typescript
+// create an allocation on a reward contract, by passing in the <AllocationParams> type
+// returns the uid of the newly created allocation
+const newAllocationUid = await client.createAllocation({
+  amount: 100,
+  client_allocation_id: 'clien_allocation_id_1',
+  reward_uid: rewardUid,
+  to_user_uid: newUserUid,
+});
+
+// gets an allocation by uid, will throw a 404 Not Found error if the burn does not exist
+// returns a <Allocation> type
+const allocation = await client.getAllocation(newAllocationUid);
+
+// gets allcations available to a user, by user uid
+// will return a list of <Allocation>[] for the asset
+const allocations = await client.getAllocationsByUserUid(newUserUid);
+```
+
+### Claim
+
+The claim method exposed by the sdk are used to claim funds from a reward contracts allocation, to an app user
+
+```typescript
+// create an claim on a reward contract, by passing in the <ClaimParams> type
+// returns the uid of the newly created claim
+const newClaimUid = await client.createClaim({
+  to_address: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
+  reward_uid: rewardUid,
+  from_user_uid: newUserUid,
+});
+
 ```
 
 ### Deposit
