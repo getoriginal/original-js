@@ -11,6 +11,7 @@
   - [Transfer](#transfer)
   - [Burn](#burn)
   - [Allocate](#allocate)
+  - [Claim](#claim)
   - [Deposit](#deposit)
 
 ## ✨ Getting started
@@ -236,7 +237,7 @@ const newAllocationUid = await client.createAllocation({
   to_user_uid: newUserUid,
 });
 
-// gets an allocation by uid, will throw a 404 Not Found error if the burn does not exist
+// gets an allocation by uid, will throw a 404 Not Found error if the allocation does not exist
 // returns a <Allocation> type
 const allocation = await client.getAllocation(newAllocationUid);
 
