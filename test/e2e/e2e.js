@@ -71,13 +71,19 @@ describe('Original sdk e2e-method tests', async () => {
 		}
 	});
 
-	it('creates user', async () => {
+	it('creates user with params', async () => {
 		const clientId = randomString.generate(8);
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.createUser({
 			email: `${clientId}@test.com`,
 			client_id: clientId,
 		});
+		expect(response.data.uid).to.exist;
+	});
+
+	it('creates user with no params', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.createUser();
 		expect(response.data.uid).to.exist;
 	});
 

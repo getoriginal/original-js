@@ -4,7 +4,7 @@ export type OriginalOptions = AxiosRequestConfig & {
   env?: Environment;
 };
 
-export type UserParams = { client_id: string; email: string };
+export type UserParams = { client_id?: string; email?: string };
 
 export type User = { client_id: string; created_at: string; email: string; uid: string; wallet_address: string };
 
