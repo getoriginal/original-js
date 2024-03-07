@@ -195,7 +195,7 @@ export class OriginalClient {
   /**
    * getCollection
    *
-   * @param {String} uid uid of the collection to get.
+   * @param {String} uid Uid of the collection to get.
    * @return {Promise<APIResponse<Collection>>} Returns the response object with details of the collection.
    * Will throw a 404 error if the collection does not exist.
    */
