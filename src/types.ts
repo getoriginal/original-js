@@ -51,13 +51,13 @@ export type EditAssetParams = {
 };
 
 export type AssetMetadata = {
+  image_url: string;
+  name: string;
+  org_image_url: string;
+  original_id: string;
   attributes?: { trait_type: string; value: string; display_type?: string }[];
   description?: string;
   external_url?: string;
-  image_url?: string;
-  name?: string;
-  org_image_url?: string;
-  original_id?: string;
 }
 
 export type Asset = {
