@@ -182,6 +182,30 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.chain_id).to.equal(ACCEPTANCE_CHAIN_ID);
 	});
 
+	it('creates an asset without client id', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const assetName = randomString.generate(8);
+		const asset_data = {
+			name: assetName,
+			unique_name: true,
+			image_url: 'https://example.com/image.png',
+			store_image_on_ipfs: false,
+			description: 'test description',
+			attributes: [
+				{ trait_type: 'Eyes', value: 'Green' },
+				{ trait_type: 'Hair', value: 'Black' },
+			],
+		};
+		const request_data = {
+			data: asset_data,
+			user_uid: mintToUserUid,
+			collection_uid: editableCollectionUid,
+		};
+		const assetResponse = await original.createAsset(request_data);
+		const assetUid = assetResponse.data.uid;
+		expect(assetUid).to.exist;
+	});
+
 	it('edits asset in an editable collection', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const assetName = randomString.generate(8);
