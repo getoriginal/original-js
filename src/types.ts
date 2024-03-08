@@ -31,10 +31,10 @@ export type AssetData = {
 };
 
 export type AssetParams = {
-  client_id: string;
   collection_uid: string;
   data: AssetData;
   user_uid: string;
+  client_id?: string;
 };
 
 export type EditAssetData = {
@@ -50,12 +50,22 @@ export type EditAssetParams = {
   data: EditAssetData;
 };
 
+export type AssetMetadata = {
+  attributes?: { trait_type: string; value: string; display_type?: string }[];
+  description?: string;
+  external_url?: string;
+  image_url?: string;
+  name?: string;
+  org_image_url?: string;
+  original_id?: string;
+}
+
 export type Asset = {
-  client_id: string;
   collection_name: string;
   collection_uid: string;
   created_at: string;
   is_burned: boolean;
+  is_editing: boolean;
   is_minted: boolean;
   is_transferable: boolean;
   is_transferring: boolean;
@@ -63,8 +73,9 @@ export type Asset = {
   name: string;
   token_id: string;
   uid: string;
+  client_id?: string | null;
   explorer_url?: string;
-  metadata?: string;
+  metadata?: string | AssetMetadata;
   owner_address?: string;
   owner_user_uid?: string;
   token_uri?: string;
