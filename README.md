@@ -277,7 +277,7 @@ const asset = response.data;
             description: "nft_description",
             original_id: "151854912345",
             external_url: "external_url@example.com",
-            org_image_url: "https://cryptopunks.app/cryptopunks/cryptopunk1081.png"
+            org_image_url: "https://cryptopunks.app/cryptopunks/cryptopunk1081.png",
             attributes: [
                 {
                     trait_type: "Stamina Increase",
@@ -325,7 +325,7 @@ const assetList = response.data;
                 description: "nft_description",
                 original_id: "151854912345",
                 external_url: "external_url@example.com",
-                org_image_url: "https://cryptopunks.app/cryptopunks/cryptopunk1081.png"
+                org_image_url: "https://cryptopunks.app/cryptopunks/cryptopunk1081.png",
                 attributes: [
                     {
                         trait_type: "Stamina Increase",
