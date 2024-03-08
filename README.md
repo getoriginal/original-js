@@ -278,6 +278,13 @@ const asset = response.data;
             original_id: "151854912345",
             external_url: "external_url@example.com",
             org_image_url: "https://cryptopunks.app/cryptopunks/cryptopunk1081.png"
+            attributes: [
+                {
+                    trait_type: "Stamina Increase",
+                    display_type: "boost_percentage",
+                    value: 10
+                }
+            ]
         },
         explorer_url: "https://mumbai.polygonscan.com/token/0x124a6755ee787153bb6228463d5dc3a02890a7db?a=2",
         token_uri: "https://storage.googleapis.com/{...}.json"
@@ -319,6 +326,13 @@ const assetList = response.data;
                 original_id: "151854912345",
                 external_url: "external_url@example.com",
                 org_image_url: "https://cryptopunks.app/cryptopunks/cryptopunk1081.png"
+                attributes: [
+                    {
+                        trait_type: "Stamina Increase",
+                        display_type: "boost_percentage",
+                        value: 10
+                    }
+                ]
             },
             explorer_url: "https://mumbai.polygonscan.com/token/0x124a6755ee787153bb6228463d5dc3a02890a7db?a=2",
             token_uri: "https://storage.googleapis.com/original-production-media/data/metadata/9ac0dad4-75ae-4406-94fd-1a0f6bf75db3.json"
@@ -354,7 +368,7 @@ const editAssetData: EditAssetParams = {
 // returns success true or false
 const response = await client.editAsset(assetUid, editAssetData);
 const editSuccess = response.success
-// Sample edit_asset_response:
+// Sample response:
 {
     success: true,
     data: null
@@ -378,7 +392,7 @@ const transferParams: TransferParams = {
 const response = await client.createTransfer(transferParams);
 
 const transferUid = response.data.uid;
-// Sample transfer_response:
+// Sample response:
 {
     success: true,
     data: {
@@ -394,7 +408,7 @@ const transferUid = response.data.uid;
 // returns a <Transfer> type
 const response = await client.getTransfer(transferUid);
 const transferDetails = response.data;
-// Sample transfer_response:
+// Sample response:
 {
     success: true,
     data: {
@@ -448,7 +462,7 @@ const burnParams: BurnParams = {
 const response = await client.createBurn(burnParams);
 
 const burnUid = response.data.uid
-// Sample burn_response:
+// Sample response:
 {
     success: true,
     data: {
@@ -465,7 +479,7 @@ const burnUid = response.data.uid
 // returns a <Burn> type
 const response = await client.getBurn(burnUid);
 burnDetails = response.data;
-// Sample burn_response:
+// Sample response:
 {
     success: true,
     data: {
@@ -485,7 +499,7 @@ burnDetails = response.data;
 // will return a list of <Burn>[] for the asset
 const response = await client.getBurnsByUserUid(userUid);
 const burnsList = response.data;
-// Sample burns_response:
+// Sample response:
 {
     success: true,
     data: [
@@ -512,7 +526,7 @@ The deposit methods exposed by the sdk are retrieve the details needed to deposi
 // returns a <Deposit> type
 const response = await client.getDeposit(userUid);
 depositDetails = response.data;
-// Sample deposit_response:
+// Sample response:
 {
     success: true,
     data: {
