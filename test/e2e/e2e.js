@@ -71,13 +71,19 @@ describe('Original sdk e2e-method tests', async () => {
 		}
 	});
 
-	it('creates user', async () => {
+	it('creates user with params', async () => {
 		const clientId = randomString.generate(8);
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.createUser({
 			email: `${clientId}@test.com`,
 			client_id: clientId,
 		});
+		expect(response.data.uid).to.exist;
+	});
+
+	it('creates user with no params', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.createUser();
 		expect(response.data.uid).to.exist;
 	});
 
@@ -174,6 +180,30 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.wallet_address).to.equal(transferToUserWallet);
 		expect(response.data.network).to.equal(ACCEPTANCE_NETWORK);
 		expect(response.data.chain_id).to.equal(ACCEPTANCE_CHAIN_ID);
+	});
+
+	it('creates an asset without client id', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const assetName = randomString.generate(8);
+		const asset_data = {
+			name: assetName,
+			unique_name: true,
+			image_url: 'https://example.com/image.png',
+			store_image_on_ipfs: false,
+			description: 'test description',
+			attributes: [
+				{ trait_type: 'Eyes', value: 'Green' },
+				{ trait_type: 'Hair', value: 'Black' },
+			],
+		};
+		const request_data = {
+			data: asset_data,
+			user_uid: mintToUserUid,
+			collection_uid: editableCollectionUid,
+		};
+		const assetResponse = await original.createAsset(request_data);
+		const assetUid = assetResponse.data.uid;
+		expect(assetUid).to.exist;
 	});
 
 	it('edits asset in an editable collection', async () => {
