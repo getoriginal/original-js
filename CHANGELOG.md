@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/getoriginal/original-js/compare/v1.2.1...v1.2.2) (2024-03-08)
+
+
+### Bug Fixes
+
+* **1831:** align sdk readme with documentation ([9f13bff](https://github.com/getoriginal/original-js/commit/9f13bff995bd6cc5d67c2bd74b979a39910d6df1))
+* Allow client_id to be optional when creating a user ([e47f295](https://github.com/getoriginal/original-js/commit/e47f2956b619f75ce0f4888d38df79cccbba193c))
+* **ORI-2191:** Make client_id optional, add missing metadata params ([9de9dbc](https://github.com/getoriginal/original-js/commit/9de9dbcab1c09a50d733ef32c43f9e755e635a04))
+
 ### [1.2.1](https://github.com/getoriginal/original-js/compare/v1.2.0...v1.2.1) (2024-02-16)
 
 
