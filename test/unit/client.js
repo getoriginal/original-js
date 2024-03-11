@@ -79,7 +79,7 @@ describe('Original client error management tests', () => {
 		const original = new OriginalClient('apiKey', 'apiSecret');
 		sandbox.stub(original.axiosInstance, 'post').rejects({ response: mockResponse });
 
-		await expect(original.createUser('client_id', 'email')).to.eventually.be.rejectedWith(ClientError);
+		await expect(original.createUser({ user_external_id: 'user_external_id', email: 'invalid_email'})).to.eventually.be.rejectedWith(ClientError);
 	});
 
 	it('throws ServerError on server error response', async () => {
@@ -96,7 +96,7 @@ describe('Original client error management tests', () => {
 		const original = new OriginalClient('apiKey', 'apiSecret');
 		sandbox.stub(original.axiosInstance, 'post').rejects({ response: mockResponse });
 
-		await expect(original.createUser('client_id', 'email')).to.eventually.be.rejectedWith(ServerError);
+		await expect(original.createUser({ user_external_id: 'user_external_id', email: 'invalid_email'})).to.eventually.be.rejectedWith(ServerError);
 	});
 
 	it('throws ValidationError on validation error response', async () => {
@@ -113,7 +113,7 @@ describe('Original client error management tests', () => {
 		const original = new OriginalClient('apiKey', 'apiSecret');
 		sandbox.stub(original.axiosInstance, 'post').rejects({ response: mockResponse });
 
-		await expect(original.createUser('client_id', 'email')).to.eventually.be.rejectedWith(ValidationError);
+		await expect(original.createUser({ user_external_id: 'user_external_id', email: 'invalid_email'})).to.eventually.be.rejectedWith(ValidationError);
 	});
 
 	it('correctly extracts error message from response detail', async () => {
@@ -141,7 +141,7 @@ describe('Original client error management tests', () => {
 		const original = new OriginalClient('apiKey', 'apiSecret');
 		sandbox.stub(original.axiosInstance, 'post').rejects(new Error('Network Error'));
 
-		await expect(original.createUser('client_id', 'email')).to.eventually.be.rejectedWith(Error);
+		await expect(original.createUser({ user_external_id: 'user_external_id', email: 'invalid_email'})).to.eventually.be.rejectedWith(Error);
 	});
 
 	it('throws an error on request timeout', async () => {
@@ -150,7 +150,7 @@ describe('Original client error management tests', () => {
 			.stub(original.axiosInstance, 'post')
 			.rejects({ code: 'ECONNABORTED', message: 'timeout of 0ms exceeded' });
 
-		await expect(original.createUser('client_id', 'email')).to.eventually.be.rejectedWith(Error);
+		await expect(original.createUser({ user_external_id: 'user_external_id', email: 'invalid_email'})).to.eventually.be.rejectedWith(Error);
 	});
 
 	it('handles unexpected status codes', async () => {
@@ -164,7 +164,7 @@ describe('Original client error management tests', () => {
 		const original = new OriginalClient('apiKey', 'apiSecret');
 		sandbox.stub(original.axiosInstance, 'post').rejects({ response: mockResponse });
 
-		await expect(original.createUser('client_id', 'email')).to.eventually.be.rejectedWith(Error);
+		await expect(original.createUser({ user_external_id: 'user_external_id', email: 'invalid_email'})).to.eventually.be.rejectedWith(Error);
 	});
 
 	it('can make a successful request after handling an error', async () => {
@@ -180,10 +180,10 @@ describe('Original client error management tests', () => {
 			.resolves({ status: 200, data: { success: true } });
 
 		// Expect the first call to fail
-		await expect(original.createUser('client_id', 'email')).to.eventually.be.rejectedWith(ServerError);
+		await expect(original.createUser({ user_external_id: 'user_external_id', email: 'invalid_email'})).to.eventually.be.rejectedWith(ServerError);
 
 		// Expect the second call to succeed
-		await expect(original.createUser('client_id', 'email')).to.eventually.be.fulfilled;
+		await expect(original.createUser({ user_external_id: 'user_external_id', email: 'invalid_email'})).to.eventually.be.fulfilled;
 	});
 
 	it('handles errors without a response body gracefully', async () => {
@@ -195,6 +195,6 @@ describe('Original client error management tests', () => {
 
 		sandbox.stub(original.axiosInstance, 'post').rejects({ response: mockResponse });
 
-		await expect(original.createUser('client_id', 'email')).to.eventually.be.rejectedWith(Error);
+		await expect(original.createUser({ user_external_id: 'user_external_id', email: 'invalid_email'})).to.eventually.be.rejectedWith(Error);
 	});
 });

@@ -178,6 +178,8 @@ export class OriginalClient {
   }
 
   /**
+   * @deprecated getUserByClientId. Please use `getUserByUserExternalId` instead.
+   * 
    * getUserByClientId
    *
    * @param {String} clientId ClientId of the user to get
@@ -186,6 +188,17 @@ export class OriginalClient {
    */
   public async getUserByClientId(clientId: string) {
     return this._get<APIResponse<User | null>>('user', { client_id: clientId });
+  }
+
+  /**
+   * getUserByUserExternalId
+   *
+   * @param {String} userExternalId UserExternalId of the user to get
+   * @return {Promise<APIResponse<User | null>>} Returns the response object with the details of the user,
+   * or null data if not found.
+   */
+  public async getUserByUserExternalId(userExternalId: string) {
+    return this._get<APIResponse<User | null>>('user', { user_external_id: userExternalId });
   }
 
   /**
