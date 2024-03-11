@@ -51,11 +51,11 @@ export type AssetParams = {
   collection_uid: string;
   data: AssetData;
   user_uid: string;
+  asset_external_id?: string;
   /**
-   * @deprecated client_id. Please use `user_external_id` instead.
+   * @deprecated client_id. Please use `asset_external_id` instead.
    */
   client_id?: string;
-  user_external_id?: string;
 };
 
 export type EditAssetData = {
