@@ -44,7 +44,7 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('gets user by user_external_id', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const response = await original.getuserByUserExternalId(mintToUserClientId);
+		const response = await original.getUserByUserExternalId(mintToUserClientId);
 		expect(response.data.email).to.equal(mintToUserEmail);
 	});
 
