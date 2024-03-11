@@ -179,7 +179,7 @@ export class OriginalClient {
 
   /**
    * @deprecated getUserByClientId. Please use `getUserByUserExternalId` instead.
-   * 
+   *
    * getUserByClientId
    *
    * @param {String} clientId ClientId of the user to get
