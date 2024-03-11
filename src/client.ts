@@ -295,7 +295,7 @@ export class OriginalClient {
    * @return {Promise<APIResponse<UidResponse>>} Returns the response object with the uid of the created burn.
    */
   public async createBurn(burn: BurnParams) {
-    return await this._post<APIResponse<UidResponse>>('burn', burn);
+    return this._post<APIResponse<UidResponse>>('burn', burn);
   }
 
   /**
@@ -305,7 +305,7 @@ export class OriginalClient {
    * Will throw a 404 error if the burn does not exist.
    */
   public async getBurn(uid: string) {
-    return await this._get<APIResponse<Burn>>(`burn/${uid}`);
+    return this._get<APIResponse<Burn>>(`burn/${uid}`);
   }
 
   /**
@@ -314,7 +314,7 @@ export class OriginalClient {
    * @return {Promise<APIResponse<Burn[]>>} Returns the response object with a list of burns made by the user. Returns an empty list if none found.
    */
   public async getBurnsByUserUid(userUid: string) {
-    return await this._get<APIResponse<Burn[] | null>>('burn', { user_uid: userUid });
+    return this._get<APIResponse<Burn[] | null>>('burn', { user_uid: userUid });
   }
 
   /**
@@ -324,7 +324,7 @@ export class OriginalClient {
    * Will throw a 404 error if the user does not exist.
    */
   public async getDeposit(userUid: string) {
-    return await this._get<APIResponse<Deposit>>('deposit', { user_uid: userUid });
+    return this._get<APIResponse<Deposit>>('deposit', { user_uid: userUid });
   }
 
   /**
@@ -352,7 +352,7 @@ export class OriginalClient {
    * @return {Promise<APIResponse<UidResponse>>} Uid of the created allocation
    */
   public async createAllocation(allocation: AllocationParams) {
-    return await this._post<APIResponse<UidResponse>>('reward/allocate', allocation);
+    return this._post<APIResponse<UidResponse>>('reward/allocate', allocation);
   }
 
   /**
@@ -362,7 +362,7 @@ export class OriginalClient {
    * Will throw a 404 error if the allocation does not exist.
    */
   public async getAllocation(uid: string) {
-    return await this._get<APIResponse<Allocation>>(`reward/allocate/${uid}`);
+    return this._get<APIResponse<Allocation>>(`reward/allocate/${uid}`);
   }
 
   /**
@@ -371,7 +371,7 @@ export class OriginalClient {
    * @return {Promise<APIResponse<Allocation[]>>} Returns a list of allocations available to the user, empty if none found
    */
   public async getAllocationsByUserUid(userUid: string) {
-    return await this._get<APIResponse<Allocation[] | null>>('reward/allocate', { user_uid: userUid });
+    return this._get<APIResponse<Allocation[] | null>>('reward/allocate', { user_uid: userUid });
   }
 
   /**
@@ -384,7 +384,7 @@ export class OriginalClient {
    * @return {Promise<APIResponse<UidResponse>>} Uid of the created allocation
    */
   public async createClaim(claim: ClaimParams) {
-    return await this._post<APIResponse<UidResponse>>('reward/claim', claim);
+    return this._post<APIResponse<UidResponse>>('reward/claim', claim);
   }
 
   /**
@@ -394,7 +394,7 @@ export class OriginalClient {
    * Will throw a 404 error if the allocation does not exist.
    */
   public async getClaim(uid: string) {
-    return await this._get<APIResponse<Claim>>(`reward/claim/${uid}`);
+    return this._get<APIResponse<Claim>>(`reward/claim/${uid}`);
   }
 
   /**
@@ -403,7 +403,7 @@ export class OriginalClient {
    * @return {Promise<APIResponse<Claim[]>>} Returns a list of claims available to the user, empty if none found
    */
   public async getClaimsByUserUid(userUid: string) {
-    return await this._get<APIResponse<Claim[] | null>>('reward/claim', { user_uid: userUid });
+    return this._get<APIResponse<Claim[] | null>>('reward/claim', { user_uid: userUid });
   }
 }
 
