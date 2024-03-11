@@ -58,7 +58,7 @@ export type AssetMetadata = {
   attributes?: { trait_type: string; value: string; display_type?: string }[];
   description?: string;
   external_url?: string;
-}
+};
 
 export type Asset = {
   collection_name: string;
@@ -106,6 +106,51 @@ export type Burn = {
   created_at: string;
   from_user_uid: string;
   status: string;
+  uid: string;
+};
+
+export type Reward = {
+  contract_address: string;
+  created_at: string;
+  description: string;
+  explorer_url: string;
+  name: string;
+  status: string;
+  token_name: string;
+  token_type: string;
+  uid: string;
+};
+
+export type AllocationParams = {
+  amount: number;
+  nonce: string;
+  reward_uid: string;
+  to_user_uid: string;
+};
+
+export type Allocation = {
+  amount: number;
+  created_at: string;
+  nonce: string;
+  reward_uid: string;
+  status: string;
+  to_user_uid: string;
+  uid: string;
+};
+
+export type ClaimParams = {
+  from_user_uid: string;
+  reward_uid: string;
+  to_address: string;
+};
+
+export type Claim = {
+  amount: number;
+  created_at: string;
+  from_user_uid: string;
+  reward_uid: string;
+  status: string;
+  to_address: string;
   uid: string;
 };
 
