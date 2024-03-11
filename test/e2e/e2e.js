@@ -21,6 +21,11 @@ describe('Original sdk e2e-method tests', async () => {
 	const getAssetUid = process.env.ASSET_UID;
 	const nonEditableCollectionUid = process.env.NON_EDITABLE_COLLECTION_UID;
 	const editableCollectionUid = process.env.EDITABLE_COLLECTION_UID;
+	const getAllocationUid = process.env.ALLOCATION_UID;
+	const getClaimUid = process.env.CLAIM_UID;
+	const rewardUid = process.env.REWARD_UID;
+	const userUid = process.env.USER_UID;
+	const claimToAddress = process.env.CLAIM_TO_ADDRESS;
 	const acceptanceEndpoint = process.env.ACCEPTANCE_ENDPOINT;
 
 	it('gets user by uid', async () => {
@@ -135,7 +140,7 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.equal(assetUid);
 	});
 
-	it('gets assets/transfers/burns by user uid return empty arrays', async () => {
+	it('gets by user uid return empty arrays', async () => {
 		const clientId = randomString.generate(8);
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const userResponse = await original.createUser({
@@ -150,6 +155,12 @@ describe('Original sdk e2e-method tests', async () => {
 
 		const burnsResponse = await original.getBurnsByUserUid(userResponse.data.uid);
 		expect(burnsResponse.data.length).to.equal(0);
+
+		const allocationsResponse = await original.getAllocationsByUserUid(userResponse.data.uid);
+		expect(allocationsResponse.data.length).to.equal(0);
+
+		const claimsResponse = await original.getClaimsByUserUid(userResponse.data.uid);
+		expect(claimsResponse.data.length).to.equal(0);
 	});
 
 	it('gets transfer by user uid', async () => {
@@ -180,6 +191,40 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.wallet_address).to.equal(transferToUserWallet);
 		expect(response.data.network).to.equal(ACCEPTANCE_NETWORK);
 		expect(response.data.chain_id).to.equal(ACCEPTANCE_CHAIN_ID);
+	});
+
+	it('get reward', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.getReward(rewardUid);
+		expect(response.data.uid).to.equal(rewardUid);
+	});
+
+	it('gets allocation by uid', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.getAllocation(getAllocationUid);
+		expect(response.data.uid).to.equal(getAllocationUid);
+	});
+
+	it('gets allocations by user uid', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const usersAllocations = await original.getAllocationsByUserUid(mintToUserUid);
+		const allocationUid = usersAllocations.data[0].uid;
+		const response = await original.getAllocation(allocationUid);
+		expect(response.data.uid).to.equal(allocationUid);
+	});
+
+	it('gets claim by uid', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.getClaim(getClaimUid);
+		expect(response.data.uid).to.equal(getClaimUid);
+	});
+
+	it('gets claims by user uid', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const usersClaims = await original.getClaimsByUserUid(mintToUserUid);
+		const claimUid = usersClaims.data[0].uid;
+		const response = await original.getClaim(claimUid);
+		expect(response.data.uid).to.equal(claimUid);
 	});
 
 	it('creates an asset without client id', async () => {
@@ -318,5 +363,44 @@ describe('Original sdk e2e-method tests', async () => {
 		}
 		const finalAsset = await original.getAsset(assetUid);
 		expect(finalAsset.data.is_burned).to.equal(true);
+	});
+
+	it('creates allocation and claim flow', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const allocationResponse = await original.createAllocation({
+			amount: 0.001,
+			nonce: randomString.generate(8),
+			reward_uid: rewardUid,
+			to_user_uid: userUid,
+		});
+		const allocationUid = allocationResponse.data.uid;
+		let isAllocating = true;
+		let retries = 0;
+		// wait for allocation to be done
+		while (isAllocating && retries < 10) {
+			await new Promise((resolve) => setTimeout(resolve, 20000));
+			const allocation = await original.getAllocation(allocationUid);
+			isAllocating = allocation.data.status !== 'done';
+			retries++;
+		}
+		const allocation = await original.getAllocation(allocationUid);
+		expect(allocation.data.status).to.equal('done');
+		const claimResponse = await original.createClaim({
+			from_user_uid: userUid,
+			reward_uid: rewardUid,
+			to_address: claimToAddress,
+		});
+		const claimUid = claimResponse.data.uid;
+		let isClaiming = true;
+		retries = 0;
+		// wait for claim to be done
+		while (isClaiming && retries < 10) {
+			await new Promise((resolve) => setTimeout(resolve, 20000));
+			const claim = await original.getClaim(claimUid);
+			isClaiming = claim.data.status !== 'done';
+			retries++;
+		}
+		const claim = await original.getClaim(claimUid);
+		expect(claim.data.status).to.equal('done');
 	});
 });
