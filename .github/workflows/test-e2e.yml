@@ -31,5 +31,11 @@ jobs:
           TRANSFER_TO_USER_UID: ${{secrets.TRANSFER_TO_USER_UID}}
           ASSET_UID: ${{secrets.ASSET_UID}}
           NON_EDITABLE_COLLECTION_UID: ${{secrets.NON_EDITABLE_COLLECTION_UID}}
+          ALLOCATION_UID: ${{secrets.ALLOCATION_UID}}
+          CLAIM_UID: ${{secrets.CLAIM_UID}}
+          REWARD_UID: ${{secrets.REWARD_UID}}
+          USER_UID: ${{secrets.USER_UID}}
+          CLAIM_TO_ADDRESS: ${{secrets.CLAIM_TO_ADDRESS}}
           EDITABLE_COLLECTION_UID: ${{secrets.EDITABLE_COLLECTION_UID}}
           ACCEPTANCE_ENDPOINT: ${{secrets.ACCEPTANCE_ENDPOINT}}
+

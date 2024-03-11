@@ -18,6 +18,8 @@ import {
   AllocationParams,
   Allocation,
   ClaimParams,
+  Claim,
+  Reward,
 } from './types';
 import { APIErrorResponse, isErrorResponse, throwErrorFromResponse } from './error';
 import { TokenManager } from './token_manager';
@@ -326,22 +328,41 @@ export class OriginalClient {
   }
 
   /**
+   * reward methods
+   */
+
+  /**
+   * getReward
+   *
+   * @param {String} uid Uid of the reward to get
+   * @return {Promise<APIResponse<Reward>>} Returns the details of the reward.
+   * Will throw a 404 error if the reward does not exist.
+   */
+  public async getReward(uid: string) {
+    return this._get<APIResponse<Reward>>(`reward/${uid}`);
+  }
+
+  /**
+   * allocation methods
+   */
+
+  /**
    * createAllocation
    * @param {AllocationParams} allocation The details of the allocation to be created
    * @return {Promise<APIResponse<UidResponse>>} Uid of the created allocation
    */
   public async createAllocation(allocation: AllocationParams) {
-    return await this._post<APIResponse<UidResponse>>('allocate', allocation);
+    return await this._post<APIResponse<UidResponse>>('reward/allocate', allocation);
   }
 
   /**
    * getAllocation
    * @param {string} uid allocation uid to get
-   * @return {Promise<APIResponse<Burn>>} Returns details of the allocation
+   * @return {Promise<APIResponse<Allocation>>} Returns details of the allocation
    * Will throw a 404 error if the allocation does not exist.
    */
   public async getAllocation(uid: string) {
-    return await this._get<APIResponse<Allocation>>(`allocate/${uid}`);
+    return await this._get<APIResponse<Allocation>>(`reward/allocate/${uid}`);
   }
 
   /**
@@ -350,16 +371,39 @@ export class OriginalClient {
    * @return {Promise<APIResponse<Allocation[]>>} Returns a list of allocations available to the user, empty if none found
    */
   public async getAllocationsByUserUid(userUid: string) {
-    return await this._get<APIResponse<Allocation[] | null>>('allocate', { user_uid: userUid });
+    return await this._get<APIResponse<Allocation[] | null>>('reward/allocate', { user_uid: userUid });
   }
 
   /**
-   * createAllocation
+   * claim methods
+   */
+
+  /**
+   * createClaim
    * @param {ClaimParams} claim The details of the claim to be created
-   * @return {Promise<APIResponse<UidResponse>>} Uid of the created claim
+   * @return {Promise<APIResponse<UidResponse>>} Uid of the created allocation
    */
   public async createClaim(claim: ClaimParams) {
-    return await this._post<APIResponse<UidResponse>>('claim', claim);
+    return await this._post<APIResponse<UidResponse>>('reward/claim', claim);
+  }
+
+  /**
+   * getClaim
+   * @param {string} uid claim uid to get
+   * @return {Promise<APIResponse<Claim>>} Returns details of the allocation
+   * Will throw a 404 error if the allocation does not exist.
+   */
+  public async getClaim(uid: string) {
+    return await this._get<APIResponse<Claim>>(`reward/claim/${uid}`);
+  }
+
+  /**
+   * listClaims
+   * @param {string} userUid user_uid of claims
+   * @return {Promise<APIResponse<Claim[]>>} Returns a list of claims available to the user, empty if none found
+   */
+  public async getClaimsByUserUid(userUid: string) {
+    return await this._get<APIResponse<Claim[] | null>>('reward/claim', { user_uid: userUid });
   }
 }
 
