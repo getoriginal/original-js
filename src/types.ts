@@ -4,9 +4,26 @@ export type OriginalOptions = AxiosRequestConfig & {
   env?: Environment;
 };
 
-export type UserParams = { client_id?: string; email?: string };
+export type UserParams = {
+  /**
+   * @deprecated client_id. Please use `user_external_id` instead.
+   */
+  client_id?: string;
+  email?: string;
+  user_external_id?: string;
+};
 
-export type User = { client_id: string; created_at: string; email: string; uid: string; wallet_address: string };
+export type User = {
+  created_at: string;
+  email: string;
+  uid: string;
+  wallet_address: string;
+  /**
+   * @deprecated client_id. Please use `user_external_id` instead.
+   */
+  client_id?: string;
+  user_external_id?: string;
+};
 
 export type Collection = {
   contract_address: string;
@@ -34,6 +51,10 @@ export type AssetParams = {
   collection_uid: string;
   data: AssetData;
   user_uid: string;
+  asset_external_id?: string;
+  /**
+   * @deprecated client_id. Please use `asset_external_id` instead.
+   */
   client_id?: string;
 };
 
@@ -58,7 +79,7 @@ export type AssetMetadata = {
   attributes?: { trait_type: string; value: string; display_type?: string }[];
   description?: string;
   external_url?: string;
-}
+};
 
 export type Asset = {
   collection_name: string;
@@ -73,6 +94,10 @@ export type Asset = {
   name: string;
   token_id: string;
   uid: string;
+  asset_external_id?: string | null;
+  /**
+   * @deprecated client_id. Please use `asset_external_id` instead.
+   */
   client_id?: string | null;
   explorer_url?: string;
   metadata?: string | AssetMetadata;
