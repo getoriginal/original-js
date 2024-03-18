@@ -119,6 +119,7 @@ export type Reward = {
   token_name: string;
   token_type: string;
   uid: string;
+  withdraw_receiver: string;
 };
 
 export type AllocationParams = {
