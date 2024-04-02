@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/getoriginal/original-js/compare/v1.2.3...v1.3.0) (2024-04-02)
+
+
+### Features
+
+* **ORI-1755:** add reward methods ([019dd04](https://github.com/getoriginal/original-js/commit/019dd0443664293f378421503e35dea96c88d682))
+
+
 ### [1.2.3](https://github.com/getoriginal/original-js/compare/v1.2.2...v1.2.3) (2024-03-12)
 
 
