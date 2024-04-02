@@ -9,7 +9,7 @@
     - [Create a new user](#create-a-new-user)
     - [Get a user by UID](#get-a-user-by-uid)
     - [Get a user by email](#get-a-user-by-email)
-    - [Get a user by client ID](#get-a-user-by-client-id)
+    - [Get a user by user external ID](#get-a-user-by-user-external-id)
   - [Asset](#asset)
     - [Create a new asset](#create-a-new-asset)
     - [Get an asset by UID](#get-an-asset-by-asset-uid)
@@ -121,9 +121,9 @@ const userUid = response.data.uid;
     }
 }
 
-// You can also pass in a client_id and/or email for your external reference.
-// The client ID and/or email supplied must be unique per app
-const response = await client.createUser({ client_id: 'YOUR_CLIENT_ID', email: 'YOUR_EMAIL' });
+// You can also pass in a user_external_id and/or email for your external reference.
+// The user external ID and/or email supplied must be unique per app
+const response = await client.createUser({ user_external_id: 'YOUR_USER_EXTERNAL_ID', email: 'YOUR_EMAIL' });
 const userUid = response.data.uid;
 // ...
 ```
@@ -140,7 +140,7 @@ const userDetails = response.data;
     success: true,
     data: {
         uid: "754566475542",
-        client_id: "user_client_id",
+        user_external_id: "user_external_id",
         created_at: "2024-02-26T13:12:31.798296Z",
         email: "user_email@email.com",
         wallet_address: "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
@@ -160,7 +160,7 @@ const userDetails = response.data;
     success: true,
     data: {
         uid: "754566475542",
-        client_id: "user_client_id",
+        user_external_id: "user_external_id",
         created_at: "2024-02-26T13:12:31.798296Z",
         email: "user_email@email.com",
         wallet_address: "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
@@ -174,19 +174,19 @@ const userDetails = response.data;
 }
 ```
 
-### Get a user by client ID
+### Get a user by user external ID
 
 ```typescript
-// Get a user by client ID
-// Retrieves a user by their client ID. If the user does not exist, `data` will be null.
-const response = await client.getUserByClientId('YOUR_CLIENT_ID');
-const userByClientId = response.data;
+// Get a user by user external ID
+// Retrieves a user by their user external ID. If the user does not exist, `data` will be null.
+const response = await client.getUserByUserExternalId('YOUR_USER_EXTERNAL_ID');
+const userByUserExternalId = response.data;
 // Sample response on success
 {
     success: true,
     data: {
         uid: "754566475542",
-        client_id: "user_client_id",
+        user_external_id: "user_external_id",
         created_at: "2024-02-26T13:12:31.798296Z",
         email: "user_email@email.com",
         wallet_address: "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
@@ -210,7 +210,7 @@ The asset methods exposed by the sdk are used to create (mint) assets and retrie
 const newAssetParams: AssetParams =
 {
     user_uid: "324167489835",
-    client_id: "client_id_1",
+    asset_external_id: "asset_external_id_1",
     collection_uid: "221137489875",
     data: {
         name: "Dave Starbelly",
@@ -268,7 +268,7 @@ const asset = response.data;
     data: {
         uid: "151854912345",
         name: "random name #2",
-        client_id: "asset_client_id_1",
+        asset_external_id: "asset_external_id_1",
         collection_uid: "471616646163",
         collection_name: "Test SDK Collection 1",
         token_id: 2,
@@ -316,7 +316,7 @@ const assetList = response.data;
         {
             uid: "151854912345",
             name: "random name #2",
-            client_id: "asset_client_id_1",
+            asset_external_id: "asset_external_id_1",
             collection_uid: "471616646163",
             collection_name: "Test SDK Collection 1",
             token_id: 2,
@@ -751,7 +751,7 @@ const rewardDetails = response.data;
 }
 ```
 
-### Handling Errors
+## Handling Errors
 
 If something goes wrong, you will receive well typed error messages.
 
@@ -784,7 +784,7 @@ So when an error occurs, you can either catch all using the OriginalError class:
 import { OriginalError } from 'original-sdk';
 
 try {
-  client.createUser('client_id', 'invalid_email');
+  client.createUser({ user_external_id: 'user_external_id', email: 'invalid_email' });
 } catch (error: unknown) {
   if (error instanceof OriginalError) {
     // handle all errors
@@ -798,7 +798,7 @@ or specific errors:
 import { ClientError, ServerError, ValidationError } from 'original-sdk';
 
 try {
-  client.createUser('client_id', 'invalid_email');
+  client.createUser({ user_external_id: 'user_external_id', email: 'invalid_email' });
 } catch (error: unknown) {
   if (error instanceof ClientError) {
     // handle client errors

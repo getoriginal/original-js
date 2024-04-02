@@ -31,6 +31,7 @@ describe('Original sdk e2e-method tests', async () => {
 	it('gets user by uid', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getUser(mintToUserUid);
+		expect(response.data.user_external_id).to.equal(mintToUserClientId);
 		expect(response.data.client_id).to.equal(mintToUserClientId);
 	});
 
@@ -43,6 +44,12 @@ describe('Original sdk e2e-method tests', async () => {
 	it('gets user by client_id', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getUserByClientId(mintToUserClientId);
+		expect(response.data.email).to.equal(mintToUserEmail);
+	});
+
+	it('gets user by user_external_id', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.getUserByUserExternalId(mintToUserClientId);
 		expect(response.data.email).to.equal(mintToUserEmail);
 	});
 
@@ -81,6 +88,16 @@ describe('Original sdk e2e-method tests', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.createUser({
 			email: `${clientId}@test.com`,
+			user_external_id: clientId,
+		});
+		expect(response.data.uid).to.exist;
+	});
+
+	it('creates user with deprecated client_id', async () => {
+		const clientId = randomString.generate(8);
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.createUser({
+			email: `${clientId}@test.com`,
 			client_id: clientId,
 		});
 		expect(response.data.uid).to.exist;
@@ -98,7 +115,7 @@ describe('Original sdk e2e-method tests', async () => {
 		try {
 			await original.createUser({
 				email: `invalid_email`,
-				client_id: clientId,
+				user_external_id: clientId,
 			});
 			expect.fail('createUser should have thrown an error');
 		} catch (error) {
@@ -115,7 +132,7 @@ describe('Original sdk e2e-method tests', async () => {
 		try {
 			await original.createUser({
 				email: `${clientId}@test.com`,
-				client_id: clientId,
+				user_external_id: clientId,
 			});
 			expect.fail('createUser should have thrown an error');
 		} catch (error) {
@@ -145,7 +162,7 @@ describe('Original sdk e2e-method tests', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const userResponse = await original.createUser({
 			email: `${clientId}@test.com`,
-			client_id: clientId,
+			user_external_id: clientId,
 		});
 		const response = await original.getAssetsByUserUid(userResponse.data.uid);
 		expect(response.data.length).to.equal(0);
@@ -227,7 +244,7 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.equal(claimUid);
 	});
 
-	it('creates an asset without client id', async () => {
+	it('creates an asset without client id or asset_external_id', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const assetName = randomString.generate(8);
 		const asset_data = {
@@ -268,7 +285,7 @@ describe('Original sdk e2e-method tests', async () => {
 		const request_data = {
 			data: asset_data,
 			user_uid: mintToUserUid,
-			client_id: assetName,
+			asset_external_id: assetName,
 			collection_uid: editableCollectionUid,
 		};
 		const assetResponse = await original.createAsset(request_data);
@@ -304,7 +321,7 @@ describe('Original sdk e2e-method tests', async () => {
 		const request_data = {
 			data: asset_data,
 			user_uid: mintToUserUid,
-			client_id: assetName,
+			asset_external_id: assetName,
 			collection_uid: editableCollectionUid,
 		};
 		const assetResponse = await original.createAsset(request_data);
