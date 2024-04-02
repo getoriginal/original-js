@@ -15,6 +15,11 @@ import {
   EditAssetParams,
   Deposit,
   BurnParams,
+  AllocationParams,
+  Allocation,
+  ClaimParams,
+  Claim,
+  Reward,
 } from './types';
 import { APIErrorResponse, isErrorResponse, throwErrorFromResponse } from './error';
 import { TokenManager } from './token_manager';
@@ -303,7 +308,7 @@ export class OriginalClient {
    * @return {Promise<APIResponse<UidResponse>>} Returns the response object with the uid of the created burn.
    */
   public async createBurn(burn: BurnParams) {
-    return await this._post<APIResponse<UidResponse>>('burn', burn);
+    return this._post<APIResponse<UidResponse>>('burn', burn);
   }
 
   /**
@@ -313,7 +318,7 @@ export class OriginalClient {
    * Will throw a 404 error if the burn does not exist.
    */
   public async getBurn(uid: string) {
-    return await this._get<APIResponse<Burn>>(`burn/${uid}`);
+    return this._get<APIResponse<Burn>>(`burn/${uid}`);
   }
 
   /**
@@ -322,7 +327,7 @@ export class OriginalClient {
    * @return {Promise<APIResponse<Burn[]>>} Returns the response object with a list of burns made by the user. Returns an empty list if none found.
    */
   public async getBurnsByUserUid(userUid: string) {
-    return await this._get<APIResponse<Burn[] | null>>('burn', { user_uid: userUid });
+    return this._get<APIResponse<Burn[] | null>>('burn', { user_uid: userUid });
   }
 
   /**
@@ -332,7 +337,86 @@ export class OriginalClient {
    * Will throw a 404 error if the user does not exist.
    */
   public async getDeposit(userUid: string) {
-    return await this._get<APIResponse<Deposit>>('deposit', { user_uid: userUid });
+    return this._get<APIResponse<Deposit>>('deposit', { user_uid: userUid });
+  }
+
+  /**
+   * reward methods
+   */
+
+  /**
+   * getReward
+   *
+   * @param {String} uid Uid of the reward to get
+   * @return {Promise<APIResponse<Reward>>} Returns the details of the reward.
+   * Will throw a 404 error if the reward does not exist.
+   */
+  public async getReward(uid: string) {
+    return this._get<APIResponse<Reward>>(`reward/${uid}`);
+  }
+
+  /**
+   * allocation methods
+   */
+
+  /**
+   * createAllocation
+   * @param {AllocationParams} allocation The details of the allocation to be created
+   * @return {Promise<APIResponse<UidResponse>>} Uid of the created allocation
+   */
+  public async createAllocation(allocation: AllocationParams) {
+    return this._post<APIResponse<UidResponse>>('reward/allocate', allocation);
+  }
+
+  /**
+   * getAllocation
+   * @param {string} uid allocation uid to get
+   * @return {Promise<APIResponse<Allocation>>} Returns details of the allocation
+   * Will throw a 404 error if the allocation does not exist.
+   */
+  public async getAllocation(uid: string) {
+    return this._get<APIResponse<Allocation>>(`reward/allocate/${uid}`);
+  }
+
+  /**
+   * listAllocations
+   * @param {string} userUid user_uid of allocations
+   * @return {Promise<APIResponse<Allocation[]>>} Returns a list of allocations available to the user, empty if none found
+   */
+  public async getAllocationsByUserUid(userUid: string) {
+    return this._get<APIResponse<Allocation[] | null>>('reward/allocate', { user_uid: userUid });
+  }
+
+  /**
+   * claim methods
+   */
+
+  /**
+   * createClaim
+   * @param {ClaimParams} claim The details of the claim to be created
+   * @return {Promise<APIResponse<UidResponse>>} Uid of the created allocation
+   */
+  public async createClaim(claim: ClaimParams) {
+    return this._post<APIResponse<UidResponse>>('reward/claim', claim);
+  }
+
+  /**
+   * getClaim
+   * @param {string} uid claim uid to get
+   * @return {Promise<APIResponse<Claim>>} Returns details of the allocation
+   * Will throw a 404 error if the allocation does not exist.
+   */
+  public async getClaim(uid: string) {
+    return this._get<APIResponse<Claim>>(`reward/claim/${uid}`);
+  }
+
+  /**
+   * listClaims
+   * @param {string} userUid user_uid of claims
+   * @return {Promise<APIResponse<Claim[]>>} Returns a list of claims available to the user, empty if none found
+   */
+  public async getClaimsByUserUid(userUid: string) {
+    return this._get<APIResponse<Claim[] | null>>('reward/claim', { user_uid: userUid });
   }
 }
 

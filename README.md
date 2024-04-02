@@ -27,6 +27,16 @@
     - [Get deposit details for a user](#get-deposit-details-by-user-uid)
   - [Collection](#collection)
     - [Get a collection by UID](#get-a-collection-by-collection-uid)
+  - [Allocation](#allocation)
+    - [Create a new allocation](#create-a-new-allocation)
+    - [Get an allocation by allocation UID](#get-an-allocation-by-allocation-uid)
+    - [Get allocations by user UID](#get-allocations-by-user-uid)
+  - [Claim](#claim)
+    - [Create a new claim](#create-a-new-claim)
+    - [Get a claim by claim UID](#get-a-claim-by-claim-uid)
+    - [Get claims by user UID](#get-claims-by-user-uid)
+  - [Reward](#reward)
+    - [Get a reward by UID](#get-a-reward-by-reward-uid)
   - [Handling Errors](#handling-errors)
 
 ## ✨ Getting started
@@ -562,6 +572,180 @@ const collectionDetails = response.data;
         contract_address: "0x124a6755ee787153bb6228463d5dc3a02890a7db",
         symbol: "SYM",
         description: "Description of the collection",
+        explorer_url: "https://mumbai.polygonscan.com/address/0x124a6755ee787153bb6228463d5dc3a02890a7db"
+    }
+}
+```
+
+## Allocation
+
+The allocation methods exposed by the sdk are used to create and retrieve allocations from the Original API.
+
+### Create a new allocation
+
+```typescript
+// create a new allocation, by passing in the <AllocationParams> type
+// returns the uid of the newly created allocation
+const allocationParams: AllocationParams = {
+  amount: 123.123,
+  nonce: 'nonce1',
+  user_uid: userUid,
+  reward_uid: rewardUid,
+}
+const response = await client.createAllocation(allocationParams);
+const allocationUid = response.data.uid;
+// Sample response:
+{
+    success: true,
+    data: {
+        uid: "151854912345"
+    }
+}
+```
+
+### Get an allocation by allocation UID
+
+```typescript
+// gets an allocation by uid, will throw a 404 Not Found error if the allocation does not exist
+// returns a <Allocation> type
+const response = await client.getAllocation(allocationUid);
+const allocationDetails = response.data;
+// Sample response:
+{
+    success: true,
+    data: {
+        uid: "151854912345",
+        status: "done",
+        reward_uid: "reward_uid",
+        to_user_uid: "754566475542",
+        amount: 123.123,
+        nonce: "nonce1"
+        created_at: "2024-02-16T11:33:19.577827Z"
+    }
+}
+```
+
+### Get allocations by user UID
+
+```typescript
+// gets a list of allocations by user uid
+// will return a list of <Allocation>[] for the user
+const response = await client.getAllocationsByUserUid(userUid);
+const allocationsList = response.data;
+// Sample response:
+{
+    success: true,
+    data: [
+        {
+            uid: "151854912345",
+            status: "done",
+            reward_uid: "reward_uid",
+            to_user_uid: "754566475542",
+            amount: 123.123,
+            nonce: "nonce1"
+            created_at: "2024-02-16T11:33:19.577827Z"
+        }
+        // Additional allocations would be represented with similar structure here
+    ]
+}
+```
+
+## Claim
+
+The claim methods exposed by the sdk are used to create and retrieve claims from the Original API.
+
+### Create a new claim
+
+```typescript
+// create a new claim, by passing in the <ClaimParams> type
+// returns the uid of the newly created claim
+const claimParams: ClaimParams = {
+  from_user_uid: userUid,
+  reward_uid: reward_uid,
+  to_address: '0x4881ab2f73c48a54b907a8b697b270f490768e6d',
+}
+const response = await client.createClaim(claimParams);
+const claimUid = response.data.uid;
+// Sample response:
+{
+    success: true,
+    data: {
+        uid: "151854912345"
+    }
+}
+```
+
+### Get a claim by claim UID
+
+```typescript
+// gets a claim by uid, will throw a 404 Not Found error if the claim does not exist
+// returns a <Claim> type
+const response = await client.getClaim(claimUid);
+const claimDetails = response.data;
+// Sample response:
+{
+    success: true,
+    data: {
+        uid: "151854912345",
+        status: "done",
+        reward_uid: "708469717542",
+        from_user_uid: "754566475542",
+        to_address: "0x4881ab2f73c48a54b907a8b697b270f490768e6d",
+        amount: 123.123,
+        created_at: "2024-02-16T11:33:19.577827Z"
+    }
+}
+```
+
+### Get claims by user UID
+
+```typescript
+// gets a list of claims by user uid
+// will return a list of <Claim>[] for the user
+const response = await client.getClaimsByUserUid(userUid);
+const claimsList = response.data;
+// Sample response:
+{
+    success: true,
+    data: [
+        {
+            uid: "151854912345",
+            status: "done",
+            reward_uid: "708469717542",
+            from_user_uid: "754566475542",
+            to_address: "0x4881ab2f73c48a54b907a8b697b270f490768e6d",
+            amount: 123.123,
+            created_at: "2024-02-16T11:33:19.577827Z"
+        }
+        // Additional claims would be represented with similar structure here
+    ]
+}
+```
+
+## Reward
+
+The reward methods exposed by the sdk are used to retrieve reward details from the Original API.
+
+### Get a reward by reward UID
+
+```typescript
+// gets a reward by uid, will throw a 404 Not Found error if the reward does not exist
+// returns a <Reward> type
+const response = await client.getReward(rewardUid);
+const rewardDetails = response.data;
+// Sample response:
+{
+    success: true,
+    data: {
+        uid: "151854912345",
+        name: "Test SDK Reward 1",
+        status: "deployed",
+        token_type: "ERC20",
+        token_name: "TestnetORI",
+        created_at: "2024-02-13T10:45:56.952745Z",
+        contract_address: "0x124a6755ee787153bb6228463d5dc3a02890a7db",
+        withdraw_receiver: "0x4881ab2f73c48a54b907a8b697b270f490768e6d",
+        description: "Description of the reward",
         explorer_url: "https://mumbai.polygonscan.com/address/0x124a6755ee787153bb6228463d5dc3a02890a7db"
     }
 }
