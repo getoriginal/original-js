@@ -7,6 +7,7 @@ const expect = chai.expect;
 chai.use(chaiAsPromised);
 require('dotenv').config({ path: `${process.cwd()}/test/e2e/.env` });
 
+const RETRY_COUNT = 10;
 describe('Original sdk e2e-method tests', async () => {
 	const acceptanceChainId = process.env.ACCEPTANCE_CHAIN_ID;
 	const acceptanceNetwork = process.env.ACCEPTANCE_NETWORK;
@@ -291,7 +292,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let assetIsTransferable = false;
 		let retries = 0;
 		// wait for asset to be transferable
-		while (!assetIsTransferable && retries < 20) {
+		while (!assetIsTransferable && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const asset = await original.getAsset(assetUid);
 			assetIsTransferable = asset.data.is_transferable;
@@ -327,7 +328,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let assetIsTransferable = false;
 		let retries = 0;
 		// wait for asset to be transferable
-		while (!assetIsTransferable && retries < 10) {
+		while (!assetIsTransferable && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const asset = await original.getAsset(assetUid);
 			assetIsTransferable = asset.data.is_transferable;
@@ -343,7 +344,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let isTransferring = true;
 		retries = 0;
 		// wait for transfer to be done
-		while (isTransferring && retries < 10) {
+		while (isTransferring && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const asset = await original.getAsset(assetUid);
 			isTransferring = asset.data.is_transferring;
@@ -359,7 +360,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let isBurning = true;
 		retries = 0;
 		// wait for burn to be done
-		while (isBurning && retries < 10) {
+		while (isBurning && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const burn = await original.getBurn(burnUid);
 			isBurning = burn.data.status !== 'done';
@@ -370,7 +371,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let finalAssetBurnStatus = false;
 		retries = 0;
 		// there is a delay between when the burn is done and when the asset is burned field is updated
-		while (!finalAssetBurnStatus && retries < 10) {
+		while (!finalAssetBurnStatus && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const finalAsset = await original.getAsset(assetUid);
 			finalAssetBurnStatus = finalAsset.data.is_burned;
@@ -392,7 +393,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let isAllocating = true;
 		let retries = 0;
 		// wait for allocation to be done
-		while (isAllocating && retries < 10) {
+		while (isAllocating && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const allocation = await original.getAllocation(allocationUid);
 			isAllocating = allocation.data.status !== 'done';
@@ -409,7 +410,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let isClaiming = true;
 		retries = 0;
 		// wait for claim to be done
-		while (isClaiming && retries < 10) {
+		while (isClaiming && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const claim = await original.getClaim(claimUid);
 			isClaiming = claim.data.status !== 'done';
