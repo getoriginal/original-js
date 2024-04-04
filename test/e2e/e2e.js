@@ -7,9 +7,10 @@ const expect = chai.expect;
 chai.use(chaiAsPromised);
 require('dotenv').config({ path: `${process.cwd()}/test/e2e/.env` });
 
-const ACCEPTANCE_CHAIN_ID = 80001;
-const ACCEPTANCE_NETWORK = 'Mumbai';
+const RETRY_COUNT = 10;
 describe('Original sdk e2e-method tests', async () => {
+	const acceptanceChainId = process.env.ACCEPTANCE_CHAIN_ID;
+	const acceptanceNetwork = process.env.ACCEPTANCE_NETWORK;
 	const apiKey = process.env.API_KEY;
 	const apiSecret = process.env.API_SECRET;
 	const mintToUserUid = process.env.MINT_TO_USER_UID;
@@ -19,12 +20,10 @@ describe('Original sdk e2e-method tests', async () => {
 	const transferToUserWallet = process.env.TRANSFER_TO_USER_WALLET;
 	const transferToUserUid = process.env.TRANSFER_TO_USER_UID;
 	const getAssetUid = process.env.ASSET_UID;
-	const nonEditableCollectionUid = process.env.NON_EDITABLE_COLLECTION_UID;
 	const editableCollectionUid = process.env.EDITABLE_COLLECTION_UID;
 	const getAllocationUid = process.env.ALLOCATION_UID;
 	const getClaimUid = process.env.CLAIM_UID;
 	const rewardUid = process.env.REWARD_UID;
-	const userUid = process.env.USER_UID;
 	const claimToAddress = process.env.CLAIM_TO_ADDRESS;
 	const acceptanceEndpoint = process.env.ACCEPTANCE_ENDPOINT;
 
@@ -198,16 +197,16 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('get collection', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const response = await original.getCollection(nonEditableCollectionUid);
-		expect(response.data.uid).to.equal(nonEditableCollectionUid);
+		const response = await original.getCollection(editableCollectionUid);
+		expect(response.data.uid).to.equal(editableCollectionUid);
 	});
 
 	it('get deposit address', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getDeposit(transferToUserUid);
 		expect(response.data.wallet_address).to.equal(transferToUserWallet);
-		expect(response.data.network).to.equal(ACCEPTANCE_NETWORK);
-		expect(response.data.chain_id).to.equal(ACCEPTANCE_CHAIN_ID);
+		expect(response.data.network).to.equal(acceptanceNetwork);
+		expect(response.data.chain_id).to.equal(parseInt(acceptanceChainId));
 	});
 
 	it('get reward', async () => {
@@ -293,7 +292,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let assetIsTransferable = false;
 		let retries = 0;
 		// wait for asset to be transferable
-		while (!assetIsTransferable && retries < 10) {
+		while (!assetIsTransferable && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const asset = await original.getAsset(assetUid);
 			assetIsTransferable = asset.data.is_transferable;
@@ -329,7 +328,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let assetIsTransferable = false;
 		let retries = 0;
 		// wait for asset to be transferable
-		while (!assetIsTransferable && retries < 10) {
+		while (!assetIsTransferable && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const asset = await original.getAsset(assetUid);
 			assetIsTransferable = asset.data.is_transferable;
@@ -345,7 +344,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let isTransferring = true;
 		retries = 0;
 		// wait for transfer to be done
-		while (isTransferring && retries < 10) {
+		while (isTransferring && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const asset = await original.getAsset(assetUid);
 			isTransferring = asset.data.is_transferring;
@@ -361,7 +360,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let isBurning = true;
 		retries = 0;
 		// wait for burn to be done
-		while (isBurning && retries < 10) {
+		while (isBurning && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const burn = await original.getBurn(burnUid);
 			isBurning = burn.data.status !== 'done';
@@ -372,7 +371,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let finalAssetBurnStatus = false;
 		retries = 0;
 		// there is a delay between when the burn is done and when the asset is burned field is updated
-		while (!finalAssetBurnStatus && retries < 10) {
+		while (!finalAssetBurnStatus && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const finalAsset = await original.getAsset(assetUid);
 			finalAssetBurnStatus = finalAsset.data.is_burned;
@@ -388,13 +387,13 @@ describe('Original sdk e2e-method tests', async () => {
 			amount: 0.001,
 			nonce: randomString.generate(8),
 			reward_uid: rewardUid,
-			to_user_uid: userUid,
+			to_user_uid: mintToUserUid,
 		});
 		const allocationUid = allocationResponse.data.uid;
 		let isAllocating = true;
 		let retries = 0;
 		// wait for allocation to be done
-		while (isAllocating && retries < 10) {
+		while (isAllocating && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const allocation = await original.getAllocation(allocationUid);
 			isAllocating = allocation.data.status !== 'done';
@@ -403,7 +402,7 @@ describe('Original sdk e2e-method tests', async () => {
 		const allocation = await original.getAllocation(allocationUid);
 		expect(allocation.data.status).to.equal('done');
 		const claimResponse = await original.createClaim({
-			from_user_uid: userUid,
+			from_user_uid: mintToUserUid,
 			reward_uid: rewardUid,
 			to_address: claimToAddress,
 		});
@@ -411,7 +410,7 @@ describe('Original sdk e2e-method tests', async () => {
 		let isClaiming = true;
 		retries = 0;
 		// wait for claim to be done
-		while (isClaiming && retries < 10) {
+		while (isClaiming && retries < RETRY_COUNT) {
 			await new Promise((resolve) => setTimeout(resolve, 20000));
 			const claim = await original.getClaim(claimUid);
 			isClaiming = claim.data.status !== 'done';
