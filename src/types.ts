@@ -56,6 +56,7 @@ export type AssetParams = {
    * @deprecated client_id. Please use `asset_external_id` instead.
    */
   client_id?: string;
+  mint_price_in_usd?: number;
 };
 
 export type EditAssetData = {
