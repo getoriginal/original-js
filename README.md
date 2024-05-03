@@ -212,7 +212,7 @@ const newAssetParams: AssetParams =
     user_uid: "324167489835",
     asset_external_id: "asset_external_id_1",
     collection_uid: "221137489875",
-    mint_price_in_usd: 9.99,
+    sale_price_in_usd: 9.99,
     data: {
         name: "Dave Starbelly",
         unique_name: true,

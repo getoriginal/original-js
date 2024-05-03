@@ -280,7 +280,7 @@ describe('Original sdk e2e-method tests', async () => {
 				{ trait_type: 'Eyes', value: 'Green' },
 				{ trait_type: 'Hair', value: 'Black' },
 			],
-			mint_price_in_usd: 9.99,
+			sale_price_in_usd: 9.99,
 		};
 		const request_data = {
 			data: asset_data,
