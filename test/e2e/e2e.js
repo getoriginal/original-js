@@ -229,55 +229,6 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.equal(allocationUid);
 	});
 
-	it('creates an asset without client id or asset_external_id', async () => {
-		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const assetName = randomString.generate(8);
-		const asset_data = {
-			name: assetName,
-			unique_name: true,
-			image_url: 'https://example.com/image.png',
-			store_image_on_ipfs: false,
-			description: 'test description',
-			attributes: [
-				{ trait_type: 'Eyes', value: 'Green' },
-				{ trait_type: 'Hair', value: 'Black' },
-			],
-		};
-		const request_data = {
-			data: asset_data,
-			user_uid: mintToUserUid,
-			collection_uid: editableCollectionUid,
-		};
-		const assetResponse = await original.createAsset(request_data);
-		const assetUid = assetResponse.data.uid;
-		expect(assetUid).to.exist;
-	});
-
-	it('creates an asset with a mint price', async () => {
-		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const assetName = randomString.generate(8);
-		const asset_data = {
-			name: assetName,
-			unique_name: true,
-			image_url: 'https://example.com/image.png',
-			store_image_on_ipfs: false,
-			description: 'test description',
-			attributes: [
-				{ trait_type: 'Eyes', value: 'Green' },
-				{ trait_type: 'Hair', value: 'Black' },
-			],
-			sale_price_in_usd: 9.99,
-		};
-		const request_data = {
-			data: asset_data,
-			user_uid: mintToUserUid,
-			collection_uid: editableCollectionUid,
-		};
-		const assetResponse = await original.createAsset(request_data);
-		const assetUid = assetResponse.data.uid;
-		expect(assetUid).to.exist;
-	});
-
 	it('gets claim by uid', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getClaim(getClaimUid);
@@ -443,5 +394,54 @@ describe('Original sdk e2e-method tests', async () => {
 		}
 		const claim = await original.getClaim(claimUid);
 		expect(claim.data.status).to.equal('done');
+	});
+
+	it('creates an asset without client id or asset_external_id', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const assetName = randomString.generate(8);
+		const asset_data = {
+			name: assetName,
+			unique_name: true,
+			image_url: 'https://example.com/image.png',
+			store_image_on_ipfs: false,
+			description: 'test description',
+			attributes: [
+				{ trait_type: 'Eyes', value: 'Green' },
+				{ trait_type: 'Hair', value: 'Black' },
+			],
+		};
+		const request_data = {
+			data: asset_data,
+			user_uid: mintToUserUid,
+			collection_uid: editableCollectionUid,
+		};
+		const assetResponse = await original.createAsset(request_data);
+		const assetUid = assetResponse.data.uid;
+		expect(assetUid).to.exist;
+	});
+
+	it('creates an asset with a mint price', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const assetName = randomString.generate(8);
+		const asset_data = {
+			name: assetName,
+			unique_name: true,
+			image_url: 'https://example.com/image.png',
+			store_image_on_ipfs: false,
+			description: 'test description',
+			attributes: [
+				{ trait_type: 'Eyes', value: 'Green' },
+				{ trait_type: 'Hair', value: 'Black' },
+			],
+			sale_price_in_usd: 9.99,
+		};
+		const request_data = {
+			data: asset_data,
+			user_uid: mintToUserUid,
+			collection_uid: editableCollectionUid,
+		};
+		const assetResponse = await original.createAsset(request_data);
+		const assetUid = assetResponse.data.uid;
+		expect(assetUid).to.exist;
 	});
 });
