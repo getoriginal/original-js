@@ -229,20 +229,6 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.equal(allocationUid);
 	});
 
-	it('gets claim by uid', async () => {
-		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const response = await original.getClaim(getClaimUid);
-		expect(response.data.uid).to.equal(getClaimUid);
-	});
-
-	it('gets claims by user uid', async () => {
-		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const usersClaims = await original.getClaimsByUserUid(mintToUserUid);
-		const claimUid = usersClaims.data[0].uid;
-		const response = await original.getClaim(claimUid);
-		expect(response.data.uid).to.equal(claimUid);
-	});
-
 	it('creates an asset without client id or asset_external_id', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const assetName = randomString.generate(8);
@@ -265,6 +251,20 @@ describe('Original sdk e2e-method tests', async () => {
 		const assetResponse = await original.createAsset(request_data);
 		const assetUid = assetResponse.data.uid;
 		expect(assetUid).to.exist;
+	});
+
+	it('gets claim by uid', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.getClaim(getClaimUid);
+		expect(response.data.uid).to.equal(getClaimUid);
+	});
+
+	it('gets claims by user uid', async () => {
+		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+		const usersClaims = await original.getClaimsByUserUid(mintToUserUid);
+		const claimUid = usersClaims.data[0].uid;
+		const response = await original.getClaim(claimUid);
+		expect(response.data.uid).to.equal(claimUid);
 	});
 
 	it('creates an asset with a mint price', async () => {
