@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.1](https://github.com/getoriginal/original-js/compare/v1.3.0...v1.4.0) (2024-05-08)
+
+
+### Features
+
+* add support for mint price ([#41](https://github.com/getoriginal/original-js/issues/41)) ([39ee5b2](https://github.com/getoriginal/original-js/commit/39ee5b2a0bcc1f7ec646fdab988949e864191a27))
+
+
+### Bug Fixes
+
+* move chain logic to env and reuse some env vars in e2e tests ([#40](https://github.com/getoriginal/original-js/issues/40)) ([0a022c2](https://github.com/getoriginal/original-js/commit/0a022c2105dce0986526dec5ff4bbd44d07fa9ba))
+
 ## [1.3.0](https://github.com/getoriginal/original-js/compare/v1.2.3...v1.3.0) (2024-04-02)
 
 
