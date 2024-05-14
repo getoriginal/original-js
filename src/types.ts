@@ -73,7 +73,7 @@ export type EditAssetParams = {
 };
 
 export type AssetMetadata = {
-  image_url: string;
+  image: string;
   name: string;
   org_image_url: string;
   original_id: string;
