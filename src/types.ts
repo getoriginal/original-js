@@ -48,14 +48,10 @@ export type AssetData = {
 };
 
 export type AssetParams = {
+  asset_external_id: string;
   collection_uid: string;
   data: AssetData;
   user_uid: string;
-  asset_external_id?: string;
-  /**
-   * @deprecated client_id. Please use `asset_external_id` instead.
-   */
-  client_id?: string;
   sale_price_in_usd?: number;
 };
 
@@ -83,6 +79,7 @@ export type AssetMetadata = {
 };
 
 export type Asset = {
+  asset_external_id: string;
   collection_name: string;
   collection_uid: string;
   created_at: string;
@@ -95,11 +92,6 @@ export type Asset = {
   name: string;
   token_id: string;
   uid: string;
-  asset_external_id?: string | null;
-  /**
-   * @deprecated client_id. Please use `asset_external_id` instead.
-   */
-  client_id?: string | null;
   explorer_url?: string;
   metadata?: string | AssetMetadata;
   owner_address?: string;
