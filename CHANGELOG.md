@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/getoriginal/original-js/compare/v1.3.1...v1.3.2) (2024-05-22)
+
+
+### Bug Fixes
+
+* (ori-2666) - remove client_id, make asset_external_id required ([7a095b7](https://github.com/getoriginal/original-js/commit/7a095b745237972cb9956a84d9e1c3dbc6fa46c6))
+* **ORI-2607:** Update readme get asset apis image_url -> image ([3a3ed14](https://github.com/getoriginal/original-js/commit/3a3ed14891eacf40d3127444b09a9b0b68220f9b))
+
 ## [1.3.1](https://github.com/getoriginal/original-js/compare/v1.3.0...v1.4.0) (2024-05-08)
 
 
