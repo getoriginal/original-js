@@ -203,7 +203,7 @@ describe('Original sdk e2e-method tests', async () => {
 
 	it('get deposit address', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const response = await original.getDeposit(transferToUserUid);
+		const response = await original.getDeposit(transferToUserUid, editableCollectionUid);
 		expect(response.data.wallet_address).to.equal(transferToUserWallet);
 		expect(response.data.network).to.equal(acceptanceNetwork);
 		expect(response.data.chain_id).to.equal(parseInt(acceptanceChainId));
