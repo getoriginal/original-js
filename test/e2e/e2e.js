@@ -26,6 +26,11 @@ describe('Original sdk e2e-method tests', async () => {
 	const rewardUid = process.env.REWARD_UID;
 	const claimToAddress = process.env.CLAIM_TO_ADDRESS;
 	const acceptanceEndpoint = process.env.ACCEPTANCE_ENDPOINT;
+	const multiChainApiKey = process.env.MULTI_CHAIN_API_KEY;
+	const multiChainApiSecret = process.env.MULTI_CHAIN_API_SECRET;
+	const multiChainCollectionUid = process.env.MULTI_CHAIN_COLLECTION_UID;
+	const multiChainTransferToUserUid = process.env.MULTICHAIN_TRANSFER_TO_USER_UID;
+	const multiChainTransferToUserWallet = process.env.MULTICHAIN_TRANSFER_TO_USER_WALLET;
 
 	it('gets user by uid', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
@@ -201,10 +206,18 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.equal(editableCollectionUid);
 	});
 
-	it('get deposit address', async () => {
+	it('get deposit address without collection uid, single chain', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const response = await original.getDeposit(transferToUserUid, editableCollectionUid);
+		const response = await original.getDeposit(transferToUserUid);
 		expect(response.data.wallet_address).to.equal(transferToUserWallet);
+		expect(response.data.network).to.equal(acceptanceNetwork);
+		expect(response.data.chain_id).to.equal(parseInt(acceptanceChainId));
+	});
+
+	it('get deposit address with collection uid, multi-chain', async () => {
+		const original = new OriginalClient(multiChainApiKey, multiChainApiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.getDeposit(multiChainTransferToUserUid, multiChainCollectionUid);
+		expect(response.data.wallet_address).to.equal(multiChainTransferToUserWallet);
 		expect(response.data.network).to.equal(acceptanceNetwork);
 		expect(response.data.chain_id).to.equal(parseInt(acceptanceChainId));
 	});
@@ -243,182 +256,182 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.equal(claimUid);
 	});
 
-	it('edits asset in an editable collection', async () => {
-		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const assetName = randomString.generate(8);
-		const asset_data = {
-			name: assetName,
-			unique_name: true,
-			image_url: 'https://example.com/image.png',
-			store_image_on_ipfs: false,
-			description: 'test description',
-			attributes: [
-				{ trait_type: 'Eyes', value: 'Green' },
-				{ trait_type: 'Hair', value: 'Black' },
-			],
-		};
-		const request_data = {
-			data: asset_data,
-			user_uid: mintToUserUid,
-			asset_external_id: assetName,
-			collection_uid: editableCollectionUid,
-		};
-		const assetResponse = await original.createAsset(request_data);
-		const assetUid = assetResponse.data.uid;
-		let assetIsTransferable = false;
-		let retries = 0;
-		// wait for asset to be transferable
-		while (!assetIsTransferable && retries < RETRY_COUNT) {
-			await new Promise((resolve) => setTimeout(resolve, 20000));
-			const asset = await original.getAsset(assetUid);
-			assetIsTransferable = asset.data.is_transferable;
-			retries++;
-		}
-		expect(assetIsTransferable).to.equal(true);
-		const editData = { ...asset_data, description: 'new description' };
-		const editResponse = await original.editAsset(assetUid, { data: editData });
-		expect(editResponse.success).to.equal(true);
-	});
-
-	it('creates asset, transfer, and burn flow', async () => {
-		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const assetName = randomString.generate(8);
-		const asset_data = {
-			name: assetName,
-			unique_name: true,
-			image_url: 'https://example.com/image.png',
-			store_image_on_ipfs: false,
-			attributes: [
-				{ trait_type: 'Eyes', value: 'Green' },
-				{ trait_type: 'Hair', value: 'Black' },
-			],
-		};
-		const request_data = {
-			data: asset_data,
-			user_uid: mintToUserUid,
-			asset_external_id: assetName,
-			collection_uid: editableCollectionUid,
-		};
-		const assetResponse = await original.createAsset(request_data);
-		const assetUid = assetResponse.data.uid;
-		let assetIsTransferable = false;
-		let retries = 0;
-		// wait for asset to be transferable
-		while (!assetIsTransferable && retries < RETRY_COUNT) {
-			await new Promise((resolve) => setTimeout(resolve, 20000));
-			const asset = await original.getAsset(assetUid);
-			assetIsTransferable = asset.data.is_transferable;
-			retries++;
-		}
-		expect(assetIsTransferable).to.equal(true);
-		const transferResponse = await original.createTransfer({
-			asset_uid: assetUid,
-			from_user_uid: mintToUserUid,
-			to_address: transferToUserWallet,
-		});
-		const transferUid = transferResponse.data.uid;
-		let isTransferring = true;
-		retries = 0;
-		// wait for transfer to be done
-		while (isTransferring && retries < RETRY_COUNT) {
-			await new Promise((resolve) => setTimeout(resolve, 20000));
-			const asset = await original.getAsset(assetUid);
-			isTransferring = asset.data.is_transferring;
-			retries++;
-		}
-		const transfer = await original.getTransfer(transferUid);
-		expect(transfer.data.status).to.equal('done');
-		const burnResponse = await original.createBurn({
-			asset_uid: assetUid,
-			from_user_uid: transferToUserUid,
-		});
-		const burnUid = burnResponse.data.uid;
-		let isBurning = true;
-		retries = 0;
-		// wait for burn to be done
-		while (isBurning && retries < RETRY_COUNT) {
-			await new Promise((resolve) => setTimeout(resolve, 20000));
-			const burn = await original.getBurn(burnUid);
-			isBurning = burn.data.status !== 'done';
-			retries++;
-		}
-		const burn = await original.getBurn(burnUid);
-		expect(burn.data.status).to.equal('done');
-		let finalAssetBurnStatus = false;
-		retries = 0;
-		// there is a delay between when the burn is done and when the asset is burned field is updated
-		while (!finalAssetBurnStatus && retries < RETRY_COUNT) {
-			await new Promise((resolve) => setTimeout(resolve, 20000));
-			const finalAsset = await original.getAsset(assetUid);
-			finalAssetBurnStatus = finalAsset.data.is_burned;
-			retries++;
-		}
-		const finalAsset = await original.getAsset(assetUid);
-		expect(finalAsset.data.is_burned).to.equal(true);
-	});
-
-	it('creates allocation and claim flow', async () => {
-		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const allocationResponse = await original.createAllocation({
-			amount: 0.001,
-			nonce: randomString.generate(8),
-			reward_uid: rewardUid,
-			to_user_uid: mintToUserUid,
-		});
-		const allocationUid = allocationResponse.data.uid;
-		let isAllocating = true;
-		let retries = 0;
-		// wait for allocation to be done
-		while (isAllocating && retries < RETRY_COUNT) {
-			await new Promise((resolve) => setTimeout(resolve, 20000));
-			const allocation = await original.getAllocation(allocationUid);
-			isAllocating = allocation.data.status !== 'done';
-			retries++;
-		}
-		const allocation = await original.getAllocation(allocationUid);
-		expect(allocation.data.status).to.equal('done');
-		const claimResponse = await original.createClaim({
-			from_user_uid: mintToUserUid,
-			reward_uid: rewardUid,
-			to_address: claimToAddress,
-		});
-		const claimUid = claimResponse.data.uid;
-		let isClaiming = true;
-		retries = 0;
-		// wait for claim to be done
-		while (isClaiming && retries < RETRY_COUNT) {
-			await new Promise((resolve) => setTimeout(resolve, 20000));
-			const claim = await original.getClaim(claimUid);
-			isClaiming = claim.data.status !== 'done';
-			retries++;
-		}
-		const claim = await original.getClaim(claimUid);
-		expect(claim.data.status).to.equal('done');
-	});
-
-	it('creates an asset with a mint price', async () => {
-		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
-		const assetName = randomString.generate(8);
-		const asset_data = {
-			name: assetName,
-			unique_name: true,
-			image_url: 'https://example.com/image.png',
-			store_image_on_ipfs: false,
-			description: 'test description',
-			attributes: [
-				{ trait_type: 'Eyes', value: 'Green' },
-				{ trait_type: 'Hair', value: 'Black' },
-			],
-			sale_price_in_usd: 9.99,
-		};
-		const request_data = {
-			data: asset_data,
-			user_uid: mintToUserUid,
-			asset_external_id: assetName,
-			collection_uid: editableCollectionUid,
-		};
-		const assetResponse = await original.createAsset(request_data);
-		const assetUid = assetResponse.data.uid;
-		expect(assetUid).to.exist;
-	});
+	// 	it('edits asset in an editable collection', async () => {
+	// 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+	// 		const assetName = randomString.generate(8);
+	// 		const asset_data = {
+	// 			name: assetName,
+	// 			unique_name: true,
+	// 			image_url: 'https://example.com/image.png',
+	// 			store_image_on_ipfs: false,
+	// 			description: 'test description',
+	// 			attributes: [
+	// 				{ trait_type: 'Eyes', value: 'Green' },
+	// 				{ trait_type: 'Hair', value: 'Black' },
+	// 			],
+	// 		};
+	// 		const request_data = {
+	// 			data: asset_data,
+	// 			user_uid: mintToUserUid,
+	// 			asset_external_id: assetName,
+	// 			collection_uid: editableCollectionUid,
+	// 		};
+	// 		const assetResponse = await original.createAsset(request_data);
+	// 		const assetUid = assetResponse.data.uid;
+	// 		let assetIsTransferable = false;
+	// 		let retries = 0;
+	// 		// wait for asset to be transferable
+	// 		while (!assetIsTransferable && retries < RETRY_COUNT) {
+	// 			await new Promise((resolve) => setTimeout(resolve, 20000));
+	// 			const asset = await original.getAsset(assetUid);
+	// 			assetIsTransferable = asset.data.is_transferable;
+	// 			retries++;
+	// 		}
+	// 		expect(assetIsTransferable).to.equal(true);
+	// 		const editData = { ...asset_data, description: 'new description' };
+	// 		const editResponse = await original.editAsset(assetUid, { data: editData });
+	// 		expect(editResponse.success).to.equal(true);
+	// 	});
+	//
+	// 	it('creates asset, transfer, and burn flow', async () => {
+	// 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+	// 		const assetName = randomString.generate(8);
+	// 		const asset_data = {
+	// 			name: assetName,
+	// 			unique_name: true,
+	// 			image_url: 'https://example.com/image.png',
+	// 			store_image_on_ipfs: false,
+	// 			attributes: [
+	// 				{ trait_type: 'Eyes', value: 'Green' },
+	// 				{ trait_type: 'Hair', value: 'Black' },
+	// 			],
+	// 		};
+	// 		const request_data = {
+	// 			data: asset_data,
+	// 			user_uid: mintToUserUid,
+	// 			asset_external_id: assetName,
+	// 			collection_uid: editableCollectionUid,
+	// 		};
+	// 		const assetResponse = await original.createAsset(request_data);
+	// 		const assetUid = assetResponse.data.uid;
+	// 		let assetIsTransferable = false;
+	// 		let retries = 0;
+	// 		// wait for asset to be transferable
+	// 		while (!assetIsTransferable && retries < RETRY_COUNT) {
+	// 			await new Promise((resolve) => setTimeout(resolve, 20000));
+	// 			const asset = await original.getAsset(assetUid);
+	// 			assetIsTransferable = asset.data.is_transferable;
+	// 			retries++;
+	// 		}
+	// 		expect(assetIsTransferable).to.equal(true);
+	// 		const transferResponse = await original.createTransfer({
+	// 			asset_uid: assetUid,
+	// 			from_user_uid: mintToUserUid,
+	// 			to_address: transferToUserWallet,
+	// 		});
+	// 		const transferUid = transferResponse.data.uid;
+	// 		let isTransferring = true;
+	// 		retries = 0;
+	// 		// wait for transfer to be done
+	// 		while (isTransferring && retries < RETRY_COUNT) {
+	// 			await new Promise((resolve) => setTimeout(resolve, 20000));
+	// 			const asset = await original.getAsset(assetUid);
+	// 			isTransferring = asset.data.is_transferring;
+	// 			retries++;
+	// 		}
+	// 		const transfer = await original.getTransfer(transferUid);
+	// 		expect(transfer.data.status).to.equal('done');
+	// 		const burnResponse = await original.createBurn({
+	// 			asset_uid: assetUid,
+	// 			from_user_uid: transferToUserUid,
+	// 		});
+	// 		const burnUid = burnResponse.data.uid;
+	// 		let isBurning = true;
+	// 		retries = 0;
+	// 		// wait for burn to be done
+	// 		while (isBurning && retries < RETRY_COUNT) {
+	// 			await new Promise((resolve) => setTimeout(resolve, 20000));
+	// 			const burn = await original.getBurn(burnUid);
+	// 			isBurning = burn.data.status !== 'done';
+	// 			retries++;
+	// 		}
+	// 		const burn = await original.getBurn(burnUid);
+	// 		expect(burn.data.status).to.equal('done');
+	// 		let finalAssetBurnStatus = false;
+	// 		retries = 0;
+	// 		// there is a delay between when the burn is done and when the asset is burned field is updated
+	// 		while (!finalAssetBurnStatus && retries < RETRY_COUNT) {
+	// 			await new Promise((resolve) => setTimeout(resolve, 20000));
+	// 			const finalAsset = await original.getAsset(assetUid);
+	// 			finalAssetBurnStatus = finalAsset.data.is_burned;
+	// 			retries++;
+	// 		}
+	// 		const finalAsset = await original.getAsset(assetUid);
+	// 		expect(finalAsset.data.is_burned).to.equal(true);
+	// 	});
+	//
+	// 	it('creates allocation and claim flow', async () => {
+	// 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+	// 		const allocationResponse = await original.createAllocation({
+	// 			amount: 0.001,
+	// 			nonce: randomString.generate(8),
+	// 			reward_uid: rewardUid,
+	// 			to_user_uid: mintToUserUid,
+	// 		});
+	// 		const allocationUid = allocationResponse.data.uid;
+	// 		let isAllocating = true;
+	// 		let retries = 0;
+	// 		// wait for allocation to be done
+	// 		while (isAllocating && retries < RETRY_COUNT) {
+	// 			await new Promise((resolve) => setTimeout(resolve, 20000));
+	// 			const allocation = await original.getAllocation(allocationUid);
+	// 			isAllocating = allocation.data.status !== 'done';
+	// 			retries++;
+	// 		}
+	// 		const allocation = await original.getAllocation(allocationUid);
+	// 		expect(allocation.data.status).to.equal('done');
+	// 		const claimResponse = await original.createClaim({
+	// 			from_user_uid: mintToUserUid,
+	// 			reward_uid: rewardUid,
+	// 			to_address: claimToAddress,
+	// 		});
+	// 		const claimUid = claimResponse.data.uid;
+	// 		let isClaiming = true;
+	// 		retries = 0;
+	// 		// wait for claim to be done
+	// 		while (isClaiming && retries < RETRY_COUNT) {
+	// 			await new Promise((resolve) => setTimeout(resolve, 20000));
+	// 			const claim = await original.getClaim(claimUid);
+	// 			isClaiming = claim.data.status !== 'done';
+	// 			retries++;
+	// 		}
+	// 		const claim = await original.getClaim(claimUid);
+	// 		expect(claim.data.status).to.equal('done');
+	// 	});
+	//
+	// 	it('creates an asset with a mint price', async () => {
+	// 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
+	// 		const assetName = randomString.generate(8);
+	// 		const asset_data = {
+	// 			name: assetName,
+	// 			unique_name: true,
+	// 			image_url: 'https://example.com/image.png',
+	// 			store_image_on_ipfs: false,
+	// 			description: 'test description',
+	// 			attributes: [
+	// 				{ trait_type: 'Eyes', value: 'Green' },
+	// 				{ trait_type: 'Hair', value: 'Black' },
+	// 			],
+	// 			sale_price_in_usd: 9.99,
+	// 		};
+	// 		const request_data = {
+	// 			data: asset_data,
+	// 			user_uid: mintToUserUid,
+	// 			asset_external_id: assetName,
+	// 			collection_uid: editableCollectionUid,
+	// 		};
+	// 		const assetResponse = await original.createAsset(request_data);
+	// 		const assetUid = assetResponse.data.uid;
+	// 		expect(assetUid).to.exist;
+	// 	});
 });

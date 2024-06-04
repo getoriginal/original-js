@@ -333,11 +333,11 @@ export class OriginalClient {
   /**
    * getDeposit
    * @param {string} userUid user_uid of the user to get deposit details for.
-   * @param {string} collectionUid collection_uid of the collection to get deposit details for.
+   * @param {string} collectionUid collection_uid of the collection to get deposit details for, optional
    * @return {Promise<APIResponse<Deposit>>} Returns the response object with the deposit details of a user.
    * Will throw a 404 error if the user does not exist.
    */
-  public async getDeposit(userUid: string, collectionUid: string) {
+  public async getDeposit(userUid: string, collectionUid?: string) {
     return this._get<APIResponse<Deposit>>('deposit', { user_uid: userUid, collection_uid: collectionUid });
   }
 
