@@ -534,8 +534,10 @@ The deposit methods exposed by the sdk are retrieve the details needed to deposi
 
 ```typescript
 // gets a deposit by uid, will throw a 404 Not Found error if the user does not exist
+// collectionUid is optional, and only required if the app is multi-chain
+// will return an Original exception if the collection is not yet deployed
 // returns a <Deposit> type
-const response = await client.getDeposit(userUid);
+const response = await client.getDeposit(userUid, collectionUid);
 depositDetails = response.data;
 // Sample response:
 {

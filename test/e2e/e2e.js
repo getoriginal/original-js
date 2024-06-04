@@ -26,6 +26,11 @@ describe('Original sdk e2e-method tests', async () => {
 	const rewardUid = process.env.REWARD_UID;
 	const claimToAddress = process.env.CLAIM_TO_ADDRESS;
 	const acceptanceEndpoint = process.env.ACCEPTANCE_ENDPOINT;
+	const multiChainApiKey = process.env.MULTI_CHAIN_API_KEY;
+	const multiChainApiSecret = process.env.MULTI_CHAIN_API_SECRET;
+	const multiChainCollectionUid = process.env.MULTI_CHAIN_COLLECTION_UID;
+	const multiChainTransferToUserUid = process.env.MULTI_CHAIN_TRANSFER_TO_USER_UID;
+	const multiChainTransferToUserWallet = process.env.MULTI_CHAIN_TRANSFER_TO_USER_WALLET;
 
 	it('gets user by uid', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
@@ -201,10 +206,18 @@ describe('Original sdk e2e-method tests', async () => {
 		expect(response.data.uid).to.equal(editableCollectionUid);
 	});
 
-	it('get deposit address', async () => {
+	it('get deposit address without collection uid, single chain', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getDeposit(transferToUserUid);
 		expect(response.data.wallet_address).to.equal(transferToUserWallet);
+		expect(response.data.network).to.equal(acceptanceNetwork);
+		expect(response.data.chain_id).to.equal(parseInt(acceptanceChainId));
+	});
+
+	it('get deposit address with collection uid, multi-chain', async () => {
+		const original = new OriginalClient(multiChainApiKey, multiChainApiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.getDeposit(multiChainTransferToUserUid, multiChainCollectionUid);
+		expect(response.data.wallet_address).to.equal(multiChainTransferToUserWallet);
 		expect(response.data.network).to.equal(acceptanceNetwork);
 		expect(response.data.chain_id).to.equal(parseInt(acceptanceChainId));
 	});
