@@ -29,8 +29,8 @@ describe('Original sdk e2e-method tests', async () => {
 	const multiChainApiKey = process.env.MULTI_CHAIN_API_KEY;
 	const multiChainApiSecret = process.env.MULTI_CHAIN_API_SECRET;
 	const multiChainCollectionUid = process.env.MULTI_CHAIN_COLLECTION_UID;
-	const multiChainTransferToUserUid = process.env.MULTICHAIN_TRANSFER_TO_USER_UID;
-	const multiChainTransferToUserWallet = process.env.MULTICHAIN_TRANSFER_TO_USER_WALLET;
+	const multiChainTransferToUserUid = process.env.MULTI_CHAIN_TRANSFER_TO_USER_UID;
+	const multiChainTransferToUserWallet = process.env.MULTI_CHAIN_TRANSFER_TO_USER_WALLET;
 
 	it('gets user by uid', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
