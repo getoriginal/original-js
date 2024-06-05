@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.3](https://github.com/getoriginal/original-js/compare/v1.3.2...v1.3.3) (2024-06-05)
+
+
+### Features
+
+* **ORI-2819:** update getDeposit to support multi-chain changes ([#46](https://github.com/getoriginal/original-js/issues/46)) ([83bc832](https://github.com/getoriginal/original-js/commit/83bc832bea0fa26eaab944d9e493dd7fe8d71cb7))
+
 ### [1.3.2](https://github.com/getoriginal/original-js/compare/v1.3.1...v1.3.2) (2024-05-22)
 
 
