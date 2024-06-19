@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/getoriginal/original-js/compare/v1.3.3...v1.4.0) (2024-06-19)
+
+
+### Features
+
+* **ori-2916:** add typing for wallets, update wallet_address to optional ([#49](https://github.com/getoriginal/original-js/issues/49)) ([9a2a307](https://github.com/getoriginal/original-js/commit/9a2a307cc61ac7cef15d4dbc041e4166628f1f5d))
+
 ## [1.3.3](https://github.com/getoriginal/original-js/compare/v1.3.2...v1.3.3) (2024-06-05)
 
 
