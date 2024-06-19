@@ -15,7 +15,7 @@ export type UserParams = {
 
 export type UserWallet = {
   address: string;
-  chain_id: number;
+  chain_id?: number;
   explorer_url: string;
   network: string;
 };
