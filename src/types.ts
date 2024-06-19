@@ -13,16 +13,24 @@ export type UserParams = {
   user_external_id?: string;
 };
 
+export type UserWallet = {
+  address: string;
+  chain_id: number;
+  explorer_url: string;
+  network: string;
+};
+
 export type User = {
   created_at: string;
   email: string;
   uid: string;
-  wallet_address: string;
   /**
    * @deprecated client_id. Please use `user_external_id` instead.
    */
   client_id?: string;
   user_external_id?: string;
+  wallet_address?: string;
+  wallets?: UserWallet[];
 };
 
 export type Collection = {
