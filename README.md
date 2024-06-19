@@ -136,6 +136,7 @@ const userUid = response.data.uid;
 const response = await client.getUser(userUid);
 const userDetails = response.data;
 // Sample response
+// Will return either wallet_address or wallets[], depending on if app is single or multi-chain
 {
     success: true,
     data: {
@@ -143,7 +144,15 @@ const userDetails = response.data;
         user_external_id: "user_external_id",
         created_at: "2024-02-26T13:12:31.798296Z",
         email: "user_email@email.com",
-        wallet_address: "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40"
+        wallet_address: "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40",
+        wallets: [
+            { 
+                address: "0x1d6169328e0a2e0a0709115d1860c682cf8d1398",
+                chain_id: 80001,
+                explorer_url: "https://amoy.polygonscan.com/address/0x1d6169328e0a2e0a0709115d1860c682cf8d1398"
+                network: "Amoy",
+            }
+        ]
     }
 }
 ```

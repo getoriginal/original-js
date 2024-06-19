@@ -32,11 +32,19 @@ describe('Original sdk e2e-method tests', async () => {
 	const multiChainTransferToUserUid = process.env.MULTI_CHAIN_TRANSFER_TO_USER_UID;
 	const multiChainTransferToUserWallet = process.env.MULTI_CHAIN_TRANSFER_TO_USER_WALLET;
 
-	it('gets user by uid', async () => {
+	it('gets user by uid single chain', async () => {
 		const original = new OriginalClient(apiKey, apiSecret, { baseURL: acceptanceEndpoint });
 		const response = await original.getUser(mintToUserUid);
+		expect(response.data.wallet_address).to.exist;
 		expect(response.data.user_external_id).to.equal(mintToUserClientId);
 		expect(response.data.client_id).to.equal(mintToUserClientId);
+	});
+
+	it('gets user by uid multi chain', async () => {
+		const original = new OriginalClient(multiChainApiKey, multiChainApiSecret, { baseURL: acceptanceEndpoint });
+		const response = await original.getUser(multiChainTransferToUserUid);
+		expect(response.data.wallets).to.exist;
+		expect(response.data.wallets[0].address).to.equal(multiChainTransferToUserWallet);
 	});
 
 	it('gets user by email', async () => {
