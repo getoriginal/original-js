@@ -32,7 +32,10 @@ export class BaseClient {
    * new OriginalClient('api_key', 'secret')
    */
 
-  constructor(apiKey: string, secret: string, options?: OriginalOptions) {
+  constructor(apiKey?: string, secret?: string, options?: OriginalOptions) {
+    apiKey = apiKey || process.env.ORIGINAL_API_KEY;
+    secret = secret || process.env.ORIGINAL_API_SECRET;
+
     if (!apiKey || !secret) {
       throw new Error('apiKey and secret are required');
     }
@@ -49,16 +52,21 @@ export class BaseClient {
 
     this.axiosInstance = axios.create(this.options);
 
-    this.baseURL = this.options.baseURL || this.getEnvURL(this.options.env || Environment.Production);
+    this.baseURL = this.getBaseURL();
   }
 
-  protected getEnvURL(env: string) {
-    if (env === Environment.Development) {
+  protected getBaseURL() {
+    if (this.options.baseURL) {
+      return this.options.baseURL;
+    } else if (process.env.ORIGINAL_BASE_URL) {
+      return process.env.ORIGINAL_BASE_URL;
+    } else if (
+      this.options.env === Environment.Development ||
+      process.env.ORIGINAL_ENVIRONMENT === Environment.Development
+    ) {
       return DEVELOPMENT_URL;
-    } else if (env === Environment.Production) {
-      return PRODUCTION_URL;
     } else {
-      throw new Error('Invalid environment');
+      return PRODUCTION_URL;
     }
   }
 

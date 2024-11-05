@@ -7,7 +7,7 @@ import { ClientError, ServerError, throwErrorFromResponse } from '../../src';
 import { BaseClient, OriginalOptions, Environment } from '../../src/baseClient';
 
 export class MockClient extends BaseClient {
-  constructor(apiKey: string, secret: string, options?: OriginalOptions) {
+  constructor(apiKey?: string, secret?: string, options?: OriginalOptions) {
     super(apiKey, secret, options);
   }
 
@@ -62,6 +62,61 @@ describe('Base client initialization and configuration tests', () => {
 
     client.createUser({ user_external_id: 'user_external_id', email: 'test@test.com' });
     expect((axiosCreateStub().post as sinon.SinonStub).calledWith(expectedURL)).to.be.true;
+  });
+
+  it('sets baseURL according to the environment, via env base url', () => {
+    process.env.ORIGINAL_API_KEY = 'apiKey';
+    process.env.ORIGINAL_API_SECRET = 'apiSecret';
+    process.env.ORIGINAL_BASE_URL = 'https://new-base-url.com';
+    const client = new MockClient();
+
+    const expectedURL = 'https://new-base-url.com/user';
+    (axiosCreateStub().post as sinon.SinonStub).withArgs(expectedURL).resolves({});
+
+    client.createUser({ user_external_id: 'user_external_id', email: 'test@test.com' });
+    expect((axiosCreateStub().post as sinon.SinonStub).calledWith(expectedURL)).to.be.true;
+
+    delete process.env.ORIGINAL_API_KEY;
+    delete process.env.ORIGINAL_API_SECRET;
+    delete process.env.ORIGINAL_BASE_URL;
+  });
+
+  it('sets baseURL according to the environment, development, via environment env url', () => {
+    process.env.ORIGINAL_API_KEY = 'apiKey';
+    process.env.ORIGINAL_API_SECRET = 'apiSecret';
+    process.env.ORIGINAL_ENVIRONMENT = 'development';
+    const client = new MockClient();
+
+    const expectedURL = 'https://api-dev.getoriginal.com/v1/user';
+    (axiosCreateStub().post as sinon.SinonStub).withArgs(expectedURL).resolves({});
+
+    client.createUser({ user_external_id: 'user_external_id', email: 'test@test.com' });
+    expect((axiosCreateStub().post as sinon.SinonStub).calledWith(expectedURL)).to.be.true;
+
+    delete process.env.ORIGINAL_API_KEY;
+    delete process.env.ORIGINAL_API_SECRET;
+    delete process.env.ORIGINAL_ENVIRONMENT;
+  });
+
+  it('sets baseURL according to the environment, production, via environment env url', () => {
+    process.env.ORIGINAL_API_KEY = 'apiKey';
+    process.env.ORIGINAL_API_SECRET = 'apiSecret';
+    process.env.ORIGINAL_ENVIRONMENT = 'production';
+    const client = new MockClient();
+
+    const expectedURL = 'https://api.getoriginal.com/v1/user';
+    (axiosCreateStub().post as sinon.SinonStub).withArgs(expectedURL).resolves({});
+
+    client.createUser({ user_external_id: 'user_external_id', email: 'test@test.com' });
+    expect((axiosCreateStub().post as sinon.SinonStub).calledWith(expectedURL)).to.be.true;
+
+    delete process.env.ORIGINAL_API_KEY;
+    delete process.env.ORIGINAL_API_SECRET;
+    delete process.env.ORIGINAL_ENVIRONMENT;
+  });
+
+  it('should throw an error if neither apiKey nor secret are provided', () => {
+    expect(() => new MockClient()).throws('apiKey and secret are required');
   });
 
   it('includes the correct authorization token in headers', async () => {

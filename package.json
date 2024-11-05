@@ -2,7 +2,10 @@
   "name": "original-sdk",
   "version": "1.4.0",
   "description": "Original SDK for js",
-  "repository": "https://github.com/getoriginal/original-js.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/getoriginal/original-js.git"
+  },
   "author": "Original",
   "license": "MIT",
   "private": false,

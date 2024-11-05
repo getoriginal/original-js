@@ -103,6 +103,24 @@ import { OriginalClient } from 'original-sdk';
 const client = new OriginalClient('YOUR_PROD_APP_API_KEY', 'YOUR_PROD_APP_SECRET');
 ```
 
+### Using environment variables
+
+You can also set environment variables which will be picked up by the SDK:
+
+```
+# .env file
+ORIGINAL_API_KEY=your_api_key_here
+ORIGINAL_API_SECRET=your_api_secret_here
+ORIGINAL_ENVIRONMENT=development #(or production)
+```
+
+`ORIGINAL_BASE_URL` can also be set, however this is not recommended and is for advanced/internal use cases only.
+
+```typescript
+// Utilises environment variables
+const client = new OriginalClient();
+```
+
 ## User
 
 The user methods exposed by the sdk are used to create and retrieve users from the Original API.
