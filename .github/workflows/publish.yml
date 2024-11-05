@@ -38,7 +38,7 @@ jobs:
 
       - name: Push version bump
         run: |
-          git push origin HEAD:${{ github.ref }}
+          git push origin HEAD:feature/ori-1935-js-update-release-flow-so-its-in-line-with-python-sdk
 
       - name: Publish to npm (Dry Run)
         env:
