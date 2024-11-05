@@ -37,7 +37,7 @@ describe('Base client initialization and configuration tests', () => {
   it('sets the correct baseURL based on configuration', () => {
     const client = new MockClient('apiKey', 'apiSecret', { baseURL: 'http://localhost:3004' });
 
-    const expectedURL = 'http://localhost:3004/user/create';
+    const expectedURL = 'http://localhost:3004/user';
     (axiosCreateStub().post as sinon.SinonStub).withArgs(expectedURL).resolves({});
 
     client.createUser({ user_external_id: 'user_external_id', email: 'test@test.com' });
@@ -47,7 +47,7 @@ describe('Base client initialization and configuration tests', () => {
   it('sets baseURL according to the environment, development', () => {
     const client = new MockClient('apiKey', 'apiSecret', { env: Environment.Development });
 
-    const expectedURL = 'https://api-dev.getoriginal.com/v1/user/create';
+    const expectedURL = 'https://api-dev.getoriginal.com/v1/user';
     (axiosCreateStub().post as sinon.SinonStub).withArgs(expectedURL).resolves({});
 
     client.createUser({ user_external_id: 'user_external_id', email: 'test@test.com' });
@@ -57,7 +57,7 @@ describe('Base client initialization and configuration tests', () => {
   it('sets baseURL according to the environment, production', () => {
     const client = new MockClient('apiKey', 'apiSecret', { env: Environment.Production });
 
-    const expectedURL = 'https://api.getoriginal.com/v1/user/create';
+    const expectedURL = 'https://api.getoriginal.com/v1/user';
     (axiosCreateStub().post as sinon.SinonStub).withArgs(expectedURL).resolves({});
 
     client.createUser({ user_external_id: 'user_external_id', email: 'test@test.com' });
