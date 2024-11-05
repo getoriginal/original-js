@@ -35,7 +35,7 @@ jobs:
           VERSION: ${{ github.ref_name }}
         run: |
           VERSION_NUMBER="${VERSION#v}"
-          yarn version --new-version $VERSION_NUMBER
+          yarn version --new-version $VERSION_NUMBER --no-git-tag-version
 
       - name: Push version bump
         run: |
