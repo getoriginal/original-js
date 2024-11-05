@@ -30,11 +30,7 @@
     "test-coverage": "nyc yarn test-unit",
     "testwatch": "NODE_ENV=test nodemon ./node_modules/.bin/mocha --timeout 20000 --require test-entry.js test/unit/*.{js,ts}",
     "lint": "yarn run prettier && yarn run eslint",
-    "lint-fix": "yarn run prettier-fix && yarn run eslint-fix",
-    "prepare": "yarn run build",
-    "preversion": "yarn && yarn lint && yarn test-unit",
-    "version": "git add yarn.lock",
-    "postversion": "git push && git push --tags && npm publish"
+    "lint-fix": "yarn run prettier-fix && yarn run eslint-fix"
   },
   "files": [
     "/dist",
