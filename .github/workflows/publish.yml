@@ -23,14 +23,14 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Update version in package.json
         env:
           VERSION: ${{ github.ref_name }} # Git tag version, e.g., v1.0.0
         run: |
           VERSION_NUMBER="${VERSION#v}"
-          npm version $VERSION_NUMBER --no-git-tag-version
+          yarn version --new-version $VERSION_NUMBER
 
       - name: Commit version bump
         run: |
