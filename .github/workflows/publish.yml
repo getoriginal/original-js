@@ -1,9 +1,8 @@
 name: Publish to npm (Dry Run)
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
@@ -32,7 +31,7 @@ jobs:
 
       - name: Update version in package.json
         env:
-          VERSION: ${{ github.ref_name }}
+          VERSION: ${{ github.event.release.tag_name }}
         run: |
           VERSION_NUMBER="${VERSION#v}"
           yarn version --new-version $VERSION_NUMBER --no-git-tag-version
