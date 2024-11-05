@@ -146,7 +146,7 @@ const userDetails = response.data;
         email: "user_email@email.com",
         wallet_address: "0xa22f2dfe189ed3d16bb5bda5e5763b2919058e40",
         wallets: [
-            { 
+            {
                 address: "0x1d6169328e0a2e0a0709115d1860c682cf8d1398",
                 chain_id: 80001,
                 explorer_url: "https://amoy.polygonscan.com/address/0x1d6169328e0a2e0a0709115d1860c682cf8d1398"
@@ -307,7 +307,8 @@ const asset = response.data;
             ]
         },
         explorer_url: "https://mumbai.polygonscan.com/token/0x124a6755ee787153bb6228463d5dc3a02890a7db?a=2",
-        token_uri: "https://storage.googleapis.com/{...}.json"
+        token_uri: "https://storage.googleapis.com/{...}.json",
+        sale_price_in_usd: 9.99
     }
 }
 ```
@@ -355,7 +356,8 @@ const assetList = response.data;
                 ]
             },
             explorer_url: "https://mumbai.polygonscan.com/token/0x124a6755ee787153bb6228463d5dc3a02890a7db?a=2",
-            token_uri: "https://storage.googleapis.com/original-production-media/data/metadata/9ac0dad4-75ae-4406-94fd-1a0f6bf75db3.json"
+            token_uri: "https://storage.googleapis.com/original-production-media/data/metadata/9ac0dad4-75ae-4406-94fd-1a0f6bf75db3.json",
+            sale_price_in_usd: 9.99
         }
         // Additional assets would be represented with similar structure here
     ]
@@ -759,6 +761,24 @@ const rewardDetails = response.data;
         withdraw_receiver: "0x4881ab2f73c48a54b907a8b697b270f490768e6d",
         description: "Description of the reward",
         explorer_url: "https://mumbai.polygonscan.com/address/0x124a6755ee787153bb6228463d5dc3a02890a7db"
+    }
+}
+```
+
+### Get reward balance by user UID
+
+```typescript
+// gets a user's reward balance. Will throw a 404 Not Found error if the reward does not exist
+// returns a <Balance> type
+const response = await client.getBalance(rewardUid, userUid);
+const rewardBalance = response.data;
+// Sample response:
+{
+    success: true,
+    data: {
+        user_uid: "221137489875",
+        reward_uid: "151854912345",
+        amount: 100.0,
     }
 }
 ```
