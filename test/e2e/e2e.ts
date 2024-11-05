@@ -5,7 +5,7 @@ import randomString from 'randomstring';
 
 const expect = chai.expect;
 chai.use(chaiAsPromised);
-require('dotenv').config({ path: `${process.cwd()}/test/e2e/.env.test` });
+require('dotenv').config({ path: `${process.cwd()}/test/e2e/.env` });
 
 const RETRY_COUNT = 10;
 describe('Original sdk e2e-method tests', async () => {
