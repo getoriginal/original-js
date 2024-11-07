@@ -37,6 +37,7 @@
     - [Get claims by user UID](#get-claims-by-user-uid)
   - [Reward](#reward)
     - [Get a reward by UID](#get-a-reward-by-reward-uid)
+    - [Get reward balance](#get-reward-balance-by-user-uid)
   - [Handling Errors](#handling-errors)
 
 ## ✨ Getting started

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/getoriginal/original-js/compare/v1.4.1-test2...v1.4.1) (2024-11-07)
+
+- Add reward balance
+- Removed deprecated fields
+
 ## [1.4.0](https://github.com/getoriginal/original-js/compare/v1.3.3...v1.4.0) (2024-06-19)
 
 
